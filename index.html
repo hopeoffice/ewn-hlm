@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="am" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d5c42">
+<meta name="description" content="እውን ሕልም - ሕልምዎ እውን የሚሆንበት የዲጂታል ገበያ!!">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ewn Hlm">
+<title>Ewn Hlm | እውን ህልም ገበታ</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ======== SPLASH SCREEN ======== -->
+<div id="splash">
+  <div class="splash-logo">🛍️</div>
+  <div class="splash-name">Ewn Hlm</div>
+  <div class="splash-name-am am">እውን ህልም ገበታ</div>
+  <div class="splash-tagline am">እውን ሕልም - ሕልምዎ እውን<br>የሚሆንበት የዲጂታል ገበያ!!</div>
+  <div class="splash-dots">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- ======== MAIN APP ======== -->
+<div id="app">
+
+  <!-- === HEADER (Home only) === -->
+  <header class="app-header" id="main-header">
+    <div class="header-top">
+      <div class="location-row">
+        <span class="location-icon">📍</span>
+        <div>
+          <div class="location-label am">አካባቢ</div>
+          <div class="location-text am" id="location-text">አካባቢዎን እያገኘን...</div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" onclick="navigate('likes')" aria-label="Likes">
+          ❤️
+        </button>
+        <button class="icon-btn" aria-label="Notifications">
+          🔔
+          <span class="badge">2</span>
+        </button>
+      </div>
+    </div>
+    <!-- Search -->
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="search" id="search-input" class="am" placeholder="ምርቶችን ይፈልጉ..."
+             oninput="handleSearch(this.value)" autocomplete="off">
+    </div>
+  </header>
+
+  <!-- === SCREEN: HOME === -->
+  <main class="screen active" id="screen-home">
+    
+    <!-- Banner -->
+    <div class="banner-wrap">
+      <div class="banner-card">
+        <div class="banner-eyebrow am">🌟 Ewn Hlm</div>
+        <div class="banner-title am">ሕልምዎ እውን የሚሆንበት<br>የዲጂታል ገበያ!!</div>
+        <button class="banner-cta am" onclick="document.getElementById('search-input').focus()">
+          አሁን ይሸምቱ →
+        </button>
+      </div>
+    </div>
+
+    <!-- Categories -->
+    <div class="section-header">
+      <span class="section-title am">ምድቦች</span>
+    </div>
+    <div class="categories-scroll" id="categories-scroll">
+      <!-- Rendered by JS -->
+    </div>
+
+    <!-- Products -->
+    <div class="section-header">
+      <span class="section-title am">ምርቶች</span>
+      <button class="see-all am" onclick="">ሁሉንም ይዩ</button>
+    </div>
+    <div class="products-grid" id="products-grid">
+      <!-- Rendered by JS -->
+    </div>
+
+  </main>
+
+  <!-- === SCREEN: CART === -->
+  <main class="screen" id="screen-cart">
+    <div style="padding:16px 16px 0">
+      <h2 class="section-title am" style="margin-bottom:16px">🛒 ጋሪ</h2>
+    </div>
+    <div class="cart-screen" id="cart-content"></div>
+  </main>
+
+  <!-- === SCREEN: ORDERS === -->
+  <main class="screen" id="screen-orders">
+    <div style="padding:16px 16px 0">
+      <h2 class="section-title am" style="margin-bottom:16px">📦 ትዕዛዞቼ</h2>
+    </div>
+    <div class="orders-screen" id="orders-content"></div>
+  </main>
+
+  <!-- === SCREEN: PROFILE === -->
+  <main class="screen" id="screen-profile">
+    <div class="profile-screen">
+
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="avatar">👤</div>
+        <div class="profile-name am" id="profile-name">Daniel</div>
+        <div class="profile-phone" id="profile-phone">0932208224</div>
+      </div>
+
+      <!-- Menu Items -->
+      <div class="menu-list">
+
+        <!-- Profile -->
+        <button class="menu-item">
+          <div class="menu-icon">👤</div>
+          <div class="menu-text">
+            <div class="menu-title am">መገለጫ</div>
+            <div class="menu-sub am">የእርስዎ መረጃ ያስተዳድሩ</div>
+          </div>
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <!-- Refer & Earn -->
+        <button class="menu-item">
+          <div class="menu-icon">🎁</div>
+          <div class="menu-text">
+            <div class="menu-title am" data-i18n="refer">ወዳጅዎን ያጋሩ፣ ያትርፉ</div>
+            <div class="menu-sub am" data-i18n="refer_sub">ጓደኛዎን ሳቡ ሽልማት ያግኙ</div>
+          </div>
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <!-- Affiliate Marketing -->
+        <button class="menu-item">
+          <div class="menu-icon">💼</div>
+          <div class="menu-text">
+            <div class="menu-title am">Affiliate Marketing</div>
+            <div class="menu-sub am">ምርቶችን አስተዋውቀው ይክፈሉ</div>
+          </div>
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <!-- Language -->
+        <button class="menu-item" onclick="toggleLangMenu()" id="lang-menu-btn">
+          <div class="menu-icon">🌐</div>
+          <div class="menu-text">
+            <div class="menu-title am" data-i18n="language">ቋንቋ</div>
+            <div class="menu-sub am" data-i18n="language_sub">ቋንቋ ይቀይሩ</div>
+          </div>
+          <span class="menu-arrow" id="lang-arrow">›</span>
+        </button>
+        <div id="lang-menu" style="display:none;padding:8px 16px 12px 72px;background:var(--bg-card);border-bottom:1px solid var(--border)">
+          <div class="lang-options">
+            <button class="lang-chip active" data-lang="am" onclick="setLanguage('am')">🇪🇹 አማርኛ</button>
+            <button class="lang-chip" data-lang="en" onclick="setLanguage('en')">🇬🇧 English</button>
+          </div>
+        </div>
+
+        <!-- Help Center -->
+        <button class="menu-item">
+          <div class="menu-icon">🎧</div>
+          <div class="menu-text">
+            <div class="menu-title am" data-i18n="help">የእርዳታ ማዕከል</div>
+            <div class="menu-sub am" data-i18n="help_sub">ድጋፍ ያግኙ</div>
+          </div>
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <!-- Dark Theme -->
+        <div class="menu-item" onclick="toggleTheme()">
+          <div class="menu-icon">🌙</div>
+          <div class="menu-text">
+            <div class="menu-title am" data-i18n="theme">ቀለም ገጽታ</div>
+            <div class="menu-sub am" data-i18n="theme_sub">ብርሃን / ጨለማ ቅርጸት</div>
+          </div>
+          <div class="toggle-switch" id="theme-toggle"></div>
+        </div>
+
+        <!-- Admin (dev link) -->
+        <button class="menu-item" onclick="window.open('admin.html','_blank')">
+          <div class="menu-icon">⚙️</div>
+          <div class="menu-text">
+            <div class="menu-title am">Admin Panel</div>
+            <div class="menu-sub am">ማስተዳደሪያ ገጽ</div>
+          </div>
+          <span class="menu-arrow">›</span>
+        </button>
+
+        <!-- Logout -->
+        <button class="menu-item" style="color:var(--clr-danger)">
+          <div class="menu-icon" style="background:#ffe0e0">🚪</div>
+          <div class="menu-text">
+            <div class="menu-title am" style="color:var(--clr-danger)" data-i18n="logout">ውጣ</div>
+            <div class="menu-sub am" data-i18n="logout_sub">ከሂሳብዎ ይውጡ</div>
+          </div>
+        </button>
+
+      </div><!-- end menu-list -->
+
+      <p style="text-align:center;font-size:11px;color:var(--text-secondary);padding:16px;font-family:var(--font-am)">
+        Ewn Hlm v1.0 | እውን ህልም ©2024
+      </p>
+    </div>
+  </main>
+
+  <!-- === SCREEN: LIKES === -->
+  <main class="screen" id="screen-likes">
+    <div style="padding:16px 16px 0">
+      <button onclick="navigate('home')" style="background:none;border:none;color:var(--clr-accent);font-size:14px;cursor:pointer;font-family:var(--font-am);margin-bottom:8px">← ተመለስ</button>
+    </div>
+    <div class="likes-screen" id="likes-content"></div>
+  </main>
+
+  <!-- === BOTTOM NAV === -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-nav="home" onclick="navigate('home')">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label am" data-i18n="home">መነሻ</span>
+    </button>
+    <button class="nav-item" data-nav="cart" onclick="navigate('cart')">
+      <span class="nav-icon">🛒</span>
+      <span class="nav-label am" data-i18n="cart">ጋሪ</span>
+      <span class="badge" id="cart-badge" style="display:none">0</span>
+    </button>
+    <button class="nav-item" data-nav="orders" onclick="navigate('orders')">
+      <span class="nav-icon">📦</span>
+      <span class="nav-label am" data-i18n="orders">ትዕዛዞች</span>
+    </button>
+    <button class="nav-item" data-nav="profile" onclick="navigate('profile')">
+      <span class="nav-icon">👤</span>
+      <span class="nav-label am" data-i18n="profile">መገለጫ</span>
+    </button>
+  </nav>
+
+</div><!-- end #app -->
+
+<!-- ======== PRODUCT MODAL ======== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div id="product-modal"></div>
+</div>
+
+<!-- ======== TOAST ======== -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // Language menu toggle
+  function toggleLangMenu() {
+    const menu = document.getElementById('lang-menu');
+    const arrow = document.getElementById('lang-arrow');
+    const open = menu.style.display === 'block';
+    menu.style.display = open ? 'none' : 'block';
+    arrow.textContent = open ? '›' : '∨';
+  }
+</script>
+<script src="main.js"></script>
+</body>
+</html>
