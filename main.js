@@ -452,7 +452,7 @@ function renderCart() {
           <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
           <button class="remove-btn" onclick="removeFromCart(${idx})">🗑️</button>
         </div>
-        <button class="cart-item-buy-btn am" onclick="placeOrder(${idx})">
+        <button class="cart-item-buy-btn am" onclick="openCheckout(${idx})">
           ${t('buy_item')} →
         </button>
       </div>
@@ -998,3 +998,446 @@ document.addEventListener('click', (e) => {
   if (e.target.id === 'modal-overlay') closeModal();
   if (e.target.id === 'auth-overlay') closeAuthModal();
 });
+
+// ============================================================
+//  PHASE 3 — CHECKOUT OVERLAY & INTERRUPTED ORDER RECOVERY
+// ============================================================
+
+// Payment account numbers per method
+const PAYMENT_ACCOUNTS = {
+  telebirr:   { label: 'Telebirr / ቴሌብር',   number: '0912345678' },
+  cbe:        { label: 'CBE / ንግድ ባንክ',      number: '1000123456789' },
+  abyssinia:  { label: 'Abyssinia / አቢሲንያ', number: '101234567890' }
+};
+
+// Shipping city options
+const SHIPPING_CITIES = [
+  { value: 'addis',      label: 'አዲስ አበባ (Addis Ababa)' },
+  { value: 'adama',      label: 'አዳማ (Adama)' },
+  { value: 'dessie',     label: 'ደሴ (Dessie)' },
+  { value: 'kombolcha',  label: 'ኮምቦልቻ (Kombolcha)' }
+];
+
+// ---- State for the in-progress checkout ----
+let _checkoutItems    = [];
+let _checkoutSingleIdx = null; // null = full cart, number = single cart index
+
+// -------- Open Checkout Overlay --------
+function openCheckout(singleCartItemIdx) {
+  if (!isAuthenticated()) { openAuthModal(); return; }
+
+  _checkoutSingleIdx = (singleCartItemIdx !== undefined) ? singleCartItemIdx : null;
+  _checkoutItems = (_checkoutSingleIdx !== null)
+    ? [{ ...state.cart[_checkoutSingleIdx] }]
+    : [...state.cart];
+
+  if (!_checkoutItems.length) return;
+
+  const total = _checkoutItems.reduce((s, i) => s + i.price * i.qty, 0);
+
+  const itemsHTML = _checkoutItems.map(i => `
+    <div class="co-item">
+      <img class="co-item-img" src="${i.image}" alt="${i.name}">
+      <div class="co-item-info">
+        <div class="co-item-name am">${i.name}</div>
+        <div class="co-item-price">${formatPrice(i.price)} × ${i.qty}</div>
+      </div>
+      <div class="co-item-sub">${formatPrice(i.price * i.qty)}</div>
+    </div>`).join('');
+
+  const cityOptions = SHIPPING_CITIES.map(c =>
+    `<option value="${c.value}">${c.label}</option>`).join('');
+
+  const paymentMethods = Object.entries(PAYMENT_ACCOUNTS).map(([key, info]) => `
+    <label class="co-radio-label" for="pay-${key}">
+      <input type="radio" name="payMethod" id="pay-${key}" value="${key}"
+             onchange="onPaymentMethodChange('${key}')">
+      <span class="co-radio-box">
+        <span class="co-radio-name am">${info.label}</span>
+      </span>
+    </label>`).join('');
+
+  const overlay = document.getElementById('checkout-overlay');
+  const modal   = document.getElementById('checkout-modal');
+
+  modal.innerHTML = `
+    <div class="co-header">
+      <div class="co-title am">ትዕዛዝ / Checkout</div>
+      <button class="co-close" onclick="closeCheckout()">✕</button>
+    </div>
+
+    <div class="co-body">
+      <!-- Order summary -->
+      <div class="co-section">
+        <div class="co-section-label am">🛍️ ምርቶች</div>
+        <div class="co-items-list">${itemsHTML}</div>
+        <div class="co-total am">ጠቅላላ: <strong>${formatPrice(total)}</strong></div>
+      </div>
+
+      <!-- Shipping -->
+      <div class="co-section">
+        <div class="co-section-label am">🚚 የመላኪያ ቦታ</div>
+        <select class="form-control am" id="co-city">
+          <option value="">-- ከተማ ይምረጡ --</option>
+          ${cityOptions}
+        </select>
+        <input class="form-control am" id="co-location" type="text"
+               placeholder="ልዩ ቦታ (Specific Location)" style="margin-top:10px;">
+      </div>
+
+      <!-- Payment -->
+      <div class="co-section">
+        <div class="co-section-label am">💳 የክፍያ ዘዴ</div>
+        <div class="co-payment-methods">${paymentMethods}</div>
+        <div class="co-account-box" id="co-account-box" style="display:none">
+          <span class="co-account-num am" id="co-account-num"></span>
+          <button class="co-copy-btn am" onclick="copyAccountNumber()">📋 ቅዳ</button>
+        </div>
+      </div>
+
+      <!-- Receipt Upload -->
+      <div class="co-section">
+        <div class="co-section-label am">📎 የክፍያ ደረሰኝ ስዕል አያይዙ</div>
+        <div class="co-drop-zone" id="co-drop-zone"
+             onclick="document.getElementById('co-file-input').click()"
+             ondragover="event.preventDefault();this.classList.add('drag-over')"
+             ondragleave="this.classList.remove('drag-over')"
+             ondrop="handleReceiptDrop(event)">
+          <span class="drop-icon" id="co-drop-icon">📤</span>
+          <div class="drop-text am" id="co-drop-text">ፎቶ ይጎትቱ ወይም ጠቅ ያድርጉ<br><span class="drop-hint">PNG / JPG · ከፍተኛ 1MB</span></div>
+        </div>
+        <input type="file" id="co-file-input" accept="image/*" style="display:none"
+               onchange="handleReceiptFile(this.files[0])">
+        <div class="co-preview-wrap" id="co-preview-wrap" style="display:none">
+          <img id="co-preview-img" class="co-preview-img" src="" alt="receipt">
+          <button class="co-remove-receipt am" onclick="removeReceipt()">✕ አስወግድ</button>
+        </div>
+        <div class="co-file-error am" id="co-file-error" style="display:none">ፋይሉ ከ1MB መብለጥ የለበትም</div>
+      </div>
+
+      <button class="btn-primary am co-submit-btn" onclick="submitCheckout()">
+        ✅ ትዕዛዝ አስቀምጥ
+      </button>
+    </div>`;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCheckout() {
+  const overlay = document.getElementById('checkout-overlay');
+  if (!overlay) return;
+
+  // If no receipt was attached, save as "pending_receipt"
+  const previewWrap = document.getElementById('co-preview-wrap');
+  const hasReceipt  = previewWrap && previewWrap.style.display !== 'none';
+
+  if (!hasReceipt && _checkoutItems.length) {
+    const city     = (document.getElementById('co-city') || {}).value || '';
+    const location = (document.getElementById('co-location') || {}).value || '';
+    const pay      = document.querySelector('input[name="payMethod"]:checked');
+    const payVal   = pay ? pay.value : '';
+
+    const order = {
+      id: 'ORD-' + Date.now().toString(36).toUpperCase(),
+      items: _checkoutItems,
+      total: _checkoutItems.reduce((s, i) => s + i.price * i.qty, 0),
+      status: 'pending_receipt',
+      date: new Date().toISOString(),
+      customer: {
+        name: state.user.name,
+        phone: state.user.phone,
+        location: city ? (city + (location ? ' – ' + location : '')) : location
+      },
+      paymentMethod: payVal,
+      receipt: null
+    };
+    state.orders.push(order);
+    saveOrders();
+    _removeCheckoutItemsFromCart();
+    showToast('ደረሰኝ እባክዎ ያያይዙ 📎');
+    navigate('orders');
+  }
+
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  _checkoutItems = [];
+  _checkoutSingleIdx = null;
+}
+
+function _removeCheckoutItemsFromCart() {
+  if (_checkoutSingleIdx !== null) {
+    state.cart.splice(_checkoutSingleIdx, 1);
+  } else {
+    state.cart = [];
+  }
+  saveCart();
+}
+
+function onPaymentMethodChange(key) {
+  const box    = document.getElementById('co-account-box');
+  const numEl  = document.getElementById('co-account-num');
+  const info   = PAYMENT_ACCOUNTS[key];
+  if (!box || !numEl || !info) return;
+  numEl.textContent = info.number;
+  box.style.display = 'flex';
+}
+
+function copyAccountNumber() {
+  const numEl = document.getElementById('co-account-num');
+  if (!numEl) return;
+  navigator.clipboard.writeText(numEl.textContent).then(() => {
+    showToast('ቁጥሩ ተቀድቷል ✅');
+  }).catch(() => {
+    showToast(numEl.textContent);
+  });
+}
+
+// ---- Receipt Handling (checkout overlay) ----
+let _receiptDataUrl = null;
+
+function handleReceiptDrop(e) {
+  e.preventDefault();
+  const zone = document.getElementById('co-drop-zone');
+  if (zone) zone.classList.remove('drag-over');
+  const file = e.dataTransfer?.files?.[0];
+  if (file) handleReceiptFile(file);
+}
+
+function handleReceiptFile(file) {
+  const errEl = document.getElementById('co-file-error');
+  if (!file) return;
+  if (file.size > 1024 * 1024) {
+    if (errEl) errEl.style.display = 'block';
+    return;
+  }
+  if (errEl) errEl.style.display = 'none';
+
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    _receiptDataUrl = ev.target.result;
+    const wrap   = document.getElementById('co-preview-wrap');
+    const img    = document.getElementById('co-preview-img');
+    const zone   = document.getElementById('co-drop-zone');
+    const dropIcon = document.getElementById('co-drop-icon');
+    const dropText = document.getElementById('co-drop-text');
+    if (img)  img.src = _receiptDataUrl;
+    if (wrap) wrap.style.display = 'flex';
+    if (zone) zone.style.borderColor = 'var(--clr-accent)';
+    if (dropIcon) dropIcon.textContent = '✅';
+    if (dropText) dropText.innerHTML = '<span class="am" style="color:var(--clr-accent);font-weight:700">ደረሰኝ ተያይዟል ✅</span>';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeReceipt() {
+  _receiptDataUrl = null;
+  const wrap    = document.getElementById('co-preview-wrap');
+  const img     = document.getElementById('co-preview-img');
+  const zone    = document.getElementById('co-drop-zone');
+  const dropIcon = document.getElementById('co-drop-icon');
+  const dropText = document.getElementById('co-drop-text');
+  if (wrap) wrap.style.display = 'none';
+  if (img)  img.src = '';
+  if (zone) zone.style.borderColor = '';
+  if (dropIcon) dropIcon.textContent = '📤';
+  if (dropText) dropText.innerHTML = 'ፎቶ ይጎትቱ ወይም ጠቅ ያድርጉ<br><span class="drop-hint">PNG / JPG · ከፍተኛ 1MB</span>';
+  const fi = document.getElementById('co-file-input');
+  if (fi) fi.value = '';
+}
+
+async function submitCheckout() {
+  const city    = (document.getElementById('co-city') || {}).value;
+  const locVal  = (document.getElementById('co-location') || {}).value || '';
+  const payEl   = document.querySelector('input[name="payMethod"]:checked');
+
+  if (!city) { showToast('እባክዎ ከተማ ይምረጡ'); return; }
+  if (!payEl) { showToast('እባክዎ የክፍያ ዘዴ ይምረጡ'); return; }
+  if (!_receiptDataUrl) { showToast('እባክዎ ደረሰኝ ስዕሉን ያያይዙ'); return; }
+
+  const cityLabel = SHIPPING_CITIES.find(c => c.value === city)?.label || city;
+  const fullLoc   = cityLabel + (locVal ? ' – ' + locVal : '');
+
+  const order = {
+    id: 'ORD-' + Date.now().toString(36).toUpperCase(),
+    items: _checkoutItems,
+    total: _checkoutItems.reduce((s, i) => s + i.price * i.qty, 0),
+    status: 'pending',
+    date: new Date().toISOString(),
+    customer: {
+      name: state.user.name,
+      phone: state.user.phone,
+      location: fullLoc
+    },
+    paymentMethod: payEl.value,
+    receipt: _receiptDataUrl
+  };
+
+  state.orders.push(order);
+  saveOrders();
+  _removeCheckoutItemsFromCart();
+  await sendOrderToTelegram(order);
+
+  // Close overlay cleanly (skip the interrupted-save path)
+  _checkoutItems = [];
+  _checkoutSingleIdx = null;
+  document.getElementById('checkout-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+
+  showToast(t('order_sent'));
+  navigate('orders');
+}
+
+// -------- Receipt Upload for Pending Orders (Orders tab) --------
+function openReceiptUploadModal(orderId) {
+  const overlay = document.getElementById('receipt-modal-overlay');
+  const modal   = document.getElementById('receipt-modal');
+  if (!overlay || !modal) return;
+
+  modal.innerHTML = `
+    <div class="co-header">
+      <div class="co-title am">ደረሰኝ አያይዙ</div>
+      <button class="co-close" onclick="closeReceiptModal()">✕</button>
+    </div>
+    <div class="co-body" style="padding:20px">
+      <div class="co-drop-zone" id="rmu-drop-zone"
+           onclick="document.getElementById('rmu-file').click()"
+           ondragover="event.preventDefault();this.classList.add('drag-over')"
+           ondragleave="this.classList.remove('drag-over')"
+           ondrop="handleRmuDrop(event,'${orderId}')">
+        <span class="drop-icon" id="rmu-drop-icon">📤</span>
+        <div class="drop-text am" id="rmu-drop-text">ፎቶ ይጎትቱ ወይም ጠቅ ያድርጉ<br><span class="drop-hint">PNG / JPG · ከፍተኛ 1MB</span></div>
+      </div>
+      <input type="file" id="rmu-file" accept="image/*" style="display:none"
+             onchange="handleRmuFile(this.files[0],'${orderId}')">
+      <div class="co-preview-wrap" id="rmu-preview-wrap" style="display:none">
+        <img id="rmu-preview-img" class="co-preview-img" src="" alt="receipt">
+      </div>
+      <div class="co-file-error am" id="rmu-file-error" style="display:none">ፋይሉ ከ1MB መብለጥ የለበትም</div>
+      <button class="btn-primary am" style="width:100%;margin-top:16px"
+              onclick="submitReceiptForOrder('${orderId}')">✅ ደረሰኝ አስቀምጥ</button>
+    </div>`;
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeReceiptModal() {
+  const overlay = document.getElementById('receipt-modal-overlay');
+  if (overlay) overlay.classList.remove('open');
+  document.body.style.overflow = '';
+  _rmuDataUrl = null;
+}
+
+let _rmuDataUrl = null;
+
+function handleRmuDrop(e, orderId) {
+  e.preventDefault();
+  const zone = document.getElementById('rmu-drop-zone');
+  if (zone) zone.classList.remove('drag-over');
+  const file = e.dataTransfer?.files?.[0];
+  if (file) handleRmuFile(file, orderId);
+}
+
+function handleRmuFile(file, orderId) {
+  const errEl = document.getElementById('rmu-file-error');
+  if (!file) return;
+  if (file.size > 1024 * 1024) {
+    if (errEl) errEl.style.display = 'block';
+    return;
+  }
+  if (errEl) errEl.style.display = 'none';
+
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    _rmuDataUrl = ev.target.result;
+    const wrap     = document.getElementById('rmu-preview-wrap');
+    const img      = document.getElementById('rmu-preview-img');
+    const zone     = document.getElementById('rmu-drop-zone');
+    const dropIcon = document.getElementById('rmu-drop-icon');
+    const dropText = document.getElementById('rmu-drop-text');
+    if (img)  img.src = _rmuDataUrl;
+    if (wrap) wrap.style.display = 'flex';
+    if (zone) zone.style.borderColor = '#22c55e';
+    if (dropIcon) dropIcon.textContent = '✅';
+    if (dropText) dropText.innerHTML = '<span class="am" style="color:var(--clr-accent);font-weight:700">ደረሰኝ ተያይዟል ✅</span>';
+  };
+  reader.readAsDataURL(file);
+}
+
+function submitReceiptForOrder(orderId) {
+  if (!_rmuDataUrl) { showToast('እባክዎ ደረሰኝ ስዕሉን ያያይዙ'); return; }
+
+  const order = state.orders.find(o => o.id === orderId);
+  if (order) {
+    order.receipt = _rmuDataUrl;
+    order.status  = 'pending'; // upgrade from pending_receipt
+    saveOrders();
+  }
+  closeReceiptModal();
+  showToast('ደረሰኝ ተቀብሏል ✅');
+  renderOrders();
+}
+
+// -------- Patch renderOrders to handle pending_receipt status --------
+// Override renderOrders defined earlier
+function renderOrders() {
+  const screen = document.getElementById('orders-content');
+  if (!screen) return;
+  if (!state.orders.length) {
+    screen.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-emoji">📦</div>
+        <div class="empty-title am">${t('no_orders')}</div>
+        <div class="empty-sub am">${t('no_orders_sub')}</div>
+        <button class="btn-primary am" onclick="navigate('home')">${t('shop_now')}</button>
+      </div>`;
+    return;
+  }
+
+  const statusMap = {
+    pending: t('pending'), processing: t('processing'), delivered: t('delivered'),
+    pending_receipt: state.lang === 'am' ? '⚠️ ደረሰኝ ጠፍቷል' : '⚠️ Receipt Missing'
+  };
+
+  screen.innerHTML = state.orders.slice().reverse().map(o => {
+    const isPendingReceipt = o.status === 'pending_receipt';
+    const warningHTML = isPendingReceipt ? `
+      <div class="order-pending-receipt-warn am">
+        ⚠️ Please upload your payment receipt / ባክዎን ክፍያ የከፈሉበትን ደረሰኝ ያስገቡ
+      </div>
+      <button class="order-upload-receipt-btn am" onclick="openReceiptUploadModal('${o.id}')">
+        📎 Upload Receipt / ደረሰኝ አያይዙ
+      </button>` : '';
+    return `
+    <div class="order-card${isPendingReceipt ? ' order-card--warn' : ''}" id="ocard-${o.id}">
+      <div class="order-top">
+        <span class="order-id">#${o.id}</span>
+        <span class="order-status ${isPendingReceipt ? 'pending_receipt' : o.status}">
+          ${statusMap[o.status] || o.status}
+        </span>
+      </div>
+      <div class="order-name am">${o.items.map(i => i.name).join(', ')}</div>
+      <div class="order-price">${formatPrice(o.total)}</div>
+      ${o.customer?.location ? `<div class="order-date">📍 ${o.customer.location}</div>` : ''}
+      ${o.paymentMethod ? `<div class="order-date">💳 ${PAYMENT_ACCOUNTS[o.paymentMethod]?.label || o.paymentMethod}</div>` : ''}
+      <div class="order-date">📅 ${new Date(o.date).toLocaleDateString('am-ET')}</div>
+      ${warningHTML}
+    </div>`;
+  }).join('');
+}
+
+// -------- Patch quickOrder and cart buy buttons to use checkout overlay --------
+// Override quickOrder to open checkout instead of directly placing order
+async function quickOrder(id) {
+  if (!isAuthenticated()) {
+    closeModal();
+    openAuthModal();
+    return;
+  }
+  const color = state.selectedColor;
+  closeModal();
+  addToCart(id, color);
+  const idx = state.cart.findIndex(x => x.id === id && x.color === (color || null));
+  openCheckout(idx >= 0 ? idx : undefined);
+}
