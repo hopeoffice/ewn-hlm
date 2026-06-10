@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ewn-hlm-v1';
+const CACHE_NAME = 'ewn-hlm-v2';
 const ASSETS = [
   '/',
   '/index.html',
