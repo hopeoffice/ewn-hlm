@@ -516,13 +516,8 @@ function renderCart() {
   }).join('');
 
   // Cart footer with total and full-cart checkout
-  const total = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
   screen.innerHTML += `
-    <div class="cart-footer" style="padding:16px;border-top:1px solid var(--border);margin-top:8px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-        <span style="font-size:14px;color:var(--text-secondary);font-family:var(--font-am)">${t('cart_total')}</span>
-        <span style="font-size:18px;font-weight:800;color:var(--clr-accent)">${formatPrice(total)}</span>
-      </div>
+    <div class="cart-footer">
       <button class="btn-primary am" style="width:100%" onclick="openCheckoutModal()">${t('checkout')}</button>
     </div>`;
 }
@@ -1004,77 +999,81 @@ function openCheckoutModal(cartIdx) {
 
   const activeMethod = PAYMENT_METHODS.find(m => m.id === _checkoutSelectedPayment);
 
-  const regionOptions = isAm
-    ? `<option value="aa">${t('co_region_aa')}</option><option value="other">${t('co_region_other')}</option>`
-    : `<option value="aa">${t('co_region_aa')}</option><option value="other">${t('co_region_other')}</option>`;
+  const paymentSelectOptions = PAYMENT_METHODS.map(pm =>
+    `<option value="${pm.id}"${pm.id === _checkoutSelectedPayment ? ' selected' : ''}>${isAm ? pm.nameAm : pm.nameEn}</option>`
+  ).join('');
 
   document.getElementById('checkout-overlay').innerHTML = `
     <div class="checkout-modal">
       <button class="checkout-close" onclick="closeCheckoutModal()">✕</button>
-      <div class="checkout-title">${t('checkout_title')}</div>
+      <div class="checkout-title">🛒 ${t('checkout_title')}</div>
 
-      <div class="co-grid">
+      <!-- Summary -->
+      <div class="checkout-summary">
+        <div class="checkout-summary-title">${t('co_summary')}</div>
+        ${summaryRows}
+      </div>
 
-        <!-- Row 1: Summary (full width) -->
-        <div class="co-g-summary checkout-summary">
-          <div class="checkout-summary-title">${t('co_summary')}</div>
-          ${summaryRows}
-          <div class="checkout-total-row">
-            <span>${t('co_total')}</span>
-            <span>${formatPrice(total)}</span>
-          </div>
-        </div>
-
-        <!-- Row 2: Name | Phone | Region -->
-        <div class="co-g-name co-field">
+      <!-- Row 1: NAME | PHONE | PAYMENT | REGION -->
+      <div class="co-row4">
+        <div class="co-field">
           <label class="co-label">${t('co_name')}</label>
-          <input class="co-input" id="co-name" type="text" value="${state.user?.name || ''}" placeholder="${isAm ? 'ዳንኤል አበበ' : 'Daniel Abebe'}">
+          <input class="co-input" id="co-name" type="text" value="${state.user?.name || ''}" placeholder="${isAm ? 'ዳንኤል' : 'Daniel'}">
         </div>
-        <div class="co-g-phone co-field">
+        <div class="co-field">
           <label class="co-label">${t('co_phone')}</label>
           <input class="co-input" id="co-phone" type="tel" value="${state.user?.phone || ''}" placeholder="09xxxxxxxx">
         </div>
-        <div class="co-g-region co-field">
+        <div class="co-field">
+          <label class="co-label">${t('co_payment')}</label>
+          <select class="co-input" id="co-payment-select" onchange="selectCheckoutPayment(this.value)">
+            ${paymentSelectOptions}
+          </select>
+        </div>
+        <div class="co-field">
           <label class="co-label">${t('co_region')}</label>
           <select class="co-input" id="co-region">
             <option value="aa">${t('co_region_aa')}</option>
             <option value="other">${t('co_region_other')}</option>
           </select>
         </div>
+      </div>
 
-        <!-- Row 3: Payment (col 1-2) | Account box (col 3) -->
-        <div class="co-g-payment co-field">
-          <label class="co-label">${t('co_payment')}</label>
-          <div class="co-payment-methods">${paymentOptions}</div>
+      <!-- Row 2: ADDRESS | MERCHANT ACCOUNT -->
+      <div class="co-row2">
+        <div class="co-field">
+          <label class="co-label">${t('co_address')}</label>
+          <input class="co-input" id="co-address" type="text" placeholder="${isAm ? 'ቦሌ፣ ቀበሌ 12...' : 'Bole, Kebele 12...'}">
         </div>
-        <div class="co-g-account">
-          <div class="co-account-box visible" id="co-account-box">
-            <div class="co-account-label">${t('co_account_label')}</div>
-            <div class="co-account-number-row">
-              <div class="co-account-number" id="co-account-number">${activeMethod.account}</div>
-              <button class="co-copy-btn" id="co-copy-btn" onclick="copyAccountNumber()">${t('co_copy')}</button>
-            </div>
+        <div class="co-account-box visible" id="co-account-box">
+          <div class="co-account-label">${t('co_account_label')}</div>
+          <div class="co-account-number-row">
+            <div class="co-account-number" id="co-account-number">${activeMethod.account}</div>
+            <button class="co-copy-btn" id="co-copy-btn" onclick="copyAccountNumber()">${t('co_copy')}</button>
           </div>
         </div>
+      </div>
 
-        <!-- Row 4: Receipt (col 1-2) | Buttons (col 3) -->
-        <div class="co-g-receipt co-field">
+      <!-- Row 3: RECEIPT | TOTAL -->
+      <div class="co-row2">
+        <div class="co-field">
           <label class="co-label">${t('co_receipt')}</label>
           <div class="co-receipt-upload" id="co-receipt-zone">
             <input type="file" class="co-receipt-input" id="co-receipt-input"
               accept="image/*" onchange="handleReceiptUpload(this)">
-            <div class="co-receipt-icon">🖼️</div>
             <div class="co-receipt-text" id="co-receipt-text">${t('co_receipt_hint')}</div>
             <div class="co-receipt-status" id="co-receipt-status"></div>
           </div>
         </div>
-        <div class="co-g-actions">
-          <div style="font-size:10px;color:var(--text-secondary);font-family:var(--font-am)">${t('co_address')}</div>
-          <input class="co-input" id="co-address" type="text" placeholder="${isAm ? 'ቦሌ፣ ቀበሌ 12...' : 'Bole, Kebele 12...'}">
-          <button class="co-back-btn" onclick="closeCheckoutModal()">${t('co_back')}</button>
-          <button class="co-submit-btn" id="co-submit-btn" onclick="submitCheckout()">${t('co_complete')}</button>
+        <div class="co-total-box">
+          <div class="co-total-amount">${t('co_total')} = ${formatPrice(total)}</div>
         </div>
+      </div>
 
+      <!-- Row 4: BACK | COMPLETE ORDER -->
+      <div class="co-bottom-row">
+        <button class="co-back-btn" onclick="closeCheckoutModal()">←</button>
+        <button class="co-submit-btn" id="co-submit-btn" onclick="submitCheckout()">${t('co_complete')}</button>
       </div>
     </div>`;
 
