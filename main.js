@@ -3,32 +3,57 @@
 //  Stack: GitHub Pages + Firebase + Telegram Bot
 // ============================================================
 
-// ---- FIREBASE CONFIG (replace with your project) ----
+// ============================================================
+//  APP CONFIG  — Load from window.__EWN_CONFIG__ (set in a
+//  separate, git-ignored config.js file) so secrets never
+//  live in this source file.
+//
+//  In your git-ignored config.js, define:
+//    window.__EWN_CONFIG__ = {
+//      firebaseApiKey:        "YOUR_API_KEY",
+//      firebaseAuthDomain:    "YOUR_PROJECT.firebaseapp.com",
+//      firebaseDatabaseURL:   "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+//      firebaseProjectId:     "YOUR_PROJECT_ID",
+//      firebaseStorageBucket: "YOUR_PROJECT.appspot.com",
+//      firebaseMessagingSenderId: "YOUR_SENDER_ID",
+//      firebaseAppId:         "YOUR_APP_ID",
+//      telegramBotToken:      "YOUR_BOT_TOKEN",
+//      telegramChatId:        "YOUR_CHAT_ID",
+//    };
+//
+//  Add config.js to .gitignore — NEVER commit real secrets.
+// ============================================================
+const _cfg = window.__EWN_CONFIG__ || {};
+
 const FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey:            _cfg.firebaseApiKey            || '',
+  authDomain:        _cfg.firebaseAuthDomain        || '',
+  databaseURL:       _cfg.firebaseDatabaseURL       || '',
+  projectId:         _cfg.firebaseProjectId         || '',
+  storageBucket:     _cfg.firebaseStorageBucket     || '',
+  messagingSenderId: _cfg.firebaseMessagingSenderId || '',
+  appId:             _cfg.firebaseAppId             || ''
 };
 
-// ---- TELEGRAM BOT CONFIG ----
-const TELEGRAM_BOT_TOKEN = "YOUR_BOT_TOKEN";
-const TELEGRAM_CHAT_ID   = "YOUR_CHAT_ID";
+const TELEGRAM_BOT_TOKEN = _cfg.telegramBotToken || '';
+const TELEGRAM_CHAT_ID   = _cfg.telegramChatId   || '';
 
 // ---- CATEGORY DEFINITIONS ----
 const CATEGORIES = [
-  { id: 'all', emoji: '🛍️', labelKey: 'all' },
-  { id: 'phones', emoji: '📱', labelKey: 'phones' },
-  { id: 'kitchen', emoji: '🍳', labelKey: 'kitchen' },
-  { id: 'laptops', emoji: '💻', labelKey: 'laptops' },
-  { id: 'beauty_health', emoji: '💄', labelKey: 'beauty_health' }
+  { id: 'all',          emoji: '🛍️', labelKey: 'all' },
+  { id: 'phones',       emoji: '📱', labelKey: 'phones' },
+  { id: 'kitchen',      emoji: '🍳', labelKey: 'kitchen' },
+  { id: 'laptops',      emoji: '💻', labelKey: 'laptops' },
+  { id: 'beauty_health',emoji: '💄', labelKey: 'beauty_health' },
+  { id: 'accessories',  emoji: '⚡', labelKey: 'accessories' }
 ];
 
 // Screens that require authentication
 const PROTECTED_SCREENS = ['likes', 'profile', 'cart', 'orders', 'notifications'];
+
+// Smart header scroll state (module-level so navigate() can reset)
+let lastScrollY = 0;
+let headerHidden = false;
 
 // ============================================================
 //  TRANSLATIONS
@@ -38,8 +63,8 @@ const i18n = {
     home: "መነሻ", cart: "ጋሪ", orders: "ትዕዛዞች", profile: "መገለጫ",
     search: "ምርቶችን ይፈልጉ...", location: "አካባቢ", getting_location: "አካባቢዎን እያገኘን...",
     categories: "ምድቦች", all: "ሁሉም",
-    phones: "ስልክ እና ታብሌት", kitchen: "የማእድቤት እቃዎች",
-    laptops: "ላፕቶፕ", beauty_health: "ውበት እና ጤና",
+    phones: "ስልኮች", kitchen: "የማእድቤት እቃዎች",
+    laptops: "ላፕቶፕ", beauty_health: "ውበት", accessories: "ልዩ ዕቃዎች",
     special_offers: "ልዩ ቅናሾች", featured: "ተመረጡ ምርቶች",
     see_all: "ሁሉንም ይዩ", add_to_cart: "ጋሪ ውስጥ ጨምር", buy_now: "አሁን ግዛ",
     etb: "ብር", condition: "ሁኔታ", colors: "ቀለሞች",
@@ -64,14 +89,16 @@ const i18n = {
     full_name: "ሙሉ ስም", phone_number: "ስልክ ቁጥር",
     login_btn: "ግባ / ይመዝገቡ", login_required: "እባክዎ መጀመሪያ ይመዝገቡ",
     notifications: "ማሳወቂያዎች", notifications_sub: "የቅርብ ጊዜ ማሳወቂያዎች",
-    back: "ተመለስ"
+    back: "ተመለስ",
+    color_optional: "ቀለም (አማራጭ)", color_selected: "✓ ተመረጠ",
+    buy_item: "አሁን ግዛ"
   },
   en: {
     home: "Home", cart: "Cart", orders: "Orders", profile: "Profile",
     search: "Search products...", location: "Location", getting_location: "Getting your location...",
     categories: "Categories", all: "All",
-    phones: "Phones & Tablets", kitchen: "Kitchen",
-    laptops: "Laptops", beauty_health: "Beauty & Health",
+    phones: "Phones", kitchen: "Kitchen",
+    laptops: "Laptops", beauty_health: "Beauty", accessories: "Accessories",
     special_offers: "Special Offers", featured: "Featured Products",
     see_all: "See All", add_to_cart: "Add to Cart", buy_now: "Buy Now",
     etb: "ETB", condition: "Condition", colors: "Colors",
@@ -96,7 +123,9 @@ const i18n = {
     full_name: "Full Name", phone_number: "Phone Number",
     login_btn: "Login / Register", login_required: "Please register first",
     notifications: "Notifications", notifications_sub: "Recent notifications",
-    back: "Back"
+    back: "Back",
+    color_optional: "Color (optional)", color_selected: "✓ Selected",
+    buy_item: "Buy Now"
   }
 };
 
@@ -115,7 +144,8 @@ const state = {
   activeCategory: 'all',
   user: JSON.parse(localStorage.getItem('ewn_user') || 'null'),
   searchQuery: '',
-  carouselIndex: 0
+  carouselIndex: 0,
+  selectedColor: null   // tracks the color picked in the currently-open modal
 };
 
 // ============================================================
@@ -260,7 +290,7 @@ async function sendOrderToTelegram(order) {
 📍 አካባቢ: ${order.customer.location || 'N/A'}
 
 🛒 *ምርቶች / Products:*
-${order.items.map(i => `• ${i.name} x${i.qty} — ${formatPrice(i.price * i.qty)}`).join('\n')}
+${order.items.map(i => `• ${i.name}${i.color ? ` [${i.color}]` : ''} x${i.qty} — ${formatPrice(i.price * i.qty)}`).join('\n')}
 
 💰 *ጠቅላላ / Total: ${formatPrice(order.total)}*
 ⏰ ${new Date(order.date).toLocaleString('am-ET')}
@@ -403,32 +433,31 @@ function renderCart() {
       </div>`;
     return;
   }
-  const total = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
-  screen.innerHTML = `
-    ${state.cart.map(item => `
-      <div class="cart-item">
-        <img class="cart-item-img" src="${item.image}" alt="${item.name}">
-        <div class="cart-item-info">
-          <div class="cart-item-name am">${item.name}</div>
-          <div class="cart-item-price">${formatPrice(item.price)}</div>
-          <div class="cart-item-actions">
-            <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
-            <span class="qty-val">${item.qty}</span>
-            <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
-            <button class="remove-btn" onclick="removeFromCart('${item.id}')">🗑️</button>
-          </div>
+  screen.innerHTML = state.cart.map((item, idx) => {
+    const colorSwatch = item.color
+      ? `<span class="cart-item-color-swatch" style="background:${item.color}" title="${item.color}"></span>`
+      : '';
+    return `
+    <div class="cart-item" id="cart-item-${idx}">
+      <img class="cart-item-img" src="${item.image}" alt="${item.name}">
+      <div class="cart-item-info">
+        <div class="cart-item-name am">${item.name}</div>
+        <div class="cart-item-meta">
+          <span class="cart-item-price">${formatPrice(item.price)}</span>
+          ${colorSwatch}
         </div>
+        <div class="cart-item-actions">
+          <button class="qty-btn" onclick="changeQty(${idx}, -1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+          <button class="remove-btn" onclick="removeFromCart(${idx})">🗑️</button>
+        </div>
+        <button class="cart-item-buy-btn am" onclick="placeOrder(${idx})">
+          ${t('buy_item')} →
+        </button>
       </div>
-    `).join('')}
-    <div class="cart-footer">
-      <div class="cart-total-row">
-        <span class="cart-total-label am">${t('cart_total')}</span>
-        <span class="cart-total-val">${formatPrice(total)}</span>
-      </div>
-      <button class="btn-primary am" style="width:100%" onclick="placeOrder()">
-        ${t('checkout')}
-      </button>
     </div>`;
+  }).join('');
 }
 
 function renderOrders() {
@@ -600,12 +629,59 @@ function initCarouselSwipe() {
 
 function buildColorsHTML(colors) {
   if (!colors?.length) return '';
-  return `<div class="modal-colors">
-    <span class="modal-colors-label am">${t('colors')}:</span>
-    <div class="color-dots">${colors.map(c =>
-      `<span class="color-dot" style="background:${c}" title="${c}"></span>`
-    ).join('')}</div>
-  </div>`;
+  // Each circle calls selectColor(hex); active state applied via JS
+  const circles = colors.map(c => {
+    // Detect very light colors so we give them a visible border by default
+    const isLight = isLightColor(c);
+    return `<button
+      class="color-circle${isLight ? ' color-circle--light' : ''}"
+      data-color="${c}"
+      style="background:${c}"
+      onclick="selectColor('${c}')"
+      title="${c}"
+      aria-label="Select color ${c}"
+    ></button>`;
+  }).join('');
+  return `
+    <div class="modal-colors">
+      <div class="modal-colors-header">
+        <span class="modal-colors-label am">${t('color_optional')}</span>
+        <span class="modal-color-feedback am" id="color-feedback"></span>
+      </div>
+      <div class="color-circles" id="color-circles">${circles}</div>
+    </div>`;
+}
+
+/** Toggle color selection. Clicking the active color de-selects it. */
+function selectColor(hex) {
+  if (state.selectedColor === hex) {
+    // Deselect
+    state.selectedColor = null;
+    document.querySelectorAll('.color-circle').forEach(el => el.classList.remove('active'));
+    const fb = document.getElementById('color-feedback');
+    if (fb) fb.textContent = '';
+  } else {
+    state.selectedColor = hex;
+    document.querySelectorAll('.color-circle').forEach(el => {
+      el.classList.toggle('active', el.dataset.color === hex);
+    });
+    const fb = document.getElementById('color-feedback');
+    if (fb) {
+      fb.textContent = t('color_selected');
+      fb.style.color = 'var(--clr-accent)';
+    }
+  }
+}
+
+/** Returns true if the hex color is "light" (so we can give it a visible border) */
+function isLightColor(hex) {
+  const h = hex.replace('#', '');
+  if (h.length < 6) return false;
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  // Perceived brightness formula
+  return (r * 299 + g * 587 + b * 114) / 1000 > 180;
 }
 
 // ============================================================
@@ -637,7 +713,15 @@ function navigate(screen) {
   if (navEl) navEl.classList.add('active');
 
   const header = document.getElementById('main-header');
-  if (header) header.style.display = (screen === 'home') ? 'block' : 'none';
+  if (header) {
+    header.style.display = (screen === 'home') ? '' : 'none';
+    // Reset scroll-reveal state when returning to home
+    if (screen === 'home') {
+      header.classList.remove('header-hidden');
+      lastScrollY = 0;
+      headerHidden = false;
+    }
+  }
 
   if (screen === 'cart') renderCart();
   if (screen === 'orders') renderOrders();
@@ -656,6 +740,7 @@ function openProduct(id) {
   const desc = isAm && p.descriptionAm ? p.descriptionAm : p.description;
   const images = getProductImages(p);
   state.carouselIndex = 0;
+  state.selectedColor = null; // reset for each new product view
 
   const modal = document.getElementById('product-modal');
   modal.innerHTML = `
@@ -669,7 +754,7 @@ function openProduct(id) {
         <div class="modal-desc am">${desc || ''}</div>
         ${buildColorsHTML(p.colors)}
         <div class="modal-btns">
-          <button class="btn-cart am" onclick="addToCart('${p.id}');closeModal()" ${p.outOfStock ? 'disabled' : ''}>${t('add_to_cart')}</button>
+          <button class="btn-cart am" onclick="addToCart('${p.id}', state.selectedColor);closeModal()" ${p.outOfStock ? 'disabled' : ''}>${t('add_to_cart')}</button>
           <button class="btn-order am" onclick="quickOrder('${p.id}')" ${p.outOfStock ? 'disabled' : ''}>${t('buy_now')}</button>
         </div>
       </div>
@@ -701,10 +786,12 @@ function toggleLike(e, id) {
   saveLikes();
 }
 
-function addToCart(id) {
+function addToCart(id, color) {
   const p = state.products.find(x => x.id === id);
   if (!p || p.outOfStock) return;
-  const existing = state.cart.find(x => x.id === id);
+  // Each unique id+color combination gets its own cart line
+  const colorKey = color || null;
+  const existing = state.cart.find(x => x.id === id && x.color === colorKey);
   const price = getDisplayPrice(p);
   if (existing) {
     existing.qty++;
@@ -715,38 +802,51 @@ function addToCart(id) {
       name: isAm && p.nameAm ? p.nameAm : p.name,
       price,
       image: getProductImages(p)[0],
-      qty: 1
+      qty: 1,
+      color: colorKey
     });
   }
   saveCart();
   showToast(t('added_cart'));
 }
 
-function changeQty(id, delta) {
-  const item = state.cart.find(x => x.id === id);
+function changeQty(idx, delta) {
+  const item = state.cart[idx];
   if (!item) return;
   item.qty += delta;
-  if (item.qty <= 0) state.cart = state.cart.filter(x => x.id !== id);
+  if (item.qty <= 0) state.cart.splice(idx, 1);
   saveCart();
   renderCart();
 }
 
-function removeFromCart(id) {
-  state.cart = state.cart.filter(x => x.id !== id);
+function removeFromCart(idx) {
+  state.cart.splice(idx, 1);
   saveCart();
   renderCart();
 }
 
-async function placeOrder() {
-  if (!state.cart.length) return;
+async function placeOrder(singleCartItemId) {
   if (!isAuthenticated()) {
     openAuthModal();
     return;
   }
+
+  // Determine items to order: either one specific cart line or the full cart
+  let itemsToOrder;
+  if (singleCartItemId !== undefined) {
+    // singleCartItemId is the array index or a composite key — we use array index
+    const item = state.cart[singleCartItemId];
+    if (!item) return;
+    itemsToOrder = [{ ...item }];
+  } else {
+    if (!state.cart.length) return;
+    itemsToOrder = [...state.cart];
+  }
+
   const order = {
     id: 'ORD-' + Date.now().toString(36).toUpperCase(),
-    items: [...state.cart],
-    total: state.cart.reduce((s, i) => s + i.price * i.qty, 0),
+    items: itemsToOrder,
+    total: itemsToOrder.reduce((s, i) => s + i.price * i.qty, 0),
     status: 'pending',
     date: new Date().toISOString(),
     customer: {
@@ -757,8 +857,15 @@ async function placeOrder() {
   };
   state.orders.push(order);
   saveOrders();
-  state.cart = [];
+
+  // Remove ordered items from cart
+  if (singleCartItemId !== undefined) {
+    state.cart.splice(singleCartItemId, 1);
+  } else {
+    state.cart = [];
+  }
   saveCart();
+
   await sendOrderToTelegram(order);
   showToast(t('order_sent'));
   navigate('orders');
@@ -770,9 +877,13 @@ async function quickOrder(id) {
     openAuthModal();
     return;
   }
+  const color = state.selectedColor;
   closeModal();
-  addToCart(id);
-  await placeOrder();
+  addToCart(id, color);
+  // placeOrder with no arg → orders the full cart (which now has just this item if cart was empty,
+  // or the newest item appended). To buy just this one item we use its cart index.
+  const idx = state.cart.findIndex(x => x.id === id && x.color === (color || null));
+  await placeOrder(idx >= 0 ? idx : undefined);
 }
 
 function handleSearch(val) {
@@ -832,6 +943,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     navigate('home');
     updateCartBadge();
     renderProfile();
+
+    // Measure actual header height and set CSS variable for content offset
+    const header = document.getElementById('main-header');
+    if (header) {
+      const setHeaderHeight = () => {
+        document.documentElement.style.setProperty(
+          '--header-h', header.offsetHeight + 'px'
+        );
+      };
+      setHeaderHeight();
+      window.addEventListener('resize', setHeaderHeight, { passive: true });
+    }
+
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./service-worker.js').catch(() => {});
     }
@@ -846,6 +970,28 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (locText) locText.textContent = 'አዲስ አበባ, ኢትዮጵያ';
     });
   }
+
+  // ---- Smart Scroll-to-Reveal Header ----
+  window.addEventListener('scroll', () => {
+    if (state.currentScreen !== 'home') return;
+    const header = document.getElementById('main-header');
+    if (!header) return;
+
+    const currentScrollY = window.scrollY;
+    const scrollingDown = currentScrollY > lastScrollY;
+
+    if (scrollingDown && currentScrollY > 60 && !headerHidden) {
+      // Slide header out of view upward
+      header.classList.add('header-hidden');
+      headerHidden = true;
+    } else if (!scrollingDown && headerHidden) {
+      // Slide header back into view
+      header.classList.remove('header-hidden');
+      headerHidden = false;
+    }
+
+    lastScrollY = currentScrollY;
+  }, { passive: true });
 });
 
 document.addEventListener('click', (e) => {
