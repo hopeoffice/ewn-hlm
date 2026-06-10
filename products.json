@@ -3,104 +3,135 @@
     "id": "1",
     "name": "Samsung A16 5G",
     "nameAm": "ሳምሱንግ A16 5G",
-    "category": "electronics",
+    "category": "phones",
     "price": 22500,
+    "discountedPrice": 19900,
     "description": "Internal storage 128GB / RAM 6GB, Brand New",
     "descriptionAm": "128GB ማህደረ ትውስታ / 6GB RAM, አዲስ",
-    "image": "https://via.placeholder.com/300x300/1a1a2e/ffffff?text=Samsung+A16",
+    "images": [
+      "https://via.placeholder.com/300x300/1a1a2e/ffffff?text=Samsung+A16",
+      "https://via.placeholder.com/300x300/2d2d44/ffffff?text=Samsung+Back",
+      "https://via.placeholder.com/300x300/3d3d55/ffffff?text=Samsung+Side"
+    ],
+    "colors": ["#000000", "#1E88E5", "#FFFFFF"],
     "condition": "Brand New",
     "likes": 12,
-    "seller": "TechShop Addis"
+    "hidden": false,
+    "outOfStock": false
   },
   {
     "id": "2",
     "name": "Samsung Galaxy Note 20 Ultra",
     "nameAm": "ሳምሱንግ ጋላክሲ ኖት 20 ኡልትራ",
-    "category": "electronics",
+    "category": "phones",
     "price": 31500,
     "description": "Brand New, internal storage 256GB",
     "descriptionAm": "አዲስ፣ 256GB ማህደረ ትውስታ",
-    "image": "https://via.placeholder.com/300x300/2d2d44/ffffff?text=Note+20+Ultra",
+    "images": [
+      "https://via.placeholder.com/300x300/2d2d44/ffffff?text=Note+20+Ultra",
+      "https://via.placeholder.com/300x300/1a1a2e/ffffff?text=Note+20+Back"
+    ],
+    "colors": ["#000000", "#8E24AA"],
     "condition": "Brand New",
     "likes": 8,
-    "seller": "Galaxy Store"
+    "hidden": false,
+    "outOfStock": false
   },
   {
     "id": "3",
-    "name": "Nike Air Max 270",
-    "nameAm": "ናይክ ኤር ማክስ 270",
-    "category": "fashion",
+    "name": "Non-Stick Cookware Set",
+    "nameAm": "ኖን-ስቲክ የማድቤት እቃ ስብስብ",
+    "category": "kitchen",
     "price": 4500,
-    "description": "Size 42, Black/White, Original",
-    "descriptionAm": "መጠን 42፣ ጥቁር/ነጭ፣ ኦርጅናል",
-    "image": "https://via.placeholder.com/300x300/0d4f3c/ffffff?text=Nike+Air+Max",
+    "description": "10-piece set, dishwasher safe",
+    "descriptionAm": "10 ቁራጭ ስብስብ፣ ለ dish washer ተስማሚ",
+    "images": ["https://via.placeholder.com/300x300/0d4f3c/ffffff?text=Cookware+Set"],
+    "colors": ["#000000", "#C0C0C0"],
     "condition": "Brand New",
     "likes": 25,
-    "seller": "Fashion Hub"
+    "hidden": false,
+    "outOfStock": false
   },
   {
     "id": "4",
     "name": "HP Laptop 15",
     "nameAm": "HP ላፕቶፕ 15",
-    "category": "electronics",
+    "category": "laptops",
     "price": 38000,
+    "discountedPrice": 35000,
     "description": "Core i5, 8GB RAM, 512GB SSD",
     "descriptionAm": "Core i5፣ 8GB RAM፣ 512GB SSD",
-    "image": "https://via.placeholder.com/300x300/1a3a2e/ffffff?text=HP+Laptop",
+    "images": [
+      "https://via.placeholder.com/300x300/1a3a2e/ffffff?text=HP+Laptop",
+      "https://via.placeholder.com/300x300/2a4a3e/ffffff?text=HP+Open"
+    ],
+    "colors": ["#1A237E", "#C0C0C0"],
     "condition": "Brand New",
     "likes": 15,
-    "seller": "ComputerWorld"
+    "hidden": false,
+    "outOfStock": false
   },
   {
     "id": "5",
     "name": "Ethiopian Coffee Set",
     "nameAm": "የኢትዮጵያ ቡና ስብስብ",
-    "category": "home",
+    "category": "kitchen",
     "price": 850,
     "description": "Traditional coffee ceremony set, handmade",
     "descriptionAm": "ባህላዊ የቡና ሥነ ሥርዓት ስብስብ፣ እጅ ሥራ",
-    "image": "https://via.placeholder.com/300x300/4a2810/ffffff?text=Coffee+Set",
+    "images": ["https://via.placeholder.com/300x300/4a2810/ffffff?text=Coffee+Set"],
+    "colors": ["#795548", "#F5F5DC"],
     "condition": "Brand New",
     "likes": 42,
-    "seller": "Cultural Crafts"
+    "hidden": false,
+    "outOfStock": false
   },
   {
     "id": "6",
     "name": "Sony WH-1000XM5",
     "nameAm": "ሶኒ ሄድፎን",
-    "category": "electronics",
+    "category": "phones",
     "price": 18000,
     "description": "Noise canceling wireless headphones",
     "descriptionAm": "ድምፅ ሰሪ ሽቦ አልባ ሄድፎን",
-    "image": "https://via.placeholder.com/300x300/111122/ffffff?text=Sony+Headphones",
+    "images": ["https://via.placeholder.com/300x300/111122/ffffff?text=Sony+Headphones"],
+    "colors": ["#000000", "#C0C0C0"],
     "condition": "Brand New",
     "likes": 19,
-    "seller": "AudioZone"
+    "hidden": false,
+    "outOfStock": true
   },
   {
     "id": "7",
-    "name": "Traditional Habesha Kemis",
-    "nameAm": "ባህላዊ ሀበሻ ቀሚስ",
-    "category": "fashion",
+    "name": "Skincare Bundle",
+    "nameAm": "የቆዳ እንክብካቤ ስብስብ",
+    "category": "beauty_health",
     "price": 1200,
-    "description": "Handwoven traditional Ethiopian dress",
-    "descriptionAm": "እጅ የተሸመነ ባህላዊ የኢትዮጵያ ልብስ",
-    "image": "https://via.placeholder.com/300x300/8B4513/ffffff?text=Habesha+Dress",
+    "description": "Complete skincare routine set",
+    "descriptionAm": "ሙሉ የቆዳ እንክብካቤ ስብስብ",
+    "images": ["https://via.placeholder.com/300x300/8B4513/ffffff?text=Skincare"],
+    "colors": ["#EC407A", "#FFFFFF"],
     "condition": "Brand New",
     "likes": 67,
-    "seller": "ሀበሻ ፋሽን"
+    "hidden": false,
+    "outOfStock": false
   },
   {
     "id": "8",
     "name": "Xiaomi Redmi Note 13",
     "nameAm": "ዢያኦሚ ሬድሚ ኖት 13",
-    "category": "electronics",
+    "category": "phones",
     "price": 16500,
     "description": "6.67\" AMOLED, 108MP camera, 5000mAh",
     "descriptionAm": "6.67\" AMOLED, 108MP ካሜራ, 5000mAh",
-    "image": "https://via.placeholder.com/300x300/1c1c3e/ffffff?text=Redmi+Note+13",
+    "images": [
+      "https://via.placeholder.com/300x300/1c1c3e/ffffff?text=Redmi+Note+13",
+      "https://via.placeholder.com/300x300/2c2c4e/ffffff?text=Redmi+Back"
+    ],
+    "colors": ["#1E88E5", "#000000", "#43A047"],
     "condition": "Brand New",
     "likes": 31,
-    "seller": "MobileHub Addis"
+    "hidden": false,
+    "outOfStock": false
   }
 ]
