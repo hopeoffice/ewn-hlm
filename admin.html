@@ -5,45 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Admin - Ewn Hlm | እውን ህልም ማስተዳደሪያ</title>
 <link rel="stylesheet" href="style.css">
-<style>
-  body { background: var(--bg-main); max-width: 600px; }
-  .admin-nav { display:flex; gap:8px; padding:12px 16px; background:var(--bg-card); border-bottom:1px solid var(--border); overflow-x:auto; }
-  .tab-btn { padding:8px 16px; border-radius:20px; border:none; background:var(--bg-main); color:var(--text-secondary); font-family:var(--font-am); font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap; }
-  .tab-btn.active { background:var(--clr-accent-soft); color:var(--clr-primary); }
-  .tab { display:none; padding:16px; }
-  .tab.active { display:block; }
-  .product-admin-card { background:var(--bg-card); border-radius:var(--radius); padding:14px; margin-bottom:10px; display:flex; gap:12px; border:1px solid var(--border); }
-  .product-admin-card img { width:60px; height:60px; border-radius:8px; object-fit:cover; }
-  .product-admin-info { flex:1; }
-  .admin-actions { display:flex; gap:6px; margin-top:8px; }
-  .btn-edit { padding:6px 14px; border-radius:8px; background:var(--clr-accent-soft); color:var(--clr-primary); border:none; font-size:12px; font-weight:700; cursor:pointer; font-family:var(--font-am); }
-  .btn-delete { padding:6px 14px; border-radius:8px; background:#ffe0e0; color:#c62828; border:none; font-size:12px; font-weight:700; cursor:pointer; font-family:var(--font-am); }
-  .stat-card { background:var(--bg-card); border-radius:var(--radius); padding:16px; margin-bottom:10px; display:flex; align-items:center; gap:14px; border:1px solid var(--border); }
-  .stat-icon { font-size:32px; }
-  .stat-val { font-size:24px; font-weight:800; color:var(--clr-primary); }
-  .stat-label { font-family:var(--font-am); font-size:13px; color:var(--text-secondary); }
-  .order-admin-card { background:var(--bg-card); border-radius:var(--radius); padding:14px; margin-bottom:10px; border:1px solid var(--border); }
-  select.form-control { appearance:auto; }
-  .success-msg { background:#d1fae5; color:#065f46; padding:10px 14px; border-radius:8px; font-family:var(--font-am); margin-top:8px; display:none; }
-</style>
 </head>
-<body>
+<body class="admin-body">
 
 <div class="admin-header">
   <span>⚙️</span>
   <span>Ewn Hlm Admin | እውን ህልም ማስተዳደሪያ</span>
-  <button onclick="toggleThemeAdmin()" style="margin-left:auto;background:rgba(255,255,255,0.2);border:none;color:#fff;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:12px">
-    🌙 Theme
-  </button>
+  <button onclick="toggleThemeAdmin()" class="admin-theme-btn">🌙 Theme</button>
 </div>
 
 <div class="admin-nav">
-  <button class="tab-btn active" onclick="showTab('dashboard')">📊 ዳሽቦርድ</button>
-  <button class="tab-btn" onclick="showTab('products')">📦 ምርቶች</button>
-  <button class="tab-btn" onclick="showTab('add-product')">➕ ምርት ጨምር</button>
-  <button class="tab-btn" onclick="showTab('orders')">🛍️ ትዕዛዞች</button>
-  <button class="tab-btn" onclick="showTab('settings')">⚙️ ቅንጅቶች</button>
+  <button class="tab-btn active" data-tab="dashboard" onclick="showTab('dashboard')">📊 ዳሽቦርድ</button>
+  <button class="tab-btn" data-tab="products" onclick="showTab('products')">📦 ምርቶች</button>
+  <button class="tab-btn" data-tab="add-product" onclick="showTab('add-product')">➕ ምርት ጨምር</button>
+  <button class="tab-btn" data-tab="orders" onclick="showTab('orders')">🛍️ ትዕዛዞች</button>
+  <button class="tab-btn" data-tab="settings" onclick="showTab('settings')">⚙️ ቅንጅቶች</button>
 </div>
+
+<div class="admin-content">
 
 <!-- DASHBOARD TAB -->
 <div class="tab active" id="tab-dashboard">
@@ -72,61 +51,111 @@
   </div>
 </div>
 
-<!-- ADD PRODUCT TAB -->
+<!-- ADD / EDIT PRODUCT TAB -->
 <div class="tab" id="tab-add-product">
-  <h3 style="font-family:var(--font-am);margin-bottom:16px;color:var(--text-primary)">ምርት ጨምር / Add Product</h3>
-  <div class="admin-form">
-    <div class="form-group">
-      <label>Name (English)</label>
-      <input class="form-control" id="p-name" placeholder="Product name in English">
+  <div class="admin-form-card">
+    <h3 class="form-card-title am" id="form-title">ምርት ጨምር / Add Product</h3>
+    <input type="hidden" id="edit-id" value="">
+
+    <div class="admin-form modern-form">
+
+      <!-- Image Upload Zone -->
+      <div class="form-section">
+        <label class="form-section-label am">📷 የምርት ፎቶዎች (እስከ 3) / Product Photos (up to 3)</label>
+        <div class="drop-zone" id="drop-zone">
+          <div class="drop-zone-inner">
+            <span class="drop-icon">📁</span>
+            <p class="drop-text am">ፎቶዎችን ይጎትቱ እና ይጣሉ<br><span class="drop-hint">or click to browse</span></p>
+          </div>
+          <input type="file" id="image-input" accept="image/*" multiple hidden>
+        </div>
+        <div class="image-previews" id="image-previews"></div>
+      </div>
+
+      <!-- Basic Info -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Name (English)</label>
+          <input class="form-control" id="p-name" placeholder="Product name in English">
+        </div>
+        <div class="form-group">
+          <label class="am">ስም (አማርኛ)</label>
+          <input class="form-control am" id="p-name-am" placeholder="የምርቱ ስም በአማርኛ">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="am">ምድብ / Category</label>
+          <select class="form-control" id="p-category">
+            <option value="phones">📱 Phones & Tablets / ስልክ እና ታብሌት</option>
+            <option value="kitchen">🍳 Kitchen / የማእድቤት እቃዎች</option>
+            <option value="laptops">💻 Laptops / ላፕቶፕ</option>
+            <option value="beauty_health">💄 Beauty & Health / ውበት እና ጤና</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Condition</label>
+          <select class="form-control" id="p-condition">
+            <option value="Brand New">Brand New</option>
+            <option value="Like New">Like New</option>
+            <option value="Good">Good</option>
+            <option value="Used">Used</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="am">ዋጋ (ብር) / Price (ETB)</label>
+          <input class="form-control" id="p-price" type="number" min="0" placeholder="e.g. 15000">
+        </div>
+        <div class="form-group">
+          <label class="am">ቅናሽ ዋጋ / Discounted Price (ETB)</label>
+          <input class="form-control" id="p-discount" type="number" min="0" placeholder="Optional">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Description (English)</label>
+        <textarea class="form-control" id="p-desc" rows="2" placeholder="Product description"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="am">መግለጫ (አማርኛ)</label>
+        <textarea class="form-control am" id="p-desc-am" rows="2" placeholder="የምርቱ መግለጫ"></textarea>
+      </div>
+
+      <!-- Color Selection -->
+      <div class="form-section">
+        <label class="form-section-label am">🎨 ቀለም ምርጫ (እስከ 3) / Color Selection (up to 3)</label>
+        <div class="color-picker-grid" id="color-picker"></div>
+        <p class="form-hint am" id="color-hint">0 / 3 ቀለሞች ተመርጠዋል</p>
+      </div>
+
+      <!-- Toggles -->
+      <div class="form-toggles">
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label am">ይታይ / Visible</div>
+            <div class="toggle-desc">Show product on storefront</div>
+          </div>
+          <div class="toggle-switch on" id="toggle-visible" onclick="toggleAdminSwitch('visible')"></div>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <div class="toggle-label am">አልቋል / Out of Stock</div>
+            <div class="toggle-desc">Mark product as unavailable</div>
+          </div>
+          <div class="toggle-switch" id="toggle-stock" onclick="toggleAdminSwitch('stock')"></div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-primary am" id="save-btn" onclick="saveProduct()">✅ ምርት አስቀምጥ / Save Product</button>
+        <button class="btn-secondary am" id="cancel-edit-btn" onclick="resetForm()" style="display:none">↩️ ሰርዝ / Cancel</button>
+      </div>
+      <div class="success-msg am" id="save-success">✅ ምርቱ ተቀምጧል!</div>
     </div>
-    <div class="form-group">
-      <label class="am">ስም (አማርኛ)</label>
-      <input class="form-control am" id="p-name-am" placeholder="የምርቱ ስም በአማርኛ">
-    </div>
-    <div class="form-group">
-      <label class="am">ምድብ / Category</label>
-      <select class="form-control" id="p-category">
-        <option value="electronics">📱 Electronics</option>
-        <option value="fashion">👗 Fashion</option>
-        <option value="home">🏠 Home</option>
-        <option value="food">🍔 Food</option>
-        <option value="beauty">💄 Beauty</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="am">ዋጋ (ብር) / Price (ETB)</label>
-      <input class="form-control" id="p-price" type="number" placeholder="e.g. 15000">
-    </div>
-    <div class="form-group">
-      <label>Description (English)</label>
-      <textarea class="form-control" id="p-desc" rows="2" placeholder="Product description"></textarea>
-    </div>
-    <div class="form-group">
-      <label class="am">መግለጫ (አማርኛ)</label>
-      <textarea class="form-control am" id="p-desc-am" rows="2" placeholder="የምርቱ መግለጫ"></textarea>
-    </div>
-    <div class="form-group">
-      <label>Image URL</label>
-      <input class="form-control" id="p-image" placeholder="https://...">
-    </div>
-    <div class="form-group">
-      <label class="am">ሻጭ / Seller</label>
-      <input class="form-control am" id="p-seller" placeholder="ሻጭ ስም">
-    </div>
-    <div class="form-group">
-      <label>Condition</label>
-      <select class="form-control" id="p-condition">
-        <option value="Brand New">Brand New</option>
-        <option value="Like New">Like New</option>
-        <option value="Good">Good</option>
-        <option value="Used">Used</option>
-      </select>
-    </div>
-    <button class="btn-primary am" onclick="saveProduct()" style="margin-top:4px">
-      ✅ ምርት አስቀምጥ / Save Product
-    </button>
-    <div class="success-msg am" id="save-success">✅ ምርቱ ተቀምጧል!</div>
   </div>
 </div>
 
@@ -139,150 +168,380 @@
 
 <!-- SETTINGS TAB -->
 <div class="tab" id="tab-settings">
-  <div class="admin-form">
-    <h3 style="font-family:var(--font-am);color:var(--text-primary);margin-bottom:12px">🤖 Telegram Bot ቅንጅት</h3>
-    <div class="form-group">
-      <label>Bot Token</label>
-      <input class="form-control" id="s-bot-token" placeholder="1234567890:ABCdef...">
+  <div class="admin-form-card">
+    <div class="admin-form">
+      <h3 class="form-card-title am">🤖 Telegram Bot ቅንጅት</h3>
+      <div class="form-group">
+        <label>Bot Token</label>
+        <input class="form-control" id="s-bot-token" placeholder="1234567890:ABCdef...">
+      </div>
+      <div class="form-group">
+        <label>Admin Chat ID</label>
+        <input class="form-control" id="s-chat-id" placeholder="-100123456789">
+      </div>
+      <h3 class="form-card-title am" style="margin-top:16px">🔥 Firebase ቅንጅት</h3>
+      <div class="form-group">
+        <label>Firebase API Key</label>
+        <input class="form-control" id="s-fb-key" placeholder="AIza...">
+      </div>
+      <div class="form-group">
+        <label>Firebase Database URL</label>
+        <input class="form-control" id="s-fb-url" placeholder="https://your-project.firebaseio.com">
+      </div>
+      <div class="form-group">
+        <label>Firebase Project ID</label>
+        <input class="form-control" id="s-fb-project" placeholder="your-project-id">
+      </div>
+      <button class="btn-primary am" onclick="saveSettings()">💾 ቅንጅቶች አስቀምጥ</button>
+      <div class="success-msg am" id="settings-success">✅ ቅንጅቶች ተቀምጧሉ!</div>
+      <p class="settings-note am">
+        💡 Firebase ቅንጅቶች main.js ፋይል ውስጥ FIREBASE_CONFIG ተለዋዋጭ ቦታ ላይ ያስቀምጡ።<br>
+        Telegram Bot Token ደግሞ TELEGRAM_BOT_TOKEN ቦታ ላይ።
+      </p>
     </div>
-    <div class="form-group">
-      <label>Admin Chat ID</label>
-      <input class="form-control" id="s-chat-id" placeholder="-100123456789">
-    </div>
-    <h3 style="font-family:var(--font-am);color:var(--text-primary);margin:16px 0 12px">🔥 Firebase ቅንጅት</h3>
-    <div class="form-group">
-      <label>Firebase API Key</label>
-      <input class="form-control" id="s-fb-key" placeholder="AIza...">
-    </div>
-    <div class="form-group">
-      <label>Firebase Database URL</label>
-      <input class="form-control" id="s-fb-url" placeholder="https://your-project.firebaseio.com">
-    </div>
-    <div class="form-group">
-      <label>Firebase Project ID</label>
-      <input class="form-control" id="s-fb-project" placeholder="your-project-id">
-    </div>
-    <button class="btn-primary am" onclick="saveSettings()">💾 ቅንጅቶች አስቀምጥ</button>
-    <div class="success-msg am" id="settings-success">✅ ቅንጅቶች ተቀምጧሉ!</div>
-    <p style="margin-top:16px;font-size:12px;color:var(--text-secondary);font-family:var(--font-am);line-height:1.6">
-      💡 Firebase ቅንጅቶች main.js ፋይል ውስጥ FIREBASE_CONFIG ተለዋዋጭ ቦታ ላይ ያስቀምጡ።<br>
-      Telegram Bot Token ደግሞ TELEGRAM_BOT_TOKEN ቦታ ላይ።
-    </p>
   </div>
 </div>
 
+</div><!-- admin-content -->
+
 <script>
-  function showTab(id) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + id).classList.add('active');
-    event.target.classList.add('active');
-    if (id === 'products') loadAdminProducts();
-    if (id === 'orders') loadAdminOrders();
-    if (id === 'dashboard') loadStats();
-  }
+// ---- 20 Standard Colors ----
+const STANDARD_COLORS = [
+  '#000000', '#FFFFFF', '#E53935', '#1E88E5', '#43A047',
+  '#FDD835', '#FB8C00', '#8E24AA', '#EC407A', '#795548',
+  '#9E9E9E', '#1A237E', '#00897B', '#880E4F', '#F5F5DC',
+  '#FFD700', '#C0C0C0', '#808000', '#FF7F50', '#E6E6FA'
+];
 
-  function toggleThemeAdmin() {
-    const cur = document.documentElement.getAttribute('data-theme') || 'light';
-    document.documentElement.setAttribute('data-theme', cur === 'light' ? 'dark' : 'light');
-  }
+let adminImages = [];   // up to 3 base64 or URL strings
+let adminColors = [];   // up to 3 hex colors
+let adminVisible = true;
+let adminOutOfStock = false;
 
-  async function loadAdminProducts() {
-    const container = document.getElementById('admin-products-list');
+// ---- Product Storage ----
+function getProducts() {
+  const stored = localStorage.getItem('ewn_products');
+  if (stored) return JSON.parse(stored);
+  return [];
+}
+
+function setProducts(products) {
+  localStorage.setItem('ewn_products', JSON.stringify(products));
+}
+
+async function initProducts() {
+  const PRODUCTS_VERSION = '2';
+  if (localStorage.getItem('ewn_products_version') !== PRODUCTS_VERSION) {
+    localStorage.removeItem('ewn_products');
+    localStorage.setItem('ewn_products_version', PRODUCTS_VERSION);
+  }
+  if (!localStorage.getItem('ewn_products')) {
     try {
       const res = await fetch('./products.json');
-      const products = await res.json();
-      container.innerHTML = products.map(p => `
-        <div class="product-admin-card">
-          <img src="${p.image}" alt="${p.name}">
-          <div class="product-admin-info">
-            <div style="font-weight:700;font-size:14px">${p.name}</div>
-            <div style="font-size:13px;color:var(--clr-primary);font-weight:700">${p.price.toLocaleString()} ብር</div>
-            <div style="font-size:11px;color:var(--text-secondary)">${p.category}</div>
-            <div class="admin-actions">
-              <button class="btn-edit">✏️ አርትዕ</button>
-              <button class="btn-delete">🗑️ ሰርዝ</button>
-            </div>
-          </div>
-        </div>`).join('');
-    } catch {
-      container.innerHTML = '<p style="padding:20px;font-family:var(--font-am)">ምርቶች ሊጫኑ አልቻሉም</p>';
-    }
+      const data = await res.json();
+      setProducts(data);
+    } catch { setProducts([]); }
   }
+}
 
-  function loadAdminOrders() {
-    const orders = JSON.parse(localStorage.getItem('ewn_orders') || '[]');
-    const container = document.getElementById('admin-orders-list');
-    if (!orders.length) {
-      container.innerHTML = '<div class="empty-state"><div class="empty-emoji">🛍️</div><div class="empty-sub am">ምንም ትዕዛዝ የለም</div></div>';
-      return;
-    }
-    container.innerHTML = orders.slice().reverse().map(o => `
-      <div class="order-admin-card">
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-          <strong>#${o.id}</strong>
-          <select style="border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:12px;background:var(--bg-card);color:var(--text-primary)" onchange="updateStatus('${o.id}',this.value)">
-            <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pending</option>
-            <option value="processing" ${o.status==='processing'?'selected':''}>🔄 Processing</option>
-            <option value="delivered" ${o.status==='delivered'?'selected':''}>✅ Delivered</option>
-          </select>
-        </div>
-        <div style="font-family:var(--font-am);font-size:13px">${o.items.map(i=>i.name+' x'+i.qty).join(', ')}</div>
-        <div style="font-weight:700;color:var(--clr-primary);margin-top:4px">${o.total.toLocaleString()} ብር</div>
-        <div style="font-size:11px;color:var(--text-secondary)">👤 ${o.customer.name} | 📞 ${o.customer.phone}</div>
-        <div style="font-size:11px;color:var(--text-secondary)">📅 ${new Date(o.date).toLocaleString()}</div>
-      </div>`).join('');
+// ---- Tab Navigation ----
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelector(`[data-tab="${id}"]`).classList.add('active');
+  if (id === 'products') loadAdminProducts();
+  if (id === 'orders') loadAdminOrders();
+  if (id === 'dashboard') loadStats();
+  if (id === 'add-product' && !document.getElementById('edit-id').value) resetForm();
+}
+
+function toggleThemeAdmin() {
+  const cur = document.documentElement.getAttribute('data-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', cur === 'light' ? 'dark' : 'light');
+}
+
+// ---- Color Picker ----
+function renderColorPicker() {
+  const grid = document.getElementById('color-picker');
+  grid.innerHTML = STANDARD_COLORS.map(c => `
+    <button type="button" class="color-swatch${adminColors.includes(c) ? ' selected' : ''}"
+            style="background:${c}" data-color="${c}"
+            onclick="toggleColor('${c}')" title="${c}"
+            ${c === '#FFFFFF' ? 'data-light="true"' : ''}></button>
+  `).join('');
+  document.getElementById('color-hint').textContent =
+    `${adminColors.length} / 3 ቀለሞች ተመርጠዋል / colors selected`;
+}
+
+function toggleColor(hex) {
+  const idx = adminColors.indexOf(hex);
+  if (idx !== -1) {
+    adminColors.splice(idx, 1);
+  } else if (adminColors.length < 3) {
+    adminColors.push(hex);
   }
+  renderColorPicker();
+}
 
-  function updateStatus(orderId, newStatus) {
-    const orders = JSON.parse(localStorage.getItem('ewn_orders') || '[]');
-    const o = orders.find(x => x.id === orderId);
-    if (o) { o.status = newStatus; localStorage.setItem('ewn_orders', JSON.stringify(orders)); }
-  }
+// ---- Image Upload (drag & drop) ----
+function initDropZone() {
+  const zone = document.getElementById('drop-zone');
+  const input = document.getElementById('image-input');
 
-  function loadStats() {
-    const orders = JSON.parse(localStorage.getItem('ewn_orders') || '[]');
-    const revenue = orders.reduce((s, o) => s + o.total, 0);
-    document.getElementById('stat-orders').textContent = orders.length;
-    document.getElementById('stat-revenue').textContent = revenue.toLocaleString();
-    fetch('./products.json').then(r=>r.json()).then(p => {
-      document.getElementById('stat-products').textContent = p.length;
-    }).catch(() => {});
-  }
+  zone.addEventListener('click', () => input.click());
+  zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('drag-over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+  zone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    zone.classList.remove('drag-over');
+    handleFiles(e.dataTransfer.files);
+  });
+  input.addEventListener('change', (e) => handleFiles(e.target.files));
+}
 
-  function saveProduct() {
-    const p = {
-      id: Date.now().toString(),
-      name: document.getElementById('p-name').value,
-      nameAm: document.getElementById('p-name-am').value,
-      category: document.getElementById('p-category').value,
-      price: parseInt(document.getElementById('p-price').value) || 0,
-      description: document.getElementById('p-desc').value,
-      descriptionAm: document.getElementById('p-desc-am').value,
-      image: document.getElementById('p-image').value || 'https://via.placeholder.com/300x300/0d5c42/ffffff?text=Product',
-      seller: document.getElementById('p-seller').value,
-      condition: document.getElementById('p-condition').value,
-      likes: 0
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (adminImages.length >= 3 || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (adminImages.length < 3) {
+        adminImages.push(e.target.result);
+        renderImagePreviews();
+      }
     };
-    // In production: push to Firebase
-    // fetch(`${FIREBASE_URL}/products/${p.id}.json`, { method:'PUT', body:JSON.stringify(p) });
-    const msg = document.getElementById('save-success');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 3000);
-    console.log('Product to save:', p);
-  }
+    reader.readAsDataURL(file);
+  });
+}
 
-  function saveSettings() {
-    localStorage.setItem('ewn_bot_token', document.getElementById('s-bot-token').value);
-    localStorage.setItem('ewn_chat_id', document.getElementById('s-chat-id').value);
-    const msg = document.getElementById('settings-success');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 3000);
-  }
+function renderImagePreviews() {
+  const container = document.getElementById('image-previews');
+  container.innerHTML = adminImages.map((src, i) => `
+    <div class="preview-thumb">
+      <img src="${src}" alt="Preview ${i + 1}">
+      <button type="button" class="preview-remove" onclick="removeImage(${i})">✕</button>
+    </div>
+  `).join('');
+  document.getElementById('drop-zone').style.display = adminImages.length >= 3 ? 'none' : 'flex';
+}
 
-  // Init
-  document.documentElement.setAttribute('data-theme', localStorage.getItem('ewn_theme') || 'light');
+function removeImage(index) {
+  adminImages.splice(index, 1);
+  renderImagePreviews();
+}
+
+// ---- Admin Toggles ----
+function toggleAdminSwitch(type) {
+  if (type === 'visible') {
+    adminVisible = !adminVisible;
+    document.getElementById('toggle-visible').classList.toggle('on', adminVisible);
+  } else {
+    adminOutOfStock = !adminOutOfStock;
+    document.getElementById('toggle-stock').classList.toggle('on', adminOutOfStock);
+  }
+}
+
+// ---- Form Reset / Edit ----
+function resetForm() {
+  document.getElementById('edit-id').value = '';
+  document.getElementById('form-title').textContent = 'ምርት ጨምር / Add Product';
+  document.getElementById('save-btn').textContent = '✅ ምርት አስቀምጥ / Save Product';
+  document.getElementById('cancel-edit-btn').style.display = 'none';
+  ['p-name','p-name-am','p-price','p-discount','p-desc','p-desc-am'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('p-category').value = 'phones';
+  document.getElementById('p-condition').value = 'Brand New';
+  adminImages = [];
+  adminColors = [];
+  adminVisible = true;
+  adminOutOfStock = false;
+  document.getElementById('toggle-visible').classList.add('on');
+  document.getElementById('toggle-stock').classList.remove('on');
+  renderImagePreviews();
+  renderColorPicker();
+  document.getElementById('drop-zone').style.display = 'flex';
+}
+
+function editProduct(id) {
+  const products = getProducts();
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById('edit-id').value = p.id;
+  document.getElementById('form-title').textContent = 'ምርት አርትዕ / Edit Product';
+  document.getElementById('save-btn').textContent = '💾 ለውጦችን አስቀምጥ / Save Changes';
+  document.getElementById('cancel-edit-btn').style.display = 'inline-flex';
+  document.getElementById('p-name').value = p.name || '';
+  document.getElementById('p-name-am').value = p.nameAm || '';
+  document.getElementById('p-category').value = p.category || 'phones';
+  document.getElementById('p-price').value = p.price || '';
+  document.getElementById('p-discount').value = p.discountedPrice || '';
+  document.getElementById('p-desc').value = p.description || '';
+  document.getElementById('p-desc-am').value = p.descriptionAm || '';
+  document.getElementById('p-condition').value = p.condition || 'Brand New';
+
+  adminImages = p.images?.length ? [...p.images] : (p.image ? [p.image] : []);
+  adminColors = p.colors ? [...p.colors] : [];
+  adminVisible = !p.hidden;
+  adminOutOfStock = !!p.outOfStock;
+  document.getElementById('toggle-visible').classList.toggle('on', adminVisible);
+  document.getElementById('toggle-stock').classList.toggle('on', adminOutOfStock);
+
+  renderImagePreviews();
+  renderColorPicker();
+  showTab('add-product');
+  window.scrollTo(0, 0);
+}
+
+function deleteProduct(id) {
+  if (!confirm('ይህን ምርት ማጥፋት ይፈልጋሉ? / Delete this product?')) return;
+  const products = getProducts().filter(p => p.id !== id);
+  setProducts(products);
+  loadAdminProducts();
   loadStats();
+}
+
+// ---- Save Product ----
+function saveProduct() {
+  const editId = document.getElementById('edit-id').value;
+  const name = document.getElementById('p-name').value.trim();
+  const price = parseInt(document.getElementById('p-price').value, 10) || 0;
+  if (!name || !price) {
+    alert('ስም እና ዋጋ ያስፈልጋል / Name and price are required');
+    return;
+  }
+
+  const discountVal = parseInt(document.getElementById('p-discount').value, 10);
+  const images = adminImages.length
+    ? adminImages
+    : ['https://via.placeholder.com/300x300/0d5c42/ffffff?text=Product'];
+
+  const product = {
+    id: editId || Date.now().toString(),
+    name,
+    nameAm: document.getElementById('p-name-am').value.trim(),
+    category: document.getElementById('p-category').value,
+    price,
+    discountedPrice: discountVal > 0 && discountVal < price ? discountVal : null,
+    description: document.getElementById('p-desc').value.trim(),
+    descriptionAm: document.getElementById('p-desc-am').value.trim(),
+    images,
+    image: images[0],
+    colors: [...adminColors],
+    condition: document.getElementById('p-condition').value,
+    likes: 0,
+    hidden: !adminVisible,
+    outOfStock: adminOutOfStock
+  };
+
+  let products = getProducts();
+  if (editId) {
+    const idx = products.findIndex(p => p.id === editId);
+    if (idx !== -1) {
+      product.likes = products[idx].likes || 0;
+      products[idx] = product;
+    }
+  } else {
+    products.push(product);
+  }
+  setProducts(products);
+
+  const msg = document.getElementById('save-success');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+  resetForm();
+  loadStats();
+}
+
+// ---- Products List ----
+function loadAdminProducts() {
+  const container = document.getElementById('admin-products-list');
+  const products = getProducts();
+  if (!products.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-emoji">📦</div><div class="empty-sub am">ምንም ምርት የለም</div></div>';
+    return;
+  }
+  const catLabels = {
+    phones: '📱 Phones', kitchen: '🍳 Kitchen', laptops: '💻 Laptops', beauty_health: '💄 Beauty'
+  };
+  container.innerHTML = products.map(p => {
+    const img = (p.images && p.images[0]) || p.image || '';
+    const badges = [
+      p.hidden ? '<span class="admin-badge hidden-badge">🙈 Hidden</span>' : '',
+      p.outOfStock ? '<span class="admin-badge stock-badge">አልቋል</span>' : '',
+      p.discountedPrice ? '<span class="admin-badge sale-badge">Sale</span>' : ''
+    ].filter(Boolean).join('');
+    return `
+    <div class="product-admin-card">
+      <img src="${img}" alt="${p.name}">
+      <div class="product-admin-info">
+        <div class="admin-product-name">${p.name}</div>
+        <div class="admin-product-price">${p.price.toLocaleString()} ብር${p.discountedPrice ? ` → <span style="color:var(--clr-accent)">${p.discountedPrice.toLocaleString()}</span>` : ''}</div>
+        <div class="admin-product-meta">${catLabels[p.category] || p.category} ${badges}</div>
+        <div class="admin-actions">
+          <button class="btn-edit" onclick="editProduct('${p.id}')">✏️ አርትዕ</button>
+          <button class="btn-delete" onclick="deleteProduct('${p.id}')">🗑️ ሰርዝ</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function loadAdminOrders() {
+  const orders = JSON.parse(localStorage.getItem('ewn_orders') || '[]');
+  const container = document.getElementById('admin-orders-list');
+  if (!orders.length) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-emoji">🛍️</div><div class="empty-sub am">ምንም ትዕዛዝ የለም</div></div>';
+    return;
+  }
+  container.innerHTML = orders.slice().reverse().map(o => `
+    <div class="order-admin-card">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+        <strong>#${o.id}</strong>
+        <select class="status-select" onchange="updateStatus('${o.id}',this.value)">
+          <option value="pending" ${o.status==='pending'?'selected':''}>⏳ Pending</option>
+          <option value="processing" ${o.status==='processing'?'selected':''}>🔄 Processing</option>
+          <option value="delivered" ${o.status==='delivered'?'selected':''}>✅ Delivered</option>
+        </select>
+      </div>
+      <div style="font-family:var(--font-am);font-size:13px">${o.items.map(i=>i.name+' x'+i.qty).join(', ')}</div>
+      <div style="font-weight:700;color:var(--clr-primary);margin-top:4px">${o.total.toLocaleString()} ብር</div>
+      <div style="font-size:11px;color:var(--text-secondary)">👤 ${o.customer.name} | 📞 ${o.customer.phone}</div>
+      <div style="font-size:11px;color:var(--text-secondary)">📅 ${new Date(o.date).toLocaleString()}</div>
+    </div>`).join('');
+}
+
+function updateStatus(orderId, newStatus) {
+  const orders = JSON.parse(localStorage.getItem('ewn_orders') || '[]');
+  const o = orders.find(x => x.id === orderId);
+  if (o) { o.status = newStatus; localStorage.setItem('ewn_orders', JSON.stringify(orders)); }
+}
+
+function loadStats() {
+  const orders = JSON.parse(localStorage.getItem('ewn_orders') || '[]');
+  const revenue = orders.reduce((s, o) => s + o.total, 0);
+  document.getElementById('stat-orders').textContent = orders.length;
+  document.getElementById('stat-revenue').textContent = revenue.toLocaleString();
+  document.getElementById('stat-products').textContent = getProducts().length;
+}
+
+function saveSettings() {
+  localStorage.setItem('ewn_bot_token', document.getElementById('s-bot-token').value);
+  localStorage.setItem('ewn_chat_id', document.getElementById('s-chat-id').value);
+  const msg = document.getElementById('settings-success');
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+}
+
+// ---- Init ----
+document.documentElement.setAttribute('data-theme', localStorage.getItem('ewn_theme') || 'light');
+initProducts().then(() => {
+  renderColorPicker();
+  initDropZone();
+  renderImagePreviews();
+  loadStats();
+});
 </script>
 </body>
 </html>
