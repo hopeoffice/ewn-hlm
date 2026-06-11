@@ -70,7 +70,7 @@
           </button>
           <button class="icon-btn" onclick="navigate('notifications')" aria-label="Notifications">
             🔔
-            <span class="badge">2</span>
+            <span class="badge" style="display:none">0</span>
           </button>
         </div>
       </div>
@@ -204,16 +204,6 @@
             <span class="menu-arrow">›</span>
           </button>
 
-          <!-- Admin (dev link) -->
-          <button class="menu-item" onclick="window.open('admin.html','_blank')">
-            <div class="menu-icon">⚙️</div>
-            <div class="menu-text">
-              <div class="menu-title am">Admin Panel</div>
-              <div class="menu-sub am">ማስተዳደሪያ ገጽ</div>
-            </div>
-            <span class="menu-arrow">›</span>
-          </button>
-
           <!-- Logout -->
           <button class="menu-item" style="color:var(--clr-danger)" onclick="logout()">
             <div class="menu-icon" style="background:#ffe0e0">🚪</div>
@@ -277,6 +267,9 @@
   </div>
 </div>
 
+<!-- ======== CHECKOUT MODAL ======== -->
+<div class="checkout-overlay" id="checkout-overlay"></div>
+
 <!-- ======== TOAST ======== -->
 <div class="toast" id="toast"></div>
 
@@ -289,7 +282,10 @@
     arrow.textContent = open ? '›' : '∨';
   }
 </script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="config.js"></script>
+<script src="firebase-init.js"></script>
 <script src="main.js"></script>
 </body>
 </html>
