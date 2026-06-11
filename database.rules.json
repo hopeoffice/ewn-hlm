@@ -1,0 +1,19 @@
+{
+  "rules": {
+    "products": {
+      ".read": true,
+      ".write": "auth != null && auth.token.email === 'dannniefx55@gmail.com'"
+    },
+    "orders": {
+      ".read": "auth != null && auth.token.email === 'dannniefx55@gmail.com'",
+      "$orderId": {
+        ".write": "!data.exists() || (auth != null && auth.token.email === 'dannniefx55@gmail.com')"
+      }
+    },
+    "notifications": {
+      ".read": true,
+      ".write": "auth != null && auth.token.email === 'dannniefx55@gmail.com'",
+      ".indexOn": ["timestamp"]
+    }
+  }
+}
