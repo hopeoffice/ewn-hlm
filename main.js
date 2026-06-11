@@ -38,6 +38,9 @@ const FIREBASE_CONFIG = {
 const TELEGRAM_BOT_TOKEN = _cfg.telegramBotToken || '';
 const TELEGRAM_CHAT_ID   = _cfg.telegramChatId   || '';
 
+const CLOUDINARY_CLOUD   = _cfg.cloudinaryCloudName    || 'dx0qryavd';
+const CLOUDINARY_PRESET  = _cfg.cloudinaryUploadPreset || 'my_shop_preset';
+
 // ---- CATEGORY DEFINITIONS ----
 const CATEGORIES = [
   { id: 'all',          emoji: '🛍️', labelKey: 'all' },
@@ -45,11 +48,11 @@ const CATEGORIES = [
   { id: 'kitchen',      emoji: '🍳', labelKey: 'kitchen' },
   { id: 'laptops',      emoji: '💻', labelKey: 'laptops' },
   { id: 'beauty_health',emoji: '💄', labelKey: 'beauty_health' },
-  { id: 'accessories',  emoji: '⚡', labelKey: 'accessories' }
+  { id: 'accessories',  emoji: '🎮', labelKey: 'accessories' }
 ];
 
 // Screens that require authentication
-const PROTECTED_SCREENS = ['likes', 'profile', 'cart', 'orders', 'notifications'];
+const PROTECTED_SCREENS = ['likes', 'profile', 'cart', 'orders'];
 
 // Smart header scroll state (module-level so navigate() can reset)
 let lastScrollY = 0;
@@ -205,7 +208,8 @@ const state = {
   user: JSON.parse(localStorage.getItem('ewn_user') || 'null'),
   searchQuery: '',
   carouselIndex: 0,
-  selectedColor: null   // tracks the color picked in the currently-open modal
+  selectedColor: null,
+  notifications: []
 };
 
 // ============================================================
@@ -274,6 +278,15 @@ function saveOrders() {
   localStorage.setItem('ewn_orders', JSON.stringify(state.orders));
 }
 
+async function saveOrderToFirebase(order) {
+  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
+  try {
+    await window.__EWN_DB__.ref('orders/' + order.id).set(order);
+  } catch (err) {
+    console.warn('Firebase order save failed:', err);
+  }
+}
+
 function saveUser() {
   localStorage.setItem('ewn_user', JSON.stringify(state.user));
 }
@@ -338,8 +351,46 @@ function requireAuth(callback) {
 }
 
 // ============================================================
+//  CLOUDINARY UPLOAD
+// ============================================================
+async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_PRESET);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) throw new Error('Cloudinary upload failed');
+  const data = await res.json();
+  return data.secure_url;
+}
+
+// ============================================================
 //  TELEGRAM ORDER NOTIFICATION
 // ============================================================
+async function sendReceiptToTelegram(order, receiptUrl) {
+  const caption = `
+🧾 *Payment Receipt* — Order \`${order.id}\`
+👤 ${order.customer.name}
+📞 ${order.customer.phone}
+💰 ${formatPrice(order.total)}
+  `.trim();
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        photo: receiptUrl,
+        caption,
+        parse_mode: 'Markdown'
+      })
+    });
+  } catch (err) {
+    console.warn('Telegram receipt failed:', err);
+  }
+}
 async function sendOrderToTelegram(order) {
   const msg = `
 🛍️ *ትዕዛዝ ደረሰ / New Order*
@@ -375,31 +426,52 @@ ${order.items.map(i => `• ${i.name}${i.color ? ` [${i.color}]` : ''} x${i.qty}
 //  LOAD PRODUCTS (localStorage admin store → products.json fallback)
 // ============================================================
 async function loadProducts() {
-  // Bump version to refresh seed data after schema/category updates
   const PRODUCTS_VERSION = '2';
   if (localStorage.getItem('ewn_products_version') !== PRODUCTS_VERSION) {
     localStorage.removeItem('ewn_products');
     localStorage.setItem('ewn_products_version', PRODUCTS_VERSION);
   }
 
+  const applyProducts = (list) => {
+    state.products = list.map(normalizeProduct).filter(p => !p.hidden);
+    localStorage.setItem('ewn_products', JSON.stringify(list));
+    filterProducts();
+    renderProducts();
+  };
+
+  if (window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
+    try {
+      const snap = await window.__EWN_DB__.ref('products').once('value');
+      if (snap.exists()) {
+        const list = [];
+        snap.forEach(child => list.push(child.val()));
+        applyProducts(list);
+        window.__EWN_DB__.ref('products').on('value', liveSnap => {
+          const live = [];
+          liveSnap.forEach(child => live.push(child.val()));
+          applyProducts(live);
+        });
+        return;
+      }
+    } catch (err) {
+      console.warn('Firebase products load failed:', err);
+    }
+  }
+
   try {
     const stored = localStorage.getItem('ewn_products');
     if (stored) {
-      state.products = JSON.parse(stored).map(normalizeProduct);
+      applyProducts(JSON.parse(stored));
     } else {
       const res = await fetch('./products.json');
       const data = await res.json();
-      const normalized = data.map(normalizeProduct);
-      localStorage.setItem('ewn_products', JSON.stringify(normalized));
-      state.products = normalized;
+      applyProducts(data);
     }
   } catch {
     state.products = [];
+    filterProducts();
+    renderProducts();
   }
-  // Only show visible products on the storefront
-  state.products = state.products.filter(p => !p.hidden);
-  filterProducts();
-  renderProducts();
 }
 
 // ============================================================
@@ -602,13 +674,66 @@ function renderLikes() {
 function renderNotifications() {
   const screen = document.getElementById('notifications-content');
   if (!screen) return;
-  screen.innerHTML = `
-    <div class="screen-title am">${t('notifications')}</div>
-    <div class="empty-state">
-      <div class="empty-emoji">🔔</div>
-      <div class="empty-title am">${t('notifications')}</div>
-      <div class="empty-sub am">${t('notifications_sub')}</div>
-    </div>`;
+  screen.innerHTML = `<div class="screen-title am">${t('notifications')}</div>`;
+
+  if (!state.notifications.length) {
+    screen.innerHTML += `
+      <div class="empty-state">
+        <div class="empty-emoji">🔔</div>
+        <div class="empty-title am">${t('notifications')}</div>
+        <div class="empty-sub am">${t('notifications_sub')}</div>
+      </div>`;
+    return;
+  }
+
+  const list = document.createElement('div');
+  list.className = 'notifications-list';
+  list.innerHTML = state.notifications.map(n => {
+    const when = n.date ? new Date(n.date).toLocaleString(state.lang === 'am' ? 'am-ET' : undefined) : '';
+    return `
+      <div class="notification-card">
+        <div class="notification-icon">📢</div>
+        <div class="notification-body">
+          <div class="notification-message am">${escapeHtml(n.message || '')}</div>
+          <div class="notification-date">${when}</div>
+        </div>
+      </div>`;
+  }).join('');
+  screen.appendChild(list);
+  updateNotificationBadge();
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function updateNotificationBadge() {
+  const badge = document.querySelector('.header-actions .icon-btn[aria-label="Notifications"] .badge');
+  const count = state.notifications.length;
+  if (badge) {
+    badge.textContent = count > 99 ? '99+' : count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+  }
+}
+
+function initNotificationsListener() {
+  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
+  window.__EWN_DB__.ref('notifications')
+    .orderByChild('timestamp')
+    .limitToLast(50)
+    .on('value', snap => {
+      state.notifications = [];
+      snap.forEach(child => {
+        state.notifications.push({ id: child.key, ...child.val() });
+      });
+      state.notifications.reverse();
+      updateNotificationBadge();
+      if (state.currentScreen === 'notifications') renderNotifications();
+    });
 }
 
 // ============================================================
@@ -1256,8 +1381,25 @@ async function submitCheckout() {
     paymentMethod: method ? (state.lang === 'am' ? method.nameAm : method.nameEn) : _checkoutSelectedPayment
   };
 
-  state.orders.push(order);
-  saveOrders();
+  try {
+    const receiptUrl = await uploadToCloudinary(_checkoutReceiptFile);
+    order.receiptUrl = receiptUrl;
+
+    state.orders.push(order);
+    saveOrders();
+    await saveOrderToFirebase(order);
+    await sendOrderToTelegram(order);
+    await sendReceiptToTelegram(order, receiptUrl);
+  } catch (err) {
+    console.warn('Checkout failed:', err);
+    showToast(state.lang === 'am' ? 'ትዕዛዝ አልተሳካም። እንደገና ይሞክሩ።' : 'Order failed. Please try again.');
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('sending');
+      btn.textContent = t('co_complete');
+    }
+    return;
+  }
 
   if (_checkoutCartIdx !== undefined) {
     state.cart.splice(_checkoutCartIdx, 1);
@@ -1266,7 +1408,6 @@ async function submitCheckout() {
   }
   saveCart();
 
-  await sendOrderToTelegram(order);
   closeCheckoutModal();
   showToast(t('order_sent'));
   navigate('orders');
@@ -1370,7 +1511,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const app = document.getElementById('app');
     app.classList.add('visible');
     await loadProducts();
-    renderCategories(); // Fix: render categories on initial load
+    initNotificationsListener();
+    renderCategories();
     navigate('home');
     updateCartBadge();
     renderProfile();
