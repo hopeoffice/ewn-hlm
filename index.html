@@ -194,6 +194,16 @@
             <div class="toggle-switch" id="theme-toggle"></div>
           </div>
 
+          <!-- PWA Install — shown in browser, hidden in installed app -->
+          <button class="menu-item" id="pwa-install-btn" onclick="triggerPwaInstall()" style="display:none">
+            <div class="menu-icon">📲</div>
+            <div class="menu-text">
+              <div class="menu-title am" data-i18n="install_app">አፕ ይጫኑ</div>
+              <div class="menu-sub am" data-i18n="install_app_sub">ወደ ስልክዎ ያክሉ</div>
+            </div>
+            <span class="menu-arrow">›</span>
+          </button>
+
           <!-- Admin (dev link) -->
           <button class="menu-item" onclick="window.open('admin.html','_blank')">
             <div class="menu-icon">⚙️</div>
@@ -266,9 +276,6 @@
     </form>
   </div>
 </div>
-
-<!-- ======== CHECKOUT MODAL ======== -->
-<div class="checkout-overlay" id="checkout-overlay" onclick="if(event.target===this)closeCheckoutModal()"></div>
 
 <!-- ======== TOAST ======== -->
 <div class="toast" id="toast"></div>
