@@ -1311,3 +1311,80 @@ select.form-control { appearance: auto; }
   transition: opacity .15s;
 }
 .sw-update-btn:hover { opacity: .88; }
+
+/* ========================================
+   NOTIFICATIONS
+   ======================================== */
+.notifications-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 16px 24px;
+}
+.notification-card {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+}
+.notification-icon { font-size: 22px; flex-shrink: 0; }
+.notification-message {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+.notification-date {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+/* ========================================
+   ADMIN AUTH GATE
+   ======================================== */
+.admin-auth-gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--bg-page);
+}
+.admin-auth-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.admin-auth-icon { font-size: 48px; margin-bottom: 12px; }
+.admin-auth-sub {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 8px 0 20px;
+}
+.admin-auth-email {
+  font-size: 13px;
+  color: var(--clr-primary);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.admin-auth-status {
+  font-size: 12px;
+  margin-top: 12px;
+  min-height: 18px;
+}
+.receipt-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--clr-primary);
+  font-weight: 600;
+}
