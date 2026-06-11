@@ -4,26 +4,10 @@
 // ============================================================
 
 // ============================================================
-//  APP CONFIG  — Load from window.__EWN_CONFIG__ (set in a
-//  separate, git-ignored config.js file) so secrets never
-//  live in this source file.
-//
-//  In your git-ignored config.js, define:
-//    window.__EWN_CONFIG__ = {
-//      firebaseApiKey:        "YOUR_API_KEY",
-//      firebaseAuthDomain:    "YOUR_PROJECT.firebaseapp.com",
-//      firebaseDatabaseURL:   "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-//      firebaseProjectId:     "YOUR_PROJECT_ID",
-//      firebaseStorageBucket: "YOUR_PROJECT.appspot.com",
-//      firebaseMessagingSenderId: "YOUR_SENDER_ID",
-//      firebaseAppId:         "YOUR_APP_ID",
-//      telegramBotToken:      "YOUR_BOT_TOKEN",
-//      telegramChatId:        "YOUR_CHAT_ID",
-//    };
-//
-//  Add config.js to .gitignore — NEVER commit real secrets.
+//  APP CONFIG — values come from config.js (git-ignored).
+//  config.js must load before this file and set window.__EWN_CONFIG__.
 // ============================================================
-const _cfg = window.__EWN_CONFIG__ || {};
+const _cfg = window.__EWN_CONFIG__ || window.EWN_CONFIG || {};
 
 const FIREBASE_CONFIG = {
   apiKey:            _cfg.firebaseApiKey            || '',
