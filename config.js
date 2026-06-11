@@ -9,14 +9,18 @@
 // =============================================================
 
 window.__EWN_CONFIG__ = {
+  // --- Cloudinary (unsigned upload preset — safe for client-side) ---
+  cloudinaryCloudName:   "dx0qryavd",
+  cloudinaryUploadPreset: "my_shop_preset",
+
   // --- Firebase ---
-  firebaseApiKey:            "YOUR_API_KEY",
-  firebaseAuthDomain:        "YOUR_PROJECT.firebaseapp.com",
+  firebaseApiKey:            "AIzaSyCuossm_59sq5Ljg7xN084cbb0b9TDz6fw",
+  firebaseAuthDomain:        "ewn-hlm.firebaseapp.com",
   firebaseDatabaseURL:       "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  firebaseProjectId:         "YOUR_PROJECT_ID",
-  firebaseStorageBucket:     "YOUR_PROJECT.appspot.com",
-  firebaseMessagingSenderId: "YOUR_SENDER_ID",
-  firebaseAppId:             "YOUR_APP_ID",
+  firebaseProjectId:         "ewn-hlm",
+  firebaseStorageBucket:     "ewn-hlm.firebasestorage.app",
+  firebaseMessagingSenderId: "770896835814",
+  firebaseAppId:             "1:770896835814:web:ffdae308d2f34cbfaaf727",
 
   // --- Telegram Bot ---
   telegramBotToken: "YOUR_BOT_TOKEN",
