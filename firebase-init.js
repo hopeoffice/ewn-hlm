@@ -3,12 +3,12 @@
 //  Loaded after config.js; exposes __EWN_DB__ and __EWN_AUTH__
 // =============================================================
 (function () {
-  const cfg = window.__EWN_CONFIG__ || {};
+  const cfg = window.__EWN_CONFIG__ || window.EWN_CONFIG || {};
   if (typeof firebase === 'undefined') {
     window.__EWN_FIREBASE_READY__ = false;
     return;
   }
-  if (!cfg.firebaseApiKey || cfg.firebaseApiKey === 'YOUR_API_KEY') {
+  if (!cfg.firebaseApiKey) {
     window.__EWN_FIREBASE_READY__ = false;
     return;
   }
@@ -24,6 +24,8 @@
     });
   }
   window.__EWN_DB__ = firebase.database();
-  window.__EWN_AUTH__ = firebase.auth();
+  if (typeof firebase.auth === 'function') {
+    window.__EWN_AUTH__ = firebase.auth();
+  }
   window.__EWN_FIREBASE_READY__ = true;
 })();
