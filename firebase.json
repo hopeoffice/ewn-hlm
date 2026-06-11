@@ -1,0 +1,24 @@
+{
+  "database": {
+    "rules": "database.rules.json"
+  },
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "database.rules.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/admin.html/bhbggfgaw23qmnu65gvghggfgf905dsffg",
+        "destination": "/admin.html/bhbggfgaw23qmnu65gvghggfgf905dsffg/index.html"
+      },
+      {
+        "source": "/admin.html/bhbggfgaw23qmnu65gvghggfgf905dsffg/**",
+        "destination": "/admin.html/bhbggfgaw23qmnu65gvghggfgf905dsffg/index.html"
+      }
+    ]
+  }
+}
