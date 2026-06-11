@@ -1005,44 +1005,48 @@ function openCheckoutModal(cartIdx) {
 
   document.getElementById('checkout-overlay').innerHTML = `
     <div class="checkout-modal">
-      <button class="checkout-close" onclick="closeCheckoutModal()">✕</button>
-      <div class="checkout-title">🛒 ${t('checkout_title')}</div>
 
-      <!-- Summary -->
+      <!-- Header: title + help button -->
+      <div class="co-header">
+        <div class="checkout-title">🛒 ${t('checkout_title')}</div>
+        <button class="co-help-btn" onclick="openCheckoutHelp()" title="${isAm ? 'መመሪያ' : 'Help'}">?</button>
+      </div>
+
+      <!-- Summary — blue box -->
       <div class="checkout-summary">
         <div class="checkout-summary-title">${t('co_summary')}</div>
         ${summaryRows}
       </div>
 
-      <!-- Row 1: NAME | PHONE | PAYMENT | REGION -->
+      <!-- Row 1: FULL NAME | PHONE NUMBER | PAYMENT ▼ | REGION ▼ -->
       <div class="co-row4">
         <div class="co-field">
-          <label class="co-label">${t('co_name')}</label>
-          <input class="co-input" id="co-name" type="text" value="${state.user?.name || ''}" placeholder="${isAm ? 'ዳንኤል' : 'Daniel'}">
+          <label class="co-label">${isAm ? 'ሙሉ ስም' : 'FULL NAME'}</label>
+          <input class="co-input" id="co-name" type="text" value="${state.user?.name || ''}" placeholder="${isAm ? 'ዳንኤል አበበ' : 'Daniel Abebe'}">
         </div>
         <div class="co-field">
-          <label class="co-label">${t('co_phone')}</label>
+          <label class="co-label">${isAm ? 'ስልክ ቁጥር' : 'PHONE NUMBER'}</label>
           <input class="co-input" id="co-phone" type="tel" value="${state.user?.phone || ''}" placeholder="09xxxxxxxx">
         </div>
         <div class="co-field">
-          <label class="co-label">${t('co_payment')}</label>
-          <select class="co-input" id="co-payment-select" onchange="selectCheckoutPayment(this.value)">
+          <label class="co-label">${isAm ? 'የክፍያ ዘዴ ▼' : 'PAYMENT METHOD ▼'}</label>
+          <select class="co-input co-select-blue" id="co-payment-select" onchange="selectCheckoutPayment(this.value)">
             ${paymentSelectOptions}
           </select>
         </div>
         <div class="co-field">
-          <label class="co-label">${t('co_region')}</label>
-          <select class="co-input" id="co-region">
+          <label class="co-label">${isAm ? 'ክልል ▼' : 'REGION ▼'}</label>
+          <select class="co-input co-select-blue" id="co-region">
             <option value="aa">${t('co_region_aa')}</option>
             <option value="other">${t('co_region_other')}</option>
           </select>
         </div>
       </div>
 
-      <!-- Row 2: ADDRESS | MERCHANT ACCOUNT -->
+      <!-- Row 2: ADDRESS | MERCHANT ACCOUNT (blue box) -->
       <div class="co-row2">
         <div class="co-field">
-          <label class="co-label">${t('co_address')}</label>
+          <label class="co-label">${isAm ? 'አድራሻ' : 'ADDRESS'}</label>
           <input class="co-input" id="co-address" type="text" placeholder="${isAm ? 'ቦሌ፣ ቀበሌ 12...' : 'Bole, Kebele 12...'}">
         </div>
         <div class="co-account-box visible" id="co-account-box">
@@ -1054,31 +1058,93 @@ function openCheckoutModal(cartIdx) {
         </div>
       </div>
 
-      <!-- Row 3: RECEIPT | TOTAL -->
+      <!-- Row 3: RECEIPT UPLOAD | TOTAL (yellow) -->
       <div class="co-row2">
         <div class="co-field">
-          <label class="co-label">${t('co_receipt')}</label>
+          <label class="co-label">${isAm ? 'ደረሰኝ ፎቶ *' : 'RECEIPT SCREENSHOT *'}</label>
           <div class="co-receipt-upload" id="co-receipt-zone">
             <input type="file" class="co-receipt-input" id="co-receipt-input"
               accept="image/*" onchange="handleReceiptUpload(this)">
-            <div class="co-receipt-text" id="co-receipt-text">${t('co_receipt_hint')}</div>
+            <div class="co-receipt-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            </div>
+            <div class="co-receipt-text" id="co-receipt-text">${isAm ? 'ፎቶ ይምረጡ' : 'Choose File'}</div>
             <div class="co-receipt-status" id="co-receipt-status"></div>
           </div>
         </div>
         <div class="co-total-box">
-          <div class="co-total-amount">${t('co_total')} = ${formatPrice(total)}</div>
+          <div class="co-total-amount">${t('co_total')}<br>${formatPrice(total)}</div>
         </div>
       </div>
 
-      <!-- Row 4: BACK | COMPLETE ORDER -->
+      <!-- Row 4: ← | COMPLETE ORDER -->
       <div class="co-bottom-row">
         <button class="co-back-btn" onclick="closeCheckoutModal()">←</button>
         <button class="co-submit-btn" id="co-submit-btn" onclick="submitCheckout()">${t('co_complete')}</button>
       </div>
+
     </div>`;
 
   document.getElementById('checkout-overlay').classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function openCheckoutHelp() {
+  const isAm = state.lang === 'am';
+  let overlay = document.getElementById('co-help-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'co-help-overlay';
+    overlay.className = 'co-help-overlay';
+    overlay.onclick = (e) => { if (e.target === overlay) closeCheckoutHelp(); };
+    document.body.appendChild(overlay);
+  }
+  // Steps — placeholder until real guide is provided
+  const steps = isAm ? [
+    ['1','ዕቃ መምረጥ — ከምድብ ማጣሪያዎቹ ወይም ከፍለጋ ሳጥኑ ፈልገው ዕቃዎን ይምረጡ።'],
+    ['2','ማዘዣ መጀመር — ዕቃውን አረጋግጠው "አሁን ግዛ" የሚለውን ቁልፍ ይጫኑ።'],
+    ['3','መረጃ መሙላት — ሙሉ ስምዎን፣ ስልክ ቁጥርዎን፣ ክልልና ትክክለኛ ማድረሻ ቦታ ይምሩ።'],
+    ['4','ክፍያ መፈጸም — የሚታየውን የሒሳብ ቁጥር ቅዱ፣ ወደ Telebirr / CBE / Abyssinia ገብተው ያስተላልፉ።'],
+    ['5','ደረሰኝ ማያያዝ — የክፍያ ማረጋገጫ ስክሪንሾት አንስተው "ፎቶ ምረጥ" ቁልፍ ይጫኑ።'],
+    ['6','ትዕዛዝ ማጠናቀቅ — "ትዕዛዝ ጨርስ" ይጫኑ። ዕቃው በ24 ሰዓት ውስጥ ይደርሳል!'],
+  ] : [
+    ['1','Select Item — Browse by category filter or use the search box.'],
+    ['2','Start Order — Confirm the item and tap "Buy Now".'],
+    ['3','Fill Info — Enter your full name, phone, region and delivery address.'],
+    ['4','Pay — Copy the account number shown and transfer the total via Telebirr / CBE / Abyssinia.'],
+    ['5','Attach Receipt — Take a screenshot of your payment confirmation and upload it.'],
+    ['6','Complete — Tap "Complete Order". Your item arrives within 24 hours!'],
+  ];
+
+  const supportHtml = isAm ? `
+    <div class="co-help-support">
+      <div class="co-help-support-title">🛠️ የቴክኒክ እገዛ</div>
+      <div class="co-help-support-row">✉️ dannnie55@gmail.com</div>
+      <div class="co-help-support-row">📞 0932208224</div>
+    </div>` : `
+    <div class="co-help-support">
+      <div class="co-help-support-title">🛠️ Technical Support</div>
+      <div class="co-help-support-row">✉️ dannnie55@gmail.com</div>
+      <div class="co-help-support-row">📞 0932208224</div>
+    </div>`;
+
+  overlay.innerHTML = `
+    <div class="co-help-modal">
+      <button class="co-help-close" onclick="closeCheckoutHelp()">✕</button>
+      <div class="co-help-title">${isAm ? '📖 የአጠቃቀም መመሪያ' : '📖 How to Order'}</div>
+      ${steps.map(([n,txt]) => `
+        <div class="co-help-step">
+          <div class="co-help-num">${n}</div>
+          <div class="co-help-text">${txt}</div>
+        </div>`).join('')}
+      ${supportHtml}
+    </div>`;
+  overlay.classList.add('open');
+}
+
+function closeCheckoutHelp() {
+  const overlay = document.getElementById('co-help-overlay');
+  if (overlay) overlay.classList.remove('open');
 }
 
 function closeCheckoutModal() {
@@ -1161,7 +1227,11 @@ async function submitCheckout() {
   }
 
   const btn = document.getElementById('co-submit-btn');
-  if (btn) { btn.disabled = true; btn.textContent = t('co_sending'); }
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('sending');
+    btn.textContent = (state.lang === 'am') ? '⏳ እየተላከ...' : '⏳ Sending...';
+  }
 
   let items;
   if (_checkoutCartIdx !== undefined) {
