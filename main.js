@@ -118,6 +118,8 @@ const i18n = {
     co_region_aa: "አዲስ አበባ",
     co_region_other: "ሌላ ክልል",
     co_sending: "እየተላከ...",
+    install_app: "አፕ ይጫኑ", install_app_sub: "ወደ ስልክዎ ያክሉ",
+    update_available: "አዲስ ዝመና አለ!", update_now: "አሁን ዝምኑ",
     co_fill_fields: "እባክዎ ሁሉንም መስኮች ይሙሉ",
     co_upload_receipt: "እባክዎ ደረሰኝ ያስገቡ",
   },
@@ -180,6 +182,8 @@ const i18n = {
     co_region_aa: "Addis Ababa",
     co_region_other: "Other Region",
     co_sending: "Sending...",
+    install_app: "Install App", install_app_sub: "Add to your phone",
+    update_available: "Update available!", update_now: "Update Now",
     co_fill_fields: "Please fill in all fields",
     co_upload_receipt: "Please upload your receipt",
   }
@@ -1268,6 +1272,51 @@ async function submitCheckout() {
   navigate('orders');
 }
 
+// ============================================================
+//  PWA INSTALL + SW UPDATE
+// ============================================================
+
+function triggerPwaInstall() {
+  if (!window._pwaPrompt) {
+    showToast(state.lang === 'am' ? 'አፕ አስቀድሞ ተጭኗል' : 'App already installed');
+    return;
+  }
+  window._pwaPrompt.prompt();
+  window._pwaPrompt.userChoice.then(result => {
+    if (result.outcome === 'accepted') {
+      const btn = document.getElementById('pwa-install-btn');
+      if (btn) btn.style.display = 'none';
+    }
+    window._pwaPrompt = null;
+  });
+}
+
+function showUpdateToast(swWaiting) {
+  // Remove existing update bar if any
+  let bar = document.getElementById('sw-update-bar');
+  if (bar) bar.remove();
+
+  bar = document.createElement('div');
+  bar.id = 'sw-update-bar';
+  bar.className = 'sw-update-bar';
+  bar.innerHTML = `
+    <span class="sw-update-msg am">${t('update_available')}</span>
+    <button class="sw-update-btn am" onclick="applySwUpdate()">${t('update_now')}</button>`;
+  document.body.appendChild(bar);
+
+  // Store waiting SW reference
+  window._swWaiting = swWaiting;
+}
+
+function applySwUpdate() {
+  const bar = document.getElementById('sw-update-bar');
+  if (bar) bar.remove();
+  if (window._swWaiting) {
+    window._swWaiting.postMessage({ type: 'SKIP_WAITING' });
+    window._swWaiting = null;
+  }
+}
+
 function handleSearch(val) {
   state.searchQuery = val;
   filterProducts();
@@ -1339,8 +1388,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(reg => {
+          // Detect new SW waiting → show update toast
+          const checkWaiting = (r) => {
+            if (r.waiting) showUpdateToast(r.waiting);
+          };
+          checkWaiting(reg);
+          reg.addEventListener('updatefound', () => {
+            const nw = reg.installing;
+            nw.addEventListener('statechange', () => {
+              if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdateToast(nw);
+              }
+            });
+          });
+        })
+        .catch(() => {});
+
+      // When new SW takes over → reload to get fresh content
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) { refreshing = true; window.location.reload(); }
+      });
     }
+
+    // PWA install prompt — capture & show button in profile
+    window.addEventListener('beforeinstallprompt', e => {
+      e.preventDefault();
+      window._pwaPrompt = e;
+      // Only show in browser (not in standalone installed app)
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+        || window.navigator.standalone === true;
+      if (!isStandalone) {
+        const btn = document.getElementById('pwa-install-btn');
+        if (btn) btn.style.display = '';
+      }
+    });
+    // Hide install button if already running as installed app
+    window.addEventListener('appinstalled', () => {
+      const btn = document.getElementById('pwa-install-btn');
+      if (btn) btn.style.display = 'none';
+      window._pwaPrompt = null;
+    });
   }, 2200);
 
   if (navigator.geolocation) {
