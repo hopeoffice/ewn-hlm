@@ -7,13 +7,25 @@
     "orders": {
       ".read": "auth != null && auth.token.email === 'dannniefx55@gmail.com'",
       "$orderId": {
-        ".write": "!data.exists() || (auth != null && auth.token.email === 'dannniefx55@gmail.com')"
+        ".write": true
+      }
+    },
+    "accounts": {
+      "$phone": {
+        ".read": true,
+        ".write": true
       }
     },
     "notifications": {
+      "$phone": {
+        ".read": true,
+        ".write": true,
+        ".indexOn": ["timestamp"]
+      }
+    },
+    "app_meta": {
       ".read": true,
-      ".write": "auth != null && auth.token.email === 'dannniefx55@gmail.com'",
-      ".indexOn": ["timestamp"]
+      ".write": "auth != null && auth.token.email === 'dannniefx55@gmail.com'"
     }
   }
 }
