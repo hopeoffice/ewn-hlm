@@ -26,13 +26,6 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
-// Allow page to force this worker to activate immediately (used by force-update flow)
-self.addEventListener('message', e => {
-  if (e.data && e.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
-
 // Fetch: network first, fallback to cache
 self.addEventListener('fetch', e => {
   e.respondWith(
