@@ -22,7 +22,8 @@ const FIREBASE_CONFIG = {
 const TELEGRAM_BOT_TOKEN = _cfg.telegramBotToken || '';
 const TELEGRAM_CHAT_ID   = _cfg.telegramChatId   || '';
 
-const APP_VERSION = _cfg.appVersion || 'v0.0.0';
+const CLOUDINARY_CLOUD   = _cfg.cloudinaryCloudName    || 'dx0qryavd';
+const CLOUDINARY_PRESET  = _cfg.cloudinaryUploadPreset || 'my_shop_preset';
 
 // ---- CATEGORY DEFINITIONS ----
 const CATEGORIES = [
@@ -59,7 +60,6 @@ const i18n = {
     no_orders: "ምንም ትዕዛዝ የለም", no_orders_sub: "ትዕዛዝ ሲሰጡ እዚህ ይታያል",
     shop_now: "አሁን ይሸምቱ", my_likes: "ወዳጆቼ", no_likes: "ወዳጅ ምርቶች የሉም",
     refer: "ወዳጅዎን ያጋሩ፣ ያትርፉ", refer_sub: "ጓደኛዎን ሳቡ ሽልማት ያግኙ",
-    share: "ለወዳጅዎ ያጋሩ", share_sub: "ድረ ገጹን ለጓደኞችዎ ያጋሩ",
     language: "ቋንቋ", language_sub: "ቋንቋ ይቀይሩ",
     help: "የእርዳታ ማዕከል", help_sub: "ድጋፍ ያግኙ",
     theme: "ቀለም ገጽታ", theme_sub: "ብርሃን / ጨለማ ቅርጸት",
@@ -103,14 +103,10 @@ const i18n = {
     co_copy: "ቅዳ",
     co_copied: "✓ ተቅዷል",
     co_region_aa: "አዲስ አበባ",
-    co_region_dessie: "ደሴ",
-    co_region_kombolcha: "ኮምቦልቻ",
-    co_region_adama: "አዳማ",
     co_region_other: "ሌላ ክልል",
     co_sending: "እየተላከ...",
     install_app: "አፕ ይጫኑ", install_app_sub: "ወደ ስልክዎ ያክሉ",
     update_available: "አዲስ ዝመና አለ!", update_now: "አሁን ዝምኑ",
-    force_update_title: "አስገዳጅ ዝመና", force_update_msg: "አዲስ የመግብርያ ስሪት ወጥቷል። ለመቀጠል እባክዎ ያዘምኑ።", force_update_btn: "አዘምን",
     co_fill_fields: "እባክዎ ሁሉንም መስኮች ይሙሉ",
     co_upload_receipt: "እባክዎ ደረሰኝ ያስገቡ",
   },
@@ -128,7 +124,6 @@ const i18n = {
     no_orders: "No orders yet", no_orders_sub: "Your orders will appear here",
     shop_now: "Shop Now", my_likes: "My Favorites", no_likes: "No favorite products yet",
     refer: "Refer & Earn", refer_sub: "Refer friends and earn rewards",
-    share: "Share with Friends", share_sub: "Share the website link",
     language: "Language", language_sub: "Change language",
     help: "Help Center", help_sub: "Get support",
     theme: "Theme", theme_sub: "Switch light / dark mode",
@@ -172,14 +167,10 @@ const i18n = {
     co_copy: "COPY",
     co_copied: "✓ COPIED",
     co_region_aa: "Addis Ababa",
-    co_region_dessie: "Dessie",
-    co_region_kombolcha: "Kombolcha",
-    co_region_adama: "Adama",
     co_region_other: "Other Region",
     co_sending: "Sending...",
     install_app: "Install App", install_app_sub: "Add to your phone",
     update_available: "Update available!", update_now: "Update Now",
-    force_update_title: "Mandatory Update", force_update_msg: "A new version is available. Please update to continue.", force_update_btn: "Update",
     co_fill_fields: "Please fill in all fields",
     co_upload_receipt: "Please upload your receipt",
   }
@@ -209,14 +200,6 @@ const state = {
 //  UTILITIES
 // ============================================================
 const t = (key) => (i18n[state.lang] || i18n.am)[key] || key;
-
-/** Formats a product description: newlines become bullet point list items */
-function formatDescription(text) {
-  if (!text) return '';
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-  if (lines.length <= 1) return escapeHtml(text);
-  return '<ul class="product-desc-bullets">' + lines.map(l => `<li>${escapeHtml(l)}</li>`).join('') + '</ul>';
-}
 
 function isAuthenticated() {
   return !!(state.user && state.user.name && state.user.phone);
@@ -269,17 +252,14 @@ function showToast(msg) {
 function saveCart() {
   localStorage.setItem('ewn_cart', JSON.stringify(state.cart));
   updateCartBadge();
-  syncAccountToFirebase();
 }
 
 function saveLikes() {
   localStorage.setItem('ewn_likes', JSON.stringify(state.likes));
-  syncAccountToFirebase();
 }
 
 function saveOrders() {
   localStorage.setItem('ewn_orders', JSON.stringify(state.orders));
-  syncAccountToFirebase();
 }
 
 async function saveOrderToFirebase(order) {
@@ -293,37 +273,6 @@ async function saveOrderToFirebase(order) {
 
 function saveUser() {
   localStorage.setItem('ewn_user', JSON.stringify(state.user));
-  syncAccountToFirebase();
-}
-
-async function syncAccountToFirebase() {
-  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
-  if (!state.user || !state.user.phone) return;
-  try {
-    const phoneKey = state.user.phone.replace(/[^0-9+]/g, '');
-    await window.__EWN_DB__.ref('accounts/' + phoneKey).update({
-      name: state.user.name || '',
-      phone: state.user.phone || '',
-      location: state.user.location || '',
-      cart: state.cart || [],
-      likes: state.likes || [],
-      orders: state.orders || []
-    });
-  } catch (err) {
-    console.warn('Firebase account sync failed:', err);
-  }
-}
-
-async function loadAccountFromFirebase(phone) {
-  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return null;
-  try {
-    const phoneKey = phone.replace(/[^0-9+]/g, '');
-    const snap = await window.__EWN_DB__.ref('accounts/' + phoneKey).once('value');
-    return snap.exists() ? snap.val() : null;
-  } catch (err) {
-    console.warn('Firebase account load failed:', err);
-    return null;
-  }
 }
 
 function updateCartBadge() {
@@ -355,66 +304,23 @@ function closeAuthModal() {
   document.body.style.overflow = '';
 }
 
-async function submitAuth(e) {
+function submitAuth(e) {
   e.preventDefault();
   const name = document.getElementById('auth-name').value.trim();
   const phone = document.getElementById('auth-phone').value.trim();
   if (!name || !phone) return;
-
-  // Check if this phone number already has an account on Firebase
-  const existing = await loadAccountFromFirebase(phone);
-  const isNewAccount = !existing;
-
-  state.user = { name, phone, location: state.user?.location || (existing?.location || '') };
-  if (existing) {
-    if (Array.isArray(existing.cart)) state.cart = existing.cart;
-    if (Array.isArray(existing.likes)) state.likes = existing.likes;
-    if (Array.isArray(existing.orders)) state.orders = existing.orders;
-    saveCart();
-    saveLikes();
-    saveOrders();
-  }
-
+  state.user = { name, phone, location: state.user?.location || '' };
   saveUser();
   closeAuthModal();
   renderProfile();
   showToast(state.lang === 'am' ? `እንኳን ደህና መጡ ${name}!` : `Welcome, ${name}!`);
-
-  if (isNewAccount) {
-    await sendWelcomeNotification(phone, name);
-  }
-  initNotificationsListener();
-}
-
-async function sendWelcomeNotification(phone, name) {
-  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
-  try {
-    const phoneKey = phone.replace(/[^0-9+]/g, '');
-    const msg = state.lang === 'am'
-      ? `እንኳን ደህና መጡ! ${name}`
-      : `Welcome! ${name}`;
-    await window.__EWN_DB__.ref('notifications/' + phoneKey).push({
-      message: msg,
-      date: new Date().toISOString(),
-      timestamp: Date.now(),
-      read: false
-    });
-  } catch (err) {
-    console.warn('Welcome notification failed:', err);
-  }
 }
 
 function logout() {
-  if (state.user?.phone && window.__EWN_DB__) {
-    const phoneKey = state.user.phone.replace(/[^0-9+]/g, '');
-    window.__EWN_DB__.ref('notifications/' + phoneKey).off();
-  }
   state.user = null;
-  state.notifications = [];
   saveUser();
   renderProfile();
   navigate('home');
-  updateNotificationBadge();
   showToast(state.lang === 'am' ? 'በተሳካ ሁኔታ ወጥተዋል' : 'Logged out successfully');
 }
 
@@ -429,13 +335,25 @@ function requireAuth(callback) {
 }
 
 // ============================================================
-//  (Cloudinary upload removed — receipts now go straight to Telegram)
+//  CLOUDINARY UPLOAD
 // ============================================================
+async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_PRESET);
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) throw new Error('Cloudinary upload failed');
+  const data = await res.json();
+  return data.secure_url;
+}
 
 // ============================================================
 //  TELEGRAM ORDER NOTIFICATION
 // ============================================================
-async function sendReceiptToTelegram(order, receiptFile) {
+async function sendReceiptToTelegram(order, receiptUrl) {
   const caption = `
 🧾 *Payment Receipt* — Order \`${order.id}\`
 👤 ${order.customer.name}
@@ -443,14 +361,15 @@ async function sendReceiptToTelegram(order, receiptFile) {
 💰 ${formatPrice(order.total)}
   `.trim();
   try {
-    const formData = new FormData();
-    formData.append('chat_id', TELEGRAM_CHAT_ID);
-    formData.append('caption', caption);
-    formData.append('parse_mode', 'Markdown');
-    formData.append('photo', receiptFile, receiptFile.name || 'receipt.jpg');
     await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
       method: 'POST',
-      body: formData
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        photo: receiptUrl,
+        caption,
+        parse_mode: 'Markdown'
+      })
     });
   } catch (err) {
     console.warn('Telegram receipt failed:', err);
@@ -563,7 +482,7 @@ function filterProducts() {
   if (state.searchQuery) {
     const q = state.searchQuery.toLowerCase();
     p = p.filter(x =>
-      x.name.toLowerCase().includes(q) ||
+      (x.name || '').toLowerCase().includes(q) ||
       (x.nameAm || '').includes(q) ||
       (x.description || '').toLowerCase().includes(q)
     );
@@ -756,7 +675,7 @@ function renderNotifications() {
   list.innerHTML = state.notifications.map(n => {
     const when = n.date ? new Date(n.date).toLocaleString(state.lang === 'am' ? 'am-ET' : undefined) : '';
     return `
-      <div class="notification-card${n.read ? '' : ' unread'}">
+      <div class="notification-card">
         <div class="notification-icon">📢</div>
         <div class="notification-body">
           <div class="notification-message am">${escapeHtml(n.message || '')}</div>
@@ -765,22 +684,7 @@ function renderNotifications() {
       </div>`;
   }).join('');
   screen.appendChild(list);
-
-  markNotificationsAsRead();
   updateNotificationBadge();
-}
-
-function markNotificationsAsRead() {
-  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
-  if (!isAuthenticated()) return;
-  const phoneKey = state.user.phone.replace(/[^0-9+]/g, '');
-  state.notifications.forEach(n => {
-    if (!n.read) {
-      n.read = true;
-      window.__EWN_DB__.ref('notifications/' + phoneKey + '/' + n.id).update({ read: true })
-        .catch(err => console.warn('Mark read failed:', err));
-    }
-  });
 }
 
 function escapeHtml(str) {
@@ -793,7 +697,7 @@ function escapeHtml(str) {
 
 function updateNotificationBadge() {
   const badge = document.querySelector('.header-actions .icon-btn[aria-label="Notifications"] .badge');
-  const count = state.notifications.filter(n => !n.read).length;
+  const count = state.notifications.length;
   if (badge) {
     badge.textContent = count > 99 ? '99+' : count;
     badge.style.display = count > 0 ? 'flex' : 'none';
@@ -802,13 +706,7 @@ function updateNotificationBadge() {
 
 function initNotificationsListener() {
   if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
-  if (!isAuthenticated()) {
-    state.notifications = [];
-    updateNotificationBadge();
-    return;
-  }
-  const phoneKey = state.user.phone.replace(/[^0-9+]/g, '');
-  window.__EWN_DB__.ref('notifications/' + phoneKey)
+  window.__EWN_DB__.ref('notifications')
     .orderByChild('timestamp')
     .limitToLast(50)
     .on('value', snap => {
@@ -1018,7 +916,6 @@ function openProduct(id) {
   const images = getProductImages(p);
   state.carouselIndex = 0;
   state.selectedColor = null; // reset for each new product view
-  state.modalQty = 1;
 
   const modal = document.getElementById('product-modal');
   modal.innerHTML = `
@@ -1027,19 +924,12 @@ function openProduct(id) {
       ${buildCarouselHTML(images, p.id)}
       <div class="modal-body">
         <div class="modal-name am">${name}</div>
-        <div class="modal-price-qty-row">
-          ${renderPriceHTML(p).replace('product-price', 'modal-price-wrap')}
-          <div class="modal-qty-ctrl">
-            <button class="modal-qty-btn" onclick="changeModalQty(-1)">−</button>
-            <span class="modal-qty-val" id="modal-qty-display">1</span>
-            <button class="modal-qty-btn" onclick="changeModalQty(1)">+</button>
-          </div>
-        </div>
+        ${renderPriceHTML(p).replace('product-price', 'modal-price-wrap')}
         ${p.outOfStock ? `<div class="modal-stock-badge am">${t('out_of_stock')}</div>` : ''}
-        <div class="modal-desc am">${formatDescription(desc)}</div>
+        <div class="modal-desc am">${desc || ''}</div>
         ${buildColorsHTML(p.colors)}
         <div class="modal-btns">
-          <button class="btn-cart am" onclick="addToCartFromModal('${p.id}');closeModal()" ${p.outOfStock ? 'disabled' : ''}>${t('add_to_cart')}</button>
+          <button class="btn-cart am" onclick="addToCart('${p.id}', state.selectedColor);closeModal()" ${p.outOfStock ? 'disabled' : ''}>${t('add_to_cart')}</button>
           <button class="btn-order am" onclick="quickOrder('${p.id}')" ${p.outOfStock ? 'disabled' : ''}>${t('buy_now')}</button>
         </div>
       </div>
@@ -1054,27 +944,10 @@ function openProduct(id) {
 function closeModal() {
   document.getElementById('modal-overlay').classList.remove('open');
   document.body.style.overflow = '';
-  state.modalQty = 1;
-}
-
-function changeModalQty(delta) {
-  state.modalQty = Math.max(1, (state.modalQty || 1) + delta);
-  const el = document.getElementById('modal-qty-display');
-  if (el) el.textContent = state.modalQty;
-}
-
-function addToCartFromModal(id) {
-  const qty = state.modalQty || 1;
-  for (let i = 0; i < qty; i++) addToCart(id, state.selectedColor);
 }
 
 function toggleLike(e, id) {
   e.stopPropagation();
-  if (!isAuthenticated()) {
-    showToast(t('login_required'));
-    openAuthModal();
-    return;
-  }
   const idx = state.likes.indexOf(id);
   if (idx === -1) {
     state.likes.push(id);
@@ -1180,9 +1053,8 @@ async function quickOrder(id) {
     return;
   }
   const color = state.selectedColor;
-  const qty = state.modalQty || 1;
   closeModal();
-  for (let i = 0; i < qty; i++) addToCart(id, color);
+  addToCart(id, color);
   const idx = state.cart.findIndex(x => x.id === id && x.color === (color || null));
   openCheckoutModal(idx >= 0 ? idx : undefined);
 }
@@ -1191,28 +1063,11 @@ async function quickOrder(id) {
 //  CHECKOUT MODAL
 // ============================================================
 
-let PAYMENT_METHODS = [
+const PAYMENT_METHODS = [
   { id: 'telebirr', emoji: '📱', nameAm: 'ቴሌብር', nameEn: 'Telebirr', account: '0932208224' },
   { id: 'cbe',      emoji: '🏦', nameAm: 'ንግድ ባንክ (CBE)', nameEn: 'CBE (Commercial Bank)', account: '1000123456789' },
   { id: 'abyssinia',emoji: '🏦', nameAm: 'አቢሲኒያ ባንክ', nameEn: 'Bank of Abyssinia', account: '40987654321' },
 ];
-
-async function loadPaymentMethods() {
-  try {
-    const stored = localStorage.getItem('ewn_payment_accounts');
-    let accounts = stored ? JSON.parse(stored) : null;
-    if (!accounts && window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
-      const snap = await window.__EWN_DB__.ref('app_meta/paymentAccounts').once('value');
-      if (snap.exists()) accounts = snap.val();
-    }
-    if (accounts) {
-      PAYMENT_METHODS = PAYMENT_METHODS.map(m => ({
-        ...m,
-        account: accounts[m.id] || m.account
-      }));
-    }
-  } catch(e) {}
-}
 
 let _checkoutCartIdx = undefined; // undefined = full cart, number = single item
 let _checkoutReceiptFile = null;
@@ -1284,7 +1139,7 @@ function openCheckoutModal(cartIdx) {
         </div>
         <div class="co-field">
           <label class="co-label">${isAm ? 'ስልክ ቁጥር' : 'PHONE NUMBER'}</label>
-          <input class="co-input" id="co-phone" type="tel" value="${state.user?.phone || ''}" placeholder="09xxxxxxxx" readonly disabled>
+          <input class="co-input" id="co-phone" type="tel" value="${state.user?.phone || ''}" placeholder="09xxxxxxxx">
         </div>
         <div class="co-field">
           <label class="co-label">${isAm ? 'የክፍያ ዘዴ ▼' : 'PAYMENT METHOD ▼'}</label>
@@ -1296,9 +1151,6 @@ function openCheckoutModal(cartIdx) {
           <label class="co-label">${isAm ? 'ክልል ▼' : 'REGION ▼'}</label>
           <select class="co-input co-select-blue" id="co-region">
             <option value="aa">${t('co_region_aa')}</option>
-            <option value="dessie">${t('co_region_dessie')}</option>
-            <option value="kombolcha">${t('co_region_kombolcha')}</option>
-            <option value="adama">${t('co_region_adama')}</option>
             <option value="other">${t('co_region_other')}</option>
           </select>
         </div>
@@ -1415,24 +1267,19 @@ function closeCheckoutModal() {
 
 function selectCheckoutPayment(id) {
   _checkoutSelectedPayment = id;
-  // Show loading briefly
-  const select = document.getElementById('co-payment-select');
-  if (select) { select.disabled = true; }
-  setTimeout(() => {
-    if (select) { select.disabled = false; }
-    document.querySelectorAll('.co-payment-option').forEach(el => {
-      el.classList.toggle('selected', el.querySelector('input')?.value === id);
-    });
-    const method = PAYMENT_METHODS.find(m => m.id === id);
-    if (method) {
-      const numEl = document.getElementById('co-account-number');
-      if (numEl) numEl.textContent = method.account;
-      const box = document.getElementById('co-account-box');
-      if (box) box.classList.add('visible');
-      const btn = document.getElementById('co-copy-btn');
-      if (btn) { btn.textContent = t('co_copy'); btn.classList.remove('copied'); }
-    }
-  }, 350);
+  document.querySelectorAll('.co-payment-option').forEach(el => {
+    el.classList.toggle('selected', el.querySelector('input').value === id);
+  });
+  const method = PAYMENT_METHODS.find(m => m.id === id);
+  if (method) {
+    const numEl = document.getElementById('co-account-number');
+    if (numEl) numEl.textContent = method.account;
+    const box = document.getElementById('co-account-box');
+    if (box) box.classList.add('visible');
+    // Reset copy button
+    const btn = document.getElementById('co-copy-btn');
+    if (btn) { btn.textContent = t('co_copy'); btn.classList.remove('copied'); }
+  }
 }
 
 function copyAccountNumber() {
@@ -1479,7 +1326,7 @@ function handleReceiptUpload(input) {
 
 async function submitCheckout() {
   const name = document.getElementById('co-name')?.value.trim();
-  const phone = state.user?.phone || '';
+  const phone = document.getElementById('co-phone')?.value.trim();
   const region = document.getElementById('co-region')?.value;
   const address = document.getElementById('co-address')?.value.trim();
 
@@ -1519,11 +1366,14 @@ async function submitCheckout() {
   };
 
   try {
+    const receiptUrl = await uploadToCloudinary(_checkoutReceiptFile);
+    order.receiptUrl = receiptUrl;
+
     state.orders.push(order);
     saveOrders();
     await saveOrderToFirebase(order);
     await sendOrderToTelegram(order);
-    await sendReceiptToTelegram(order, _checkoutReceiptFile);
+    await sendReceiptToTelegram(order, receiptUrl);
   } catch (err) {
     console.warn('Checkout failed:', err);
     showToast(state.lang === 'am' ? 'ትዕዛዝ አልተሳካም። እንደገና ይሞክሩ።' : 'Order failed. Please try again.');
@@ -1548,100 +1398,9 @@ async function submitCheckout() {
 }
 
 // ============================================================
-//  SHARE + HELP CENTER
-// ============================================================
-function toggleShareMenu() {
-  const menu = document.getElementById('share-menu');
-  if (!menu) return;
-  menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-}
-
-function shareVia(platform) {
-  const url = window.location.href;
-  const text = state.lang === 'am'
-    ? 'እውን ህልም - ሕልምዎ እውን የሚሆንበት የዲጂታል ገበያ!'
-    : 'Ewn Hlm - Your dream marketplace!';
-  let shareUrl = '';
-  switch (platform) {
-    case 'telegram':
-      shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`;
-      break;
-    case 'whatsapp':
-      shareUrl = `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`;
-      break;
-    case 'facebook':
-      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
-      break;
-    case 'instagram':
-      // Instagram has no direct web share intent — copy link instead
-      navigator.clipboard?.writeText(url).catch(() => {});
-      showToast(state.lang === 'am' ? 'ሊንኩ ተቀድቷል! በInstagram ላይ ይለጥፉ' : 'Link copied! Paste it on Instagram');
-      return;
-  }
-  window.open(shareUrl, '_blank');
-}
-
-function openHelpCenter() {
-  const subject = encodeURIComponent('Ewn Hlm - Support Request');
-  const body = encodeURIComponent(
-    (state.user?.name ? `Name: ${state.user.name}\nPhone: ${state.user.phone}\n\n` : '') +
-    (state.lang === 'am' ? 'መልዕክትዎን እዚህ ይጻፉ...' : 'Write your message here...')
-  );
-  window.location.href = `mailto:dannnie55@gmail.com?subject=${subject}&body=${body}`;
-}
-
-// ============================================================
-//  FORCE UPDATE (version check against Firebase app_meta/latestVersion)
-// ============================================================
-async function checkForceUpdate() {
-  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
-  try {
-    const snap = await window.__EWN_DB__.ref('app_meta/latestVersion').once('value');
-    const latest = snap.exists() ? snap.val() : null;
-    if (latest && latest !== APP_VERSION) {
-      showForceUpdateOverlay();
-    }
-  } catch (err) {
-    console.warn('Force update check failed:', err);
-  }
-}
-
-function showForceUpdateOverlay() {
-  if (document.getElementById('force-update-overlay')) return;
-  const overlay = document.createElement('div');
-  overlay.id = 'force-update-overlay';
-  overlay.className = 'modal-overlay auth-overlay open';
-  overlay.style.zIndex = '99999';
-  overlay.innerHTML = `
-    <div class="auth-modal">
-      <div class="auth-icon">🔄</div>
-      <h2 class="auth-title am">${t('force_update_title')}</h2>
-      <p class="auth-sub am">${t('force_update_msg')}</p>
-      <button class="btn-primary am auth-submit" onclick="applyForceUpdate()">${t('force_update_btn')}</button>
-    </div>`;
-  document.body.appendChild(overlay);
-  document.body.style.overflow = 'hidden';
-}
-
-async function applyForceUpdate() {
-  try {
-    if ('caches' in window) {
-      const keys = await caches.keys();
-      await Promise.all(keys.map(k => caches.delete(k)));
-    }
-    if ('serviceWorker' in navigator) {
-      const regs = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(regs.map(r => r.unregister()));
-    }
-  } catch (err) {
-    console.warn('Force update cleanup failed:', err);
-  }
-  window.location.reload(true);
-}
-
-// ============================================================
 //  PWA INSTALL + SW UPDATE
 // ============================================================
+
 function triggerPwaInstall() {
   if (!window._pwaPrompt) {
     showToast(state.lang === 'am' ? 'አፕ አስቀድሞ ተጭኗል' : 'App already installed');
@@ -1700,8 +1459,6 @@ function toggleTheme() {
 function setLanguage(lang) {
   state.lang = lang;
   localStorage.setItem('ewn_lang', lang);
-  // Apply language font to body
-  document.documentElement.setAttribute('data-lang', lang);
   applyI18nToPage();
   renderCategories();
   filterProducts();
@@ -1730,44 +1487,6 @@ function applyI18nToPage() {
 //  INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  // ---- Mobile-only device check ----
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-    || window.innerWidth <= 768;
-  const desktopBlock = document.getElementById('desktop-block');
-  if (!isMobile && desktopBlock) {
-    desktopBlock.style.display = 'flex';
-    // Generate simple QR code using canvas (encoded URL)
-    try {
-      const url = window.location.href;
-      generateSimpleQR(url, document.getElementById('qr-canvas'));
-    } catch(e) {}
-    return; // Stop app init for desktop
-  }
-
-  // ---- Network connectivity check ----
-  function checkNetwork() {
-    const overlay = document.getElementById('network-overlay');
-    if (!overlay) return;
-    if (!navigator.onLine) {
-      overlay.style.display = 'flex';
-    } else {
-      overlay.style.display = 'none';
-    }
-  }
-  checkNetwork();
-  window.addEventListener('online', checkNetwork);
-  window.addEventListener('offline', checkNetwork);
-
-  // ---- Button press animations ----
-  document.addEventListener('pointerdown', (e) => {
-    const btn = e.target.closest('button, .btn-primary, .btn-cart, .btn-order, .nav-item, .cat-chip, .lang-chip, .banner-cta');
-    if (btn) {
-      btn.style.transform = 'scale(0.93)';
-      btn.style.transition = 'transform 0.12s ease';
-      setTimeout(() => { btn.style.transform = ''; }, 160);
-    }
-  });
-
   document.documentElement.setAttribute('data-theme', state.theme);
   applyI18nToPage();
 
@@ -1776,9 +1495,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const app = document.getElementById('app');
     app.classList.add('visible');
     await loadProducts();
-    await loadPaymentMethods();
     initNotificationsListener();
-    checkForceUpdate();
     renderCategories();
     navigate('home');
     updateCartBadge();
@@ -1840,12 +1557,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (btn) btn.style.display = 'none';
       window._pwaPrompt = null;
     });
-    // ---- Location permission handling ----
-    initLocationPermission();
-    // ---- Start banner autoplay ----
-    startBannerAutoplay();
-
   }, 2200);
+
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(() => {
+      const locText = document.getElementById('location-text');
+      if (locText) locText.textContent = 'አዲስ አበባ, ኢትዮጵያ';
+    }, () => {
+      const locText = document.getElementById('location-text');
+      if (locText) locText.textContent = 'አዲስ አበባ, ኢትዮጵያ';
+    });
+  }
 
   // ---- Smart Scroll-to-Reveal Header ----
   window.addEventListener('scroll', () => {
@@ -1869,141 +1591,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     lastScrollY = currentScrollY;
   }, { passive: true });
 });
-
-// ============================================================
-//  LOCATION PERMISSION
-// ============================================================
-function initLocationPermission() {
-  if (!navigator.geolocation) return;
-
-  // If user is authenticated and already has location saved, skip
-  if (isAuthenticated() && state.user?.location && state.user.location.length > 2) {
-    const locText = document.getElementById('location-text');
-    if (locText) locText.textContent = state.user.location;
-    return;
-  }
-
-  // Check permission state
-  if (navigator.permissions) {
-    navigator.permissions.query({ name: 'geolocation' }).then(result => {
-      if (result.state === 'granted') {
-        getLocationSilently();
-      } else if (result.state === 'prompt') {
-        showLocationOverlay();
-      }
-      // 'denied' — don't show overlay again
-    });
-  } else {
-    showLocationOverlay();
-  }
-}
-
-function showLocationOverlay() {
-  const overlay = document.getElementById('location-overlay');
-  if (overlay) overlay.style.display = 'flex';
-}
-
-function requestLocationPermission() {
-  const overlay = document.getElementById('location-overlay');
-  if (!navigator.geolocation) {
-    if (overlay) overlay.style.display = 'none';
-    return;
-  }
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      if (overlay) overlay.style.display = 'none';
-      const locText = document.getElementById('location-text');
-      if (locText) locText.textContent = 'አዲስ አበባ, ኢትዮጵያ';
-      // Save to Firebase if authenticated
-      if (isAuthenticated() && window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
-        const phone = state.user.phone;
-        window.__EWN_DB__.ref('users/' + phone.replace(/\D/g,'')).update({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          locationUpdated: new Date().toISOString()
-        }).catch(() => {});
-        state.user.location = 'አዲስ አበባ, ኢትዮጵያ';
-        saveUser();
-      }
-    },
-    () => {
-      if (overlay) overlay.style.display = 'none';
-    }
-  );
-}
-
-function getLocationSilently() {
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const locText = document.getElementById('location-text');
-      if (locText) locText.textContent = 'አዲስ አበባ, ኢትዮጵያ';
-      if (isAuthenticated() && window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
-        const phone = state.user.phone;
-        window.__EWN_DB__.ref('users/' + phone.replace(/\D/g,'')).update({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          locationUpdated: new Date().toISOString()
-        }).catch(() => {});
-        state.user.location = 'አዲስ አበባ, ኢትዮጵያ';
-        saveUser();
-      }
-    },
-    () => {}
-  );
-}
-
-// ============================================================
-//  BANNER SLIDESHOW (3 banners, 5s auto-slide)
-// ============================================================
-let _bannerIdx = 0;
-let _bannerTimer = null;
-
-function goBannerSlide(idx) {
-  const slides = document.querySelectorAll('.banner-slide');
-  const dots = document.querySelectorAll('.banner-dot');
-  if (!slides.length) return;
-  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  _bannerIdx = idx;
-}
-
-function startBannerAutoplay() {
-  if (_bannerTimer) clearInterval(_bannerTimer);
-  _bannerTimer = setInterval(() => {
-    const slides = document.querySelectorAll('.banner-slide');
-    if (!slides.length) return;
-    const next = (_bannerIdx + 1) % slides.length;
-    goBannerSlide(next);
-  }, 5000);
-}
-
-// ============================================================
-//  SIMPLE QR CODE GENERATOR (canvas, no library)
-// ============================================================
-function generateSimpleQR(text, canvas) {
-  // Very basic visual placeholder — draw URL text in a grid style
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const size = canvas.width;
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, size, size);
-  ctx.fillStyle = '#000';
-  ctx.font = '10px monospace';
-  ctx.textAlign = 'center';
-  ctx.fillText('Scan QR:', size/2, 20);
-  // Draw a simple border pattern to indicate QR
-  const b = 4;
-  ctx.strokeStyle = '#000';
-  ctx.lineWidth = b;
-  ctx.strokeRect(b, b, size - b*2, size - b*2);
-  ctx.strokeRect(b*3, b*3, 30, 30);
-  ctx.strokeRect(size - b*3 - 30, b*3, 30, 30);
-  ctx.strokeRect(b*3, size - b*3 - 30, 30, 30);
-  // Text URL in center
-  ctx.font = '8px monospace';
-  const words = text.replace('https://', '').split('/');
-  words.forEach((w, i) => ctx.fillText(w.slice(0,20), size/2, size/2 + i*12 - 10));
-}
 
 document.addEventListener('click', (e) => {
   if (e.target.id === 'modal-overlay') closeModal();
