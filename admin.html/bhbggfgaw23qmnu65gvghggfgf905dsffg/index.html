@@ -12,15 +12,15 @@
 <div id="auth-gate" class="admin-auth-gate">
   <div class="admin-auth-card">
     <div class="admin-auth-icon">🔐</div>
-    <h2>Login your account</h2>
-    <p class="admin-auth-sub">Sign in to continue.</p>
+    <h2 class="am">የአስተዳዳሪ መግቢያ</h2>
+    <p class="admin-auth-sub">Admin access requires Google sign-in and a secondary password.</p>
     <div id="auth-step-google">
       <button type="button" class="btn-primary am" id="google-signin-btn" onclick="signInWithGoogle()">
         Sign in with Google
       </button>
     </div>
     <div id="auth-step-password" style="display:none">
-      <p class="admin-auth-email" id="auth-email-display" style="display:none"></p>
+      <p class="admin-auth-email" id="auth-email-display"></p>
       <div class="form-group">
         <label>Secondary Password</label>
         <input class="form-control" id="admin-password" type="password" placeholder="Enter secure password"
@@ -45,7 +45,6 @@
   <button class="tab-btn active" data-tab="dashboard" onclick="showTab('dashboard')">📊 ዳሽቦርድ</button>
   <button class="tab-btn" data-tab="products" onclick="showTab('products')">📦 ምርቶች</button>
   <button class="tab-btn" data-tab="add-product" onclick="showTab('add-product')">➕ ምርት ጨምር</button>
-  <button class="tab-btn" data-tab="categories" onclick="showTab('categories')">🗂️ ምድቦች</button>
   <button class="tab-btn" data-tab="orders" onclick="showTab('orders')">🛍️ ትዕዛዞች</button>
   <button class="tab-btn" data-tab="broadcast" onclick="showTab('broadcast')">📢 Broadcast</button>
   <button class="tab-btn" data-tab="settings" onclick="showTab('settings')">⚙️ ቅንጅቶች</button>
@@ -182,42 +181,6 @@
   </div>
 </div>
 
-<div class="tab" id="tab-categories">
-  <div class="admin-form-card">
-    <div class="admin-form">
-      <h3 class="form-card-title am">🗂️ ምድቦች አስተዳደር / Category Management</h3>
-      <p class="form-hint am">ምድቦችን ይጨምሩ፣ ቅደም ተከተላቸውን ያስተካክሉ፣ ወይም ምርት ከሌላቸው ምድቦች ያጥፉ።</p>
-
-      <!-- Add new category -->
-      <div class="form-row" style="margin-bottom:12px">
-        <div class="form-group">
-          <label>Category ID (English, no spaces)</label>
-          <input class="form-control" id="new-cat-id" placeholder="e.g. shoes">
-        </div>
-        <div class="form-group">
-          <label>Emoji</label>
-          <input class="form-control" id="new-cat-emoji" placeholder="e.g. 👟" style="max-width:80px">
-        </div>
-        <div class="form-group">
-          <label class="am">ስም (አማርኛ)</label>
-          <input class="form-control am" id="new-cat-label-am" placeholder="e.g. ጫማዎች">
-        </div>
-        <div class="form-group">
-          <label>Name (English)</label>
-          <input class="form-control" id="new-cat-label-en" placeholder="e.g. Shoes">
-        </div>
-      </div>
-      <button class="btn-primary am" onclick="addCategory()">➕ ምድብ ጨምር / Add Category</button>
-      <div class="success-msg am" id="cat-success" style="display:none">✅ ተቀምጧል!</div>
-
-      <hr style="margin:20px 0;border-color:var(--border)">
-
-      <!-- Category list -->
-      <div id="admin-categories-list"></div>
-    </div>
-  </div>
-</div>
-
 <div class="tab" id="tab-orders">
   <div id="admin-orders-list">
     <div class="empty-state"><div class="empty-emoji">🛍️</div><div class="empty-sub am">ምንም ትዕዛዝ የለም</div></div>
@@ -244,48 +207,10 @@
 <div class="tab" id="tab-settings">
   <div class="admin-form-card">
     <div class="admin-form">
-      <h3 class="form-card-title am">🔄 Force Update</h3>
+      <h3 class="form-card-title am">🔥 Firebase & Cloudinary</h3>
       <p class="settings-note am">
-        ኮድ ስታዘምን <code>config.js</code> ውስጥ <code>appVersion</code> ቁጥር ቀየር፣ ከዚያ ይህን ቁጥር እዚህ አስቀምጥ።
-        ተጠቃሚዎች ሲገቡ ስሪታቸው ካልተመጣጠነ ግዴታ ዝመና ባነር ይታይባቸዋል።<br>
-        Bump <code>appVersion</code> in config.js on deploy, then set the same value here.
-      </p>
-      <div class="form-group">
-        <label class="am">የቅርብ ጊዜ ስሪት / Latest Version</label>
-        <input class="form-control" id="app-version-input" type="text" placeholder="v0.0.2">
-        <p class="form-hint">Current saved value: <span id="app-version-current">—</span></p>
-      </div>
-      <button class="btn-primary am" id="app-version-save-btn" onclick="saveAppVersion()">💾 አስቀምጥ / Save</button>
-      <div class="success-msg am" id="app-version-success">✅ ስሪቱ ተቀምጧል!</div>
-    </div>
-  </div>
-
-  <div class="admin-form-card">
-    <div class="admin-form">
-      <h3 class="form-card-title am">💳 የክፍያ አካውንቶች / Payment Accounts</h3>
-      <p class="settings-note am">ተጠቃሚዎች ክፍያ የሚፈጽሙበት አካውንት ቁጥሮች። ለውጦቹ ወዲያውኑ ይሠራሉ።</p>
-      <div class="form-group">
-        <label>📱 ቴሌብር አካውንት / Telebirr Account</label>
-        <input class="form-control" id="pay-telebirr" type="text" placeholder="09xxxxxxxx">
-      </div>
-      <div class="form-group">
-        <label>🏦 ንግድ ባንክ (CBE) አካውንት</label>
-        <input class="form-control" id="pay-cbe" type="text" placeholder="1000xxxxxxxxx">
-      </div>
-      <div class="form-group">
-        <label>🏦 አቢሲኒያ ባንክ አካውንት</label>
-        <input class="form-control" id="pay-abyssinia" type="text" placeholder="40xxxxxxxxx">
-      </div>
-      <button class="btn-primary am" id="pay-save-btn" onclick="savePaymentAccounts()">💾 አስቀምጥ / Save</button>
-      <div class="success-msg am" id="pay-success" style="display:none">✅ አካውንቶቹ ተቀምጠዋል!</div>
-    </div>
-  </div>
-
-  <div class="admin-form-card">
-      <p class="settings-note am">
-        Firebase credentials are loaded from <code>config.js</code> (git-ignored).<br>
-        Receipts are sent directly to the Telegram bot (no Cloudinary).<br>
-        Deploy security rules: <code>firebase deploy --only database</code>
+        Firebase credentials are loaded from <code>config.js</code> (git-ignored via GitHub Actions Secret).<br>
+        Cloudinary: <strong>dx0qryavd</strong> / preset <strong>my_shop_preset</strong>
       </p>
       <button class="btn-secondary am" onclick="adminSignOut()">🚪 Sign Out</button>
     </div>
@@ -303,31 +228,17 @@
 <script>
 const ADMIN_SECRET_PATH = 'bhbggfgaw23qmnu65gvghggfgf905dsffg';
 const ADMIN_EMAIL = 'dannniefx55@gmail.com';
-const ADMIN_PASSWORD = 'Dan@2024#';
-const CLOUDINARY_CLOUD = (window.__EWN_CONFIG__ || {}).cloudinaryCloudName || 'dx0qryavd';
-const CLOUDINARY_PRESET = (window.__EWN_CONFIG__ || {}).cloudinaryUploadPreset || 'my_shop_preset';
+const CLOUDINARY_CLOUD = (window.__EWN_CONFIG__ || window.EWN_CONFIG || {}).cloudinaryCloudName || 'dx0qryavd';
+const CLOUDINARY_PRESET = (window.__EWN_CONFIG__ || window.EWN_CONFIG || {}).cloudinaryUploadPreset || 'my_shop_preset';
 
-const PRODUCT_COLOR_PALETTE = [
-  { hex: '#000000', label: 'ጥቁር' },
-  { hex: '#FFFFFF', label: 'ነጭ', border: '#cbd5e1' },
-  { hex: '#EF4444', label: 'ቀይ' },
-  { hex: '#3B82F6', label: 'ሰማያዊ' },
-  { hex: '#22C55E', label: 'አረንጓዴ' },
-  { hex: '#F59E0B', label: 'ወርቃማ' },
-  { hex: '#8B5CF6', label: 'ወይን' },
-  { hex: '#6B7280', label: 'Space Gray' },
-  { hex: '#C0C0C0', label: 'Silver', border: '#cbd5e1' },
-  { hex: '#F4C2C2', label: 'ሮዝ', border: '#fecdd3' },
-  { hex: '#C8956D', label: 'ኑድ', border: '#d6b48a' },
-  { hex: '#B91C3C', label: 'ቀይ ሊፕ' },
-  { hex: '#9D4E6C', label: 'ቤሪ' },
-  { hex: '#5C2D4F', label: 'ወይን ቀይ' },
-  { hex: '#D4A853', label: 'ቻምፓኝ', border: '#e8c878' },
-  { hex: '#EC4899', label: 'ሮዝ ጥብቅ', border: '#f9a8d4' },
-  { hex: '#14B8A6', label: 'ቲል' },
-  { hex: '#F97316', label: 'ኦራንጅ' },
-  { hex: '#1E3A5F', label: 'ኔቪ' },
-  { hex: '#78350F', label: 'ቡናማ', border: '#a16207' },
+// ✅ Password ከ Firebase Realtime DB ይወሰዳል - hardcode አይደለም
+let ADMIN_PASSWORD_FROM_DB = null;
+
+const STANDARD_COLORS = [
+  '#000000','#FFFFFF','#E53935','#1E88E5','#43A047',
+  '#FDD835','#FB8C00','#8E24AA','#EC407A','#795548',
+  '#9E9E9E','#1A237E','#00897B','#880E4F','#F5F5DC',
+  '#FFD700','#C0C0C0','#808000','#FF7F50','#E6E6FA'
 ];
 
 let adminImages = [];
@@ -392,9 +303,23 @@ async function signInWithGoogle() {
   }
 }
 
-function verifyAdminPassword() {
+async function verifyAdminPassword() {
   const pwd = document.getElementById('admin-password')?.value || '';
-  if (pwd !== ADMIN_PASSWORD) {
+
+  // ✅ ከ Firebase DB password ያምጣ
+  if (!ADMIN_PASSWORD_FROM_DB && window.__EWN_DB__) {
+    try {
+      setAuthStatus('Verifying...');
+      const snap = await window.__EWN_DB__.ref('app_meta/adminPassword').once('value');
+      ADMIN_PASSWORD_FROM_DB = snap.val();
+    } catch (e) {
+      setAuthStatus('Could not verify. Check Firebase rules.', true);
+      return;
+    }
+  }
+
+  const correctPwd = ADMIN_PASSWORD_FROM_DB || 'Dan@2024#'; // fallback ብቻ
+  if (pwd !== correctPwd) {
     setAuthStatus('Invalid password. Redirecting...', true);
     window.__EWN_AUTH__?.signOut();
     setTimeout(redirectToStore, 1200);
@@ -463,10 +388,7 @@ function initAdminData() {
       adminProducts = [];
       snap.forEach(child => adminProducts.push(child.val()));
       if (!adminProducts.length) seedProductsFromJson();
-      else {
-        loadAdminProducts();
-        loadStats();
-      }
+      else { loadAdminProducts(); loadStats(); }
     });
     window.__EWN_DB__.ref('orders').on('value', snap => {
       adminOrders = [];
@@ -483,7 +405,6 @@ function initAdminData() {
   renderColorPicker();
   initDropZone();
   renderImagePreviews();
-  refreshCategorySelect();
 }
 
 async function seedProductsFromJson() {
@@ -511,48 +432,6 @@ function showTab(id) {
   if (id === 'orders') loadAdminOrders();
   if (id === 'dashboard') loadStats();
   if (id === 'add-product' && !document.getElementById('edit-id').value) resetForm();
-  if (id === 'settings') { loadAppVersion(); loadPaymentAccountsUI(); }
-  if (id === 'categories') renderAdminCategories();
-}
-
-// ============================================================
-//  FORCE UPDATE — app_meta/latestVersion
-// ============================================================
-async function loadAppVersion() {
-  if (!window.__EWN_DB__) return;
-  try {
-    const snap = await window.__EWN_DB__.ref('app_meta/latestVersion').once('value');
-    const current = snap.exists() ? snap.val() : '—';
-    document.getElementById('app-version-current').textContent = current;
-    if (snap.exists()) document.getElementById('app-version-input').value = current;
-  } catch (err) {
-    console.warn('Load app version failed:', err);
-  }
-}
-
-async function saveAppVersion() {
-  const val = document.getElementById('app-version-input').value.trim();
-  if (!val) {
-    alert('Enter a version string, e.g. v0.0.2');
-    return;
-  }
-  if (!window.__EWN_DB__) {
-    alert('Firebase is not configured.');
-    return;
-  }
-  const btn = document.getElementById('app-version-save-btn');
-  btn.disabled = true;
-  try {
-    await window.__EWN_DB__.ref('app_meta/latestVersion').set(val);
-    document.getElementById('app-version-current').textContent = val;
-    const success = document.getElementById('app-version-success');
-    success.style.display = 'block';
-    setTimeout(() => success.style.display = 'none', 3000);
-  } catch (err) {
-    alert('Save failed: ' + (err.message || err));
-  } finally {
-    btn.disabled = false;
-  }
 }
 
 function toggleThemeAdmin() {
@@ -563,16 +442,12 @@ function toggleThemeAdmin() {
 function renderColorPicker() {
   const grid = document.getElementById('color-picker');
   if (!grid) return;
-  grid.innerHTML = PRODUCT_COLOR_PALETTE.map(c => {
-    const isSelected = adminColors.includes(c.hex);
-    const borderStyle = c.border ? `border:2px solid ${c.border}` : '';
-    return `
-    <button type="button" class="color-swatch${isSelected ? ' selected' : ''}"
-            style="background:${c.hex};${borderStyle}" data-color="${c.hex}"
-            onclick="toggleColor('${c.hex}')" title="${c.label}">
-      <span class="color-swatch-label">${c.label}</span>
-    </button>`;
-  }).join('');
+  grid.innerHTML = STANDARD_COLORS.map(c => `
+    <button type="button" class="color-swatch${adminColors.includes(c) ? ' selected' : ''}"
+            style="background:${c}" data-color="${c}"
+            onclick="toggleColor('${c}')" title="${c}"
+            ${c === '#FFFFFF' ? 'data-light="true"' : ''}></button>
+  `).join('');
   document.getElementById('color-hint').textContent =
     `${adminColors.length} / 3 ቀለሞች ተመርጠዋል / colors selected`;
 }
@@ -606,10 +481,7 @@ async function handleFiles(files) {
     if (status) status.textContent = 'Uploading to Cloudinary...';
     try {
       const url = await uploadToCloudinary(file);
-      if (adminImages.length < 3) {
-        adminImages.push(url);
-        renderImagePreviews();
-      }
+      if (adminImages.length < 3) { adminImages.push(url); renderImagePreviews(); }
     } catch {
       alert('Image upload failed. Please try again.');
     }
@@ -811,7 +683,7 @@ function loadAdminOrders() {
       <div style="font-family:var(--font-am);font-size:13px">${o.items.map(i=>i.name+' x'+i.qty).join(', ')}</div>
       <div style="font-weight:700;color:var(--clr-primary);margin-top:4px">${o.total.toLocaleString()} ብር</div>
       <div style="font-size:11px;color:var(--text-secondary)">👤 ${o.customer.name} | 📞 ${o.customer.phone}</div>
-      <div style="font-size:11px;color:var(--text-secondary)">🧾 ደረሰኝ Telegram bot ላይ ይታያል / Receipt sent via Telegram</div>
+      ${o.receiptUrl ? `<a href="${o.receiptUrl}" target="_blank" rel="noopener" class="receipt-link">🧾 View Receipt</a>` : ''}
       <div style="font-size:11px;color:var(--text-secondary)">📅 ${new Date(o.date).toLocaleString()}</div>
     </div>`).join('');
 }
@@ -831,29 +703,17 @@ async function updateStatus(orderId, newStatus) {
 
 async function sendBroadcast() {
   const msg = document.getElementById('broadcast-message').value.trim();
-  if (!msg) {
-    alert('Enter a message first.');
-    return;
-  }
-  if (!window.__EWN_DB__) {
-    alert('Firebase is not configured.');
-    return;
-  }
+  if (!msg) { alert('Enter a message first.'); return; }
+  if (!window.__EWN_DB__) { alert('Firebase is not configured.'); return; }
   const btn = document.getElementById('broadcast-send-btn');
   btn.disabled = true;
   try {
-    const accountsSnap = await window.__EWN_DB__.ref('accounts').once('value');
-    const notif = {
+    const id = 'n' + Date.now();
+    await window.__EWN_DB__.ref('notifications/' + id).set({
       message: msg,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
-      date: new Date().toISOString(),
-      read: false
-    };
-    const writes = [];
-    accountsSnap.forEach(child => {
-      writes.push(window.__EWN_DB__.ref('notifications/' + child.key).push(notif));
+      date: new Date().toISOString()
     });
-    await Promise.all(writes);
     document.getElementById('broadcast-message').value = '';
     document.getElementById('broadcast-char-count').textContent = '0';
     const success = document.getElementById('broadcast-success');
@@ -874,156 +734,9 @@ function loadStats() {
   document.getElementById('stat-products').textContent = getProducts().length;
   if (window.__EWN_DB__) {
     window.__EWN_DB__.ref('notifications').once('value', snap => {
-      let count = 0;
-      snap.forEach(userNode => { count += userNode.numChildren(); });
-      document.getElementById('stat-notifications').textContent = count;
+      document.getElementById('stat-notifications').textContent = snap.numChildren();
     });
   }
-}
-
-// ============================================================
-//  PAYMENT ACCOUNTS MANAGEMENT
-// ============================================================
-async function loadPaymentAccountsUI() {
-  // Load from Firebase or localStorage
-  let accounts = { telebirr: '', cbe: '', abyssinia: '' };
-  if (window.__EWN_DB__) {
-    try {
-      const snap = await window.__EWN_DB__.ref('app_meta/paymentAccounts').once('value');
-      if (snap.exists()) accounts = { ...accounts, ...snap.val() };
-    } catch(e) {}
-  } else {
-    const stored = localStorage.getItem('ewn_payment_accounts');
-    if (stored) accounts = { ...accounts, ...JSON.parse(stored) };
-  }
-  const t = document.getElementById('pay-telebirr');
-  const c = document.getElementById('pay-cbe');
-  const a = document.getElementById('pay-abyssinia');
-  if (t) t.value = accounts.telebirr || '';
-  if (c) c.value = accounts.cbe || '';
-  if (a) a.value = accounts.abyssinia || '';
-}
-
-async function savePaymentAccounts() {
-  const accounts = {
-    telebirr: document.getElementById('pay-telebirr').value.trim(),
-    cbe: document.getElementById('pay-cbe').value.trim(),
-    abyssinia: document.getElementById('pay-abyssinia').value.trim()
-  };
-  const btn = document.getElementById('pay-save-btn');
-  btn.disabled = true;
-  try {
-    if (window.__EWN_DB__) {
-      await window.__EWN_DB__.ref('app_meta/paymentAccounts').set(accounts);
-    }
-    localStorage.setItem('ewn_payment_accounts', JSON.stringify(accounts));
-    const msg = document.getElementById('pay-success');
-    msg.style.display = 'block';
-    setTimeout(() => msg.style.display = 'none', 3000);
-  } catch(err) {
-    alert('Save failed: ' + (err.message || err));
-  } finally {
-    btn.disabled = false;
-  }
-}
-
-// ============================================================
-//  CATEGORY MANAGEMENT
-// ============================================================
-function getAdminCategories() {
-  const stored = localStorage.getItem('ewn_categories');
-  if (stored) return JSON.parse(stored);
-  // Default categories
-  return [
-    { id: 'phones',       emoji: '📱', labelAm: 'ስልኮች',           labelEn: 'Phones' },
-    { id: 'kitchen',      emoji: '🍳', labelAm: 'የማእድቤት እቃዎች',   labelEn: 'Kitchen' },
-    { id: 'laptops',      emoji: '💻', labelAm: 'ላፕቶፕ',            labelEn: 'Laptops' },
-    { id: 'beauty_health',emoji: '💄', labelAm: 'ውበት እና ጤና',      labelEn: 'Beauty & Health' },
-    { id: 'accessories',  emoji: '🎮', labelAm: 'ልዩ ዕቃዎች',        labelEn: 'Accessories' },
-  ];
-}
-
-function saveAdminCategories(cats) {
-  localStorage.setItem('ewn_categories', JSON.stringify(cats));
-  if (window.__EWN_DB__) {
-    window.__EWN_DB__.ref('app_meta/categories').set(cats).catch(() => {});
-  }
-}
-
-function addCategory() {
-  const id = document.getElementById('new-cat-id').value.trim().toLowerCase().replace(/\s+/g,'_');
-  const emoji = document.getElementById('new-cat-emoji').value.trim() || '📦';
-  const labelAm = document.getElementById('new-cat-label-am').value.trim();
-  const labelEn = document.getElementById('new-cat-label-en').value.trim();
-  if (!id || !labelAm || !labelEn) { alert('ሁሉንም መስኮች ይሙሉ / Fill all fields'); return; }
-  const cats = getAdminCategories();
-  if (cats.find(c => c.id === id)) { alert('ይህ ID አስቀድሞ አለ / ID already exists'); return; }
-  cats.push({ id, emoji, labelAm, labelEn });
-  saveAdminCategories(cats);
-  ['new-cat-id','new-cat-emoji','new-cat-label-am','new-cat-label-en'].forEach(x => document.getElementById(x).value = '');
-  const msg = document.getElementById('cat-success');
-  msg.style.display = 'block';
-  setTimeout(() => msg.style.display = 'none', 2500);
-  renderAdminCategories();
-  refreshCategorySelect();
-}
-
-function moveCat(idx, dir) {
-  const cats = getAdminCategories();
-  const newIdx = idx + dir;
-  if (newIdx < 0 || newIdx >= cats.length) return;
-  [cats[idx], cats[newIdx]] = [cats[newIdx], cats[idx]];
-  saveAdminCategories(cats);
-  renderAdminCategories();
-  refreshCategorySelect();
-}
-
-function deleteCat(idx) {
-  const cats = getAdminCategories();
-  const cat = cats[idx];
-  // Check if any product uses this category
-  const hasProducts = adminProducts.some(p => p.category === cat.id);
-  if (hasProducts) { alert(`"${cat.labelAm}" ምድብ ምርቶች አሉት። ምርቶቹን አስቀድሞ ያጥፉ / Category has products.`); return; }
-  if (!confirm(`"${cat.labelAm}" ምድብ ማጥፋት ይፈልጋሉ?`)) return;
-  cats.splice(idx, 1);
-  saveAdminCategories(cats);
-  renderAdminCategories();
-  refreshCategorySelect();
-}
-
-function renderAdminCategories() {
-  const cats = getAdminCategories();
-  const container = document.getElementById('admin-categories-list');
-  if (!container) return;
-  if (!cats.length) {
-    container.innerHTML = '<p class="am">ምንም ምድብ የለም</p>';
-    return;
-  }
-  container.innerHTML = cats.map((c, i) => {
-    const productCount = adminProducts.filter(p => p.category === c.id).length;
-    return `
-    <div class="product-admin-card" style="align-items:center">
-      <div style="font-size:28px;margin-right:12px">${c.emoji}</div>
-      <div class="product-admin-info">
-        <div class="admin-product-name">${c.labelAm} / ${c.labelEn}</div>
-        <div class="admin-product-meta">ID: ${c.id} | ${productCount} ምርቶች</div>
-      </div>
-      <div class="admin-actions" style="margin-left:auto;flex-shrink:0">
-        <button class="btn-edit" onclick="moveCat(${i},-1)" ${i===0?'disabled':''}>⬆️</button>
-        <button class="btn-edit" onclick="moveCat(${i},1)" ${i===cats.length-1?'disabled':''}>⬇️</button>
-        <button class="btn-delete" onclick="deleteCat(${i})" ${productCount>0?'disabled':''} title="${productCount>0?'ምርቶች አሉ':'ምድብ ሰርዝ'}">🗑️</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function refreshCategorySelect() {
-  const sel = document.getElementById('p-category');
-  if (!sel) return;
-  const cats = getAdminCategories();
-  sel.innerHTML = cats.map(c =>
-    `<option value="${c.id}">${c.emoji} ${c.labelEn} / ${c.labelAm}</option>`
-  ).join('');
 }
 
 document.getElementById('broadcast-message')?.addEventListener('input', function () {
