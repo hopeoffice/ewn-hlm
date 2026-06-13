@@ -16,60 +16,6 @@
 </head>
 <body>
 
-<!-- ======== DESKTOP BLOCK OVERLAY ======== -->
-<div id="desktop-block" style="display:none;position:fixed;inset:0;z-index:99999;background:#0d5c42;
-  flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;">
-  <div style="font-size:64px;margin-bottom:20px;">📱</div>
-  <div style="font-family:'Noto Sans Ethiopic',sans-serif;color:#fff;font-size:22px;font-weight:700;margin-bottom:12px;">
-    ይህ አፕ በስልክ ብቻ ይሰራል
-  </div>
-  <div style="font-family:'Inter',sans-serif;color:rgba(255,255,255,0.8);font-size:14px;margin-bottom:8px;">
-    This app is designed for mobile devices only.
-  </div>
-  <div style="font-family:'Noto Sans Ethiopic',sans-serif;color:rgba(255,255,255,0.7);font-size:13px;margin-bottom:28px;">
-    እባክዎ ስልክዎን ይጠቀሙ
-  </div>
-  <div id="qr-code-wrap" style="background:#fff;border-radius:16px;padding:16px;display:inline-block;">
-    <canvas id="qr-canvas" width="160" height="160"></canvas>
-    <div style="font-size:11px;color:#555;margin-top:8px;font-family:'Inter',sans-serif;">
-      Scan to open on mobile
-    </div>
-  </div>
-</div>
-
-<!-- ======== NETWORK OFFLINE OVERLAY ======== -->
-<div id="network-overlay" style="display:none;position:fixed;inset:0;z-index:99998;background:rgba(0,0,0,0.85);
-  flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;">
-  <div style="font-size:56px;margin-bottom:16px;">📡</div>
-  <div style="font-family:'Noto Sans Ethiopic',sans-serif;color:#fff;font-size:20px;font-weight:700;margin-bottom:10px;">
-    ኢንተርኔት የለም!
-  </div>
-  <div style="font-family:'Inter',sans-serif;color:rgba(255,255,255,0.8);font-size:14px;margin-bottom:8px;">
-    No internet connection
-  </div>
-  <div style="font-family:'Noto Sans Ethiopic',sans-serif;color:rgba(255,255,255,0.65);font-size:13px;">
-    እባክዎ ኔትወርክዎን ያገናኙ
-  </div>
-</div>
-
-<!-- ======== LOCATION PERMISSION OVERLAY ======== -->
-<div id="location-overlay" style="display:none;position:fixed;inset:0;z-index:99997;background:rgba(0,0,0,0.7);
-  flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;">
-  <div style="background:#fff;border-radius:20px;padding:32px 24px;max-width:320px;width:100%;">
-    <div style="font-size:48px;margin-bottom:14px;">📍</div>
-    <div style="font-family:'Noto Sans Ethiopic',sans-serif;color:#0d5c42;font-size:18px;font-weight:700;margin-bottom:10px;">
-      የሎኬሽን ፍቃድ ያስፈልጋል
-    </div>
-    <div style="font-family:'Noto Sans Ethiopic',sans-serif;color:#555;font-size:13px;margin-bottom:20px;line-height:1.6;">
-      ቅርብ ምርቶችን ለማሳየት የሚኖሩበትን አካባቢ ለማወቅ ፍቃድ ይስጡን።
-    </div>
-    <button onclick="requestLocationPermission()" style="background:#0d5c42;color:#fff;border:none;border-radius:12px;
-      padding:14px 28px;font-family:'Noto Sans Ethiopic',sans-serif;font-size:15px;font-weight:600;cursor:pointer;width:100%;">
-      ፍቃድ ስጥ →
-    </button>
-  </div>
-</div>
-
 <!-- ======== SPLASH SCREEN ======== -->
 <div id="splash">
   <div class="splash-logo">🛍️</div>
@@ -139,27 +85,14 @@
     <!-- === SCREEN: HOME === -->
     <main class="screen active" id="screen-home">
 
-      <!-- Banner Slideshow -->
-      <div class="banner-slideshow-wrap" id="banner-slideshow">
-        <div class="banner-slide active" style="background:linear-gradient(135deg,#0d5c42,#1ebf7e)">
+      <!-- Banner -->
+      <div class="banner-wrap">
+        <div class="banner-card">
           <div class="banner-eyebrow am">🌟 Ewn Hlm</div>
           <div class="banner-title am" data-i18n="banner_title">ሕልምዎ እውን የሚሆንበት<br>የዲጂታል ገበያ!!</div>
-          <button class="banner-cta am" onclick="document.getElementById('search-input').focus()">አሁን ይሸምቱ →</button>
-        </div>
-        <div class="banner-slide" style="background:linear-gradient(135deg,#1a237e,#1565c0)">
-          <div class="banner-eyebrow am">🔥 ልዩ ቅናሽ</div>
-          <div class="banner-title am">እስከ 30% ቅናሽ<br>በምርጥ ምርቶቻችን!!</div>
-          <button class="banner-cta am" onclick="selectCategory('all')">ቅናሾቹን ይዩ →</button>
-        </div>
-        <div class="banner-slide" style="background:linear-gradient(135deg,#4a148c,#7b1fa2)">
-          <div class="banner-eyebrow am">📦 ፈጣን ማድረሻ</div>
-          <div class="banner-title am">ትዕዛዝ ያስቀምጡ<br>በ24 ሰዓት ይደርሳል!!</div>
-          <button class="banner-cta am" onclick="navigate('cart')">ትዕዛዝ ያስቀምጡ →</button>
-        </div>
-        <div class="banner-dots">
-          <span class="banner-dot active" onclick="goBannerSlide(0)"></span>
-          <span class="banner-dot" onclick="goBannerSlide(1)"></span>
-          <span class="banner-dot" onclick="goBannerSlide(2)"></span>
+          <button class="banner-cta am" data-i18n="banner_sub" onclick="document.getElementById('search-input').focus()">
+            አሁን ይሸምቱ →
+          </button>
         </div>
       </div>
 
@@ -241,26 +174,8 @@
             </div>
           </div>
 
-          <!-- Share -->
-          <button class="menu-item" onclick="toggleShareMenu()" id="share-menu-btn">
-            <div class="menu-icon">📤</div>
-            <div class="menu-text">
-              <div class="menu-title am" data-i18n="share">ለወዳጅዎ ያጋሩ</div>
-              <div class="menu-sub am" data-i18n="share_sub">ድረ ገጹን ለጓደኞችዎ ያጋሩ</div>
-            </div>
-            <span class="menu-arrow" id="share-arrow">›</span>
-          </button>
-          <div id="share-menu" style="display:none;padding:8px 16px 12px 72px;background:var(--bg-card);border-bottom:1px solid var(--border)">
-            <div class="lang-options">
-              <button class="lang-chip" onclick="shareVia('telegram')">📨 Telegram</button>
-              <button class="lang-chip" onclick="shareVia('whatsapp')">💬 WhatsApp</button>
-              <button class="lang-chip" onclick="shareVia('instagram')">📷 Instagram</button>
-              <button class="lang-chip" onclick="shareVia('facebook')">📘 Facebook</button>
-            </div>
-          </div>
-
           <!-- Help Center -->
-          <button class="menu-item" onclick="openHelpCenter()">
+          <button class="menu-item">
             <div class="menu-icon">🎧</div>
             <div class="menu-text">
               <div class="menu-title am" data-i18n="help">የእርዳታ ማዕከል</div>
@@ -358,7 +273,6 @@
 <!-- ======== TOAST ======== -->
 <div class="toast" id="toast"></div>
 
-
 <script>
   function toggleLangMenu() {
     const menu = document.getElementById('lang-menu');
@@ -370,7 +284,7 @@
 </script>
 <!-- Load order: Firebase SDK → config.js → firebase-init.js → main.js -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script src="config.js"></script>
 <script src="firebase-init.js"></script>
 <script src="main.js"></script>
