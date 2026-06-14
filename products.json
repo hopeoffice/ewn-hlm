@@ -1,137 +1,1470 @@
 [
   {
-    "id": "1",
-    "name": "Samsung A16 5G",
-    "nameAm": "ሳምሱንግ A16 5G",
-    "category": "phones",
-    "price": 22500,
-    "discountedPrice": 19900,
-    "description": "Internal storage 128GB / RAM 6GB, Brand New",
-    "descriptionAm": "128GB ማህደረ ትውስታ / 6GB RAM, አዲስ",
-    "images": [
-      "https://via.placeholder.com/300x300/1a1a2e/ffffff?text=Samsung+A16",
-      "https://via.placeholder.com/300x300/2d2d44/ffffff?text=Samsung+Back",
-      "https://via.placeholder.com/300x300/3d3d55/ffffff?text=Samsung+Side"
-    ],
-    "colors": ["#000000", "#1E88E5", "#FFFFFF"],
-    "condition": "Brand New",
-    "likes": 12,
-    "hidden": false,
-    "outOfStock": false
-  },
-  {
-    "id": "2",
-    "name": "Samsung Galaxy Note 20 Ultra",
-    "nameAm": "ሳምሱንግ ጋላክሲ ኖት 20 ኡልትራ",
-    "category": "phones",
-    "price": 31500,
-    "description": "Brand New, internal storage 256GB",
-    "descriptionAm": "አዲስ፣ 256GB ማህደረ ትውስታ",
-    "images": [
-      "https://via.placeholder.com/300x300/2d2d44/ffffff?text=Note+20+Ultra",
-      "https://via.placeholder.com/300x300/1a1a2e/ffffff?text=Note+20+Back"
-    ],
-    "colors": ["#000000", "#8E24AA"],
-    "condition": "Brand New",
-    "likes": 8,
-    "hidden": false,
-    "outOfStock": false
-  },
-  {
-    "id": "3",
-    "name": "Non-Stick Cookware Set",
-    "nameAm": "ኖን-ስቲክ የማድቤት እቃ ስብስብ",
     "category": "kitchen",
-    "price": 4500,
-    "description": "10-piece set, dishwasher safe",
-    "descriptionAm": "10 ቁራጭ ስብስብ፣ ለ dish washer ተስማሚ",
-    "images": ["https://via.placeholder.com/300x300/0d4f3c/ffffff?text=Cookware+Set"],
-    "colors": ["#000000", "#C0C0C0"],
     "condition": "Brand New",
-    "likes": 25,
+    "description": "ፍራፍሬዎች እና አትክልቶችን ወድያው ፈጭቶ ጁስ የሚያደርግ\nልጣጭ እና ፈሳሹን እራሱ የሚለይ\n7 የአፈጫጨት መንገዶች ያለው\nሲፈጭም ዝቅተኛ ድምፅ የሚያሰማ\nለቤትም ሆነ ለስራ የሚሆን\nየማይዝግ እና 150 ዋት አቅም ያለው",
+    "descriptionAm": "ፍራፍሬዎች እና አትክልቶችን ወድያው ፈጭቶ ጁስ የሚያደርግ\nልጣጭ እና ፈሳሹን እራሱ የሚለይ\n7 የአፈጫጨት መንገዶች ያለው\nሲፈጭም ዝቅተኛ ድምፅ የሚያሰማ\nለቤትም ሆነ ለስራ የሚሆን\nየማይዝግ እና 150 ዋት አቅም ያለው",
     "hidden": false,
-    "outOfStock": false
+    "id": "1610",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780764492/a3fhoovkdgeb6gnmikp3.jpg"
+    ],
+    "likes": 0,
+    "name": "ትልቁ ዘመናዊ የጁስ መፍጫ (Automatic Juicer)",
+    "nameAm": "ትልቁ ዘመናዊ የጁስ መፍጫ (Automatic Juicer)",
+    "outOfStock": false,
+    "price": 17000
   },
   {
-    "id": "4",
-    "name": "HP Laptop 15",
-    "nameAm": "HP ላፕቶፕ 15",
+    "category": "kitchen",
+    "colors": [
+      "#22C55E",
+      "#FFFFFF"
+    ],
+    "condition": "Brand New",
+    "description": "በሰከንዶች ላስቲኮችን የሚያሽግ\nለአጠቃቀም ቀላል እና አነስተኛ\nለግልም ሆን ለባልትና ስራዎች ተመራጭ\nበቻርጅ ስለሚሰራ ተጨማሪ ወጪ የማይፈልግ",
+    "descriptionAm": "በሰከንዶች ላስቲኮችን የሚያሽግ\nለአጠቃቀም ቀላል እና አነስተኛ\nለግልም ሆን ለባልትና ስራዎች ተመራጭ\nበቻርጅ ስለሚሰራ ተጨማሪ ወጪ የማይፈልግ",
+    "hidden": false,
+    "id": "1992",
+    "likes": 0,
+    "name": "ባለቻርጅ ባልትና ማሸጊያ (rechargeable mini sealer)",
+    "nameAm": "ባለቻርጅ ባልትና ማሸጊያ (rechargeable mini sealer)",
+    "outOfStock": false,
+    "price": 2200
+  },
+  {
     "category": "laptops",
-    "price": 38000,
-    "discountedPrice": 35000,
-    "description": "Core i5, 8GB RAM, 512GB SSD",
-    "descriptionAm": "Core i5፣ 8GB RAM፣ 512GB SSD",
-    "images": [
-      "https://via.placeholder.com/300x300/1a3a2e/ffffff?text=HP+Laptop",
-      "https://via.placeholder.com/300x300/2a4a3e/ffffff?text=HP+Open"
+    "colors": [
+      "#6B7280",
+      "#000000"
     ],
-    "colors": ["#1A237E", "#C0C0C0"],
     "condition": "Brand New",
-    "likes": 15,
+    "description": "- 2014 model, intel Core i5\n- 256GB ssd, 8GB ram\n- Four Thunderbolts\n- screen size 14.1 inch\n- ultra very slim, 4.5 ghz speed\n- intel hd graphics, Brand New",
+    "descriptionAm": "- 2014 model, intel Core i5\n- 256GB ssd, 8GB ram\n- Four Thunderbolts\n- screen size 14.1 inch\n- ultra very slim, 4.5 ghz speed\n- intel hd graphics, Brand New",
     "hidden": false,
-    "outOfStock": false
+    "id": "2017",
+    "likes": 0,
+    "name": "Apple Mac Book pro 256GB ssd/8GB RAM",
+    "nameAm": "Apple Mac Book pro 256GB ssd/8GB RAM",
+    "outOfStock": false,
+    "price": 42599
   },
   {
-    "id": "5",
-    "name": "Ethiopian Coffee Set",
-    "nameAm": "የኢትዮጵያ ቡና ስብስብ",
+    "category": "laptops",
+    "colors": [
+      "#C0C0C0"
+    ],
+    "condition": "Brand New",
+    "description": "- Core i5, 8th generation\n- 512GB SSD, Ram 8GB\n- intel hd graphics card\n- screen size 14.1 inch\n- keyboard light, 4 hour battery\n- finger print scanner",
+    "descriptionAm": "- Core i5, 8th generation\n- 512GB SSD, Ram 8GB\n- intel hd graphics card\n- screen size 14.1 inch\n- keyboard light, 4 hour battery\n- finger print scanner",
+    "hidden": false,
+    "id": "2116",
+    "likes": 0,
+    "name": "Hp elite book G5 512GB SSD/8GB RAM",
+    "nameAm": "Hp elite book G5 512GB SSD/8GB RAM",
+    "outOfStock": false,
+    "price": 59599
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280",
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "- 2016 model, intel Core i7\n- 512GB ssd/16GB RAM\n- 4 Gb Radeon 460 graphics card\n- Four Thunderbolt 3 ports\n- with Touch Bar, screen size 14.1 inch\n- ultra very slim, 4.5 ghz speed\n- intel hd graphics, Brand New",
+    "descriptionAm": "- 2016 model, intel Core i7\n- 512GB ssd/16GB RAM\n- 4 Gb Radeon 460 graphics card\n- Four Thunderbolt 3 ports\n- with Touch Bar, screen size 14.1 inch\n- ultra very slim, 4.5 ghz speed\n- intel hd graphics, Brand New",
+    "hidden": false,
+    "id": "2675",
+    "likes": 0,
+    "name": "Apple Mac Book pro 512GB ssd/16GB RAM",
+    "nameAm": "Apple Mac Book pro 512GB ssd/16GB RAM",
+    "outOfStock": false,
+    "price": 87599
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280",
+      "#C0C0C0"
+    ],
+    "condition": "Brand New",
+    "description": "- 7th generation, Core i7\n- 256GB ssd, 8GB RAM\n- intel hd grphics card\n- 4 hour battery\n- screen size 15.6 inch\n- Almost new, 4.0 turbo speed",
+    "descriptionAm": "- 7th generation, Core i7\n- 256GB ssd, 8GB RAM\n- intel hd grphics card\n- 4 hour battery\n- screen size 15.6 inch\n- Almost new, 4.0 turbo speed",
+    "hidden": false,
+    "id": "2718",
+    "likes": 0,
+    "name": "Hp Pro book g2 256GB ssd/8GB RAM",
+    "nameAm": "Hp Pro book g2 256GB ssd/8GB RAM",
+    "outOfStock": false,
+    "price": 47599
+  },
+  {
     "category": "kitchen",
-    "price": 850,
-    "description": "Traditional coffee ceremony set, handmade",
-    "descriptionAm": "ባህላዊ የቡና ሥነ ሥርዓት ስብስብ፣ እጅ ሥራ",
-    "images": ["https://via.placeholder.com/300x300/4a2810/ffffff?text=Coffee+Set"],
-    "colors": ["#795548", "#F5F5DC"],
     "condition": "Brand New",
-    "likes": 42,
+    "description": "የተለያዩ ፍራፍሬዎች በመክተት አይሰክሬም አድርጎ ያወጣል\nለመስራትም ምንም ተጨማሪ ኬሚካል አያሰፈልገውም\nለልጆች ቁርስም ሆነ ለአዋቂ ዴዘርት ይሰሩበታል\nጠንካራ እና ጥራት ያለው ዕቃ",
+    "descriptionAm": "የተለያዩ ፍራፍሬዎች በመክተት አይሰክሬም አድርጎ ያወጣል\nለመስራትም ምንም ተጨማሪ ኬሚካል አያሰፈልገውም\nለልጆች ቁርስም ሆነ ለአዋቂ ዴዘርት ይሰሩበታል\nጠንካራ እና ጥራት ያለው ዕቃ",
     "hidden": false,
-    "outOfStock": false
+    "id": "3136",
+    "likes": 0,
+    "name": "የአይሰክሬም መስሪያ(lce cream and desert maker)",
+    "nameAm": "የአይሰክሬም መስሪያ(lce cream and desert maker)",
+    "outOfStock": false,
+    "price": 8700
   },
   {
-    "id": "6",
-    "name": "Sony WH-1000XM5",
-    "nameAm": "ሶኒ ሄድፎን",
-    "category": "phones",
-    "price": 18000,
-    "description": "Noise canceling wireless headphones",
-    "descriptionAm": "ድምፅ ሰሪ ሽቦ አልባ ሄድፎን",
-    "images": ["https://via.placeholder.com/300x300/111122/ffffff?text=Sony+Headphones"],
-    "colors": ["#000000", "#C0C0C0"],
-    "condition": "Brand New",
-    "likes": 19,
-    "hidden": false,
-    "outOfStock": true
-  },
-  {
-    "id": "7",
-    "name": "Skincare Bundle",
-    "nameAm": "የቆዳ እንክብካቤ ስብስብ",
-    "category": "beauty_health",
-    "price": 1200,
-    "description": "Complete skincare routine set",
-    "descriptionAm": "ሙሉ የቆዳ እንክብካቤ ስብስብ",
-    "images": ["https://via.placeholder.com/300x300/8B4513/ffffff?text=Skincare"],
-    "colors": ["#EC407A", "#FFFFFF"],
-    "condition": "Brand New",
-    "likes": 67,
-    "hidden": false,
-    "outOfStock": false
-  },
-  {
-    "id": "8",
-    "name": "Xiaomi Redmi Note 13",
-    "nameAm": "ዢያኦሚ ሬድሚ ኖት 13",
-    "category": "phones",
-    "price": 16500,
-    "description": "6.67\" AMOLED, 108MP camera, 5000mAh",
-    "descriptionAm": "6.67\" AMOLED, 108MP ካሜራ, 5000mAh",
-    "images": [
-      "https://via.placeholder.com/300x300/1c1c3e/ffffff?text=Redmi+Note+13",
-      "https://via.placeholder.com/300x300/2c2c4e/ffffff?text=Redmi+Back"
+    "category": "laptops",
+    "colors": [
+      "#C0C0C0",
+      "#6B7280"
     ],
-    "colors": ["#1E88E5", "#000000", "#43A047"],
     "condition": "Brand New",
-    "likes": 31,
+    "description": "- Core i5, Ilth Generation\n- 256GB ssd, 16GB RAM\n- intel iris X graphics card, Full HD IPS Display\n- Cool Design, Immersive Audio\n- Comprehensive Connectivity, Long Battery Life\n- 14.1 inch screen, Brand New",
+    "descriptionAm": "- Core i5, Ilth Generation\n- 256GB ssd, 16GB RAM\n- intel iris X graphics card, Full HD IPS Display\n- Cool Design, Immersive Audio\n- Comprehensive Connectivity, Long Battery Life\n- 14.1 inch screen, Brand New",
     "hidden": false,
-    "outOfStock": false
+    "id": "3642",
+    "likes": 0,
+    "name": "Hp Elight book G8 256GB ssd/16GB RAM",
+    "nameAm": "Hp Elight book G8 256GB ssd/16GB RAM",
+    "outOfStock": false,
+    "price": 73599
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280",
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "AMD A10\n500GB hdd/8GB RAM\nQuad core processor\nRadeon graphics card, 2.6 ghz speed\n15.6inch screen, 3 hour battery\nDubai used laptop",
+    "descriptionAm": "AMD A10\n500GB hdd/8GB RAM\nQuad core processor\nRadeon graphics card, 2.6 ghz speed\n15.6inch screen, 3 hour battery\nDubai used laptop",
+    "hidden": false,
+    "id": "4110",
+    "likes": 0,
+    "name": "Samsung note book 500GB hdd/8GB RAM",
+    "nameAm": "Samsung note book 500GB hdd/8GB RAM",
+    "outOfStock": false,
+    "price": 22999
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "ማንዋል የጁስ መጭመቂያ\nለመጭመቅ ምንም አይነት መብራት የማይፈልግ\nለማፅዳት በጣም ቀላል\nብርቱካን፣ሀባብ፣ሸንኮራ በደምብ የሚጨምቅ\nየራሱ ማጥለያ ያለው",
+    "descriptionAm": "ማንዋል የጁስ መጭመቂያ\nለመጭመቅ ምንም አይነት መብራት የማይፈልግ\nለማፅዳት በጣም ቀላል\nብርቱካን፣ሀባብ፣ሸንኮራ በደምብ የሚጨምቅ\nየራሱ ማጥለያ ያለው",
+    "hidden": false,
+    "id": "4122",
+    "likes": 0,
+    "name": "የጁስ መጭመቂያ(Manual Hand Press Fruit Juicer)",
+    "nameAm": "የጁስ መጭመቂያ(Manual Hand Press Fruit Juicer)",
+    "outOfStock": false,
+    "price": 2500
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "ቡና እና እንደ በርበሬ፣ኮረሪማ፣ስንዴ፣ነጫ ሽንኩርት አይነት ቅመሞችን ይፈጫል\nበአንዴው 240 ሚ.ሊ መፍጨት የሚችል\nሞተሩ በፍጥነት የሚያደቅ, 300 ዋት አቅም ያለው\nየማይዝግ እና መታጠብ የሚችል, ለአጠቃቀም ቀላል\nአነስተኛ ሰለሆነ የትም ለመጠቀም ምቹ",
+    "descriptionAm": "ቡና እና እንደ በርበሬ፣ኮረሪማ፣ስንዴ፣ነጫ ሽንኩርት አይነት ቅመሞችን ይፈጫል\nበአንዴው 240 ሚ.ሊ መፍጨት የሚችል\nሞተሩ በፍጥነት የሚያደቅ, 300 ዋት አቅም ያለው\nየማይዝግ እና መታጠብ የሚችል, ለአጠቃቀም ቀላል\nአነስተኛ ሰለሆነ የትም ለመጠቀም ምቹ",
+    "hidden": false,
+    "id": "4164",
+    "likes": 0,
+    "name": "የቡና መፍጫ (coffee grinder)",
+    "nameAm": "የቡና መፍጫ (coffee grinder)",
+    "outOfStock": false,
+    "price": 4300
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280",
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "Core i5\n750GB hdd/8GB RAM\n2.4 ghz speed\n14.1 inch screen\n4 hour battery\nDubai used laptop",
+    "descriptionAm": "Core i5\n750GB hdd/8GB RAM\n2.4 ghz speed\n14.1 inch screen\n4 hour battery\nDubai used laptop",
+    "hidden": false,
+    "id": "4297",
+    "likes": 0,
+    "name": "Hp pro book640 750GB hdd/8GB RAM",
+    "nameAm": "Hp pro book640 750GB hdd/8GB RAM",
+    "outOfStock": false,
+    "price": 38950
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "በ Touch የሚሰራ Stove\n2 Plate ማብሰያ ሰሀን ያለው\nለአጠቃቀም በጣም ምቹ እና ዘመናዊ, 3500 ዋት አቅም ያለው\nቆሻሻ የማይዝ ወድያው የሚፀዳ\nከመጠን በላይ እንዳይግል መከላከያ ያለው\nግለቱንም ሆነ ደቂቃውን መሙያ ያለው",
+    "descriptionAm": "በ Touch የሚሰራ Stove\n2 Plate ማብሰያ ሰሀን ያለው\nለአጠቃቀም በጣም ምቹ እና ዘመናዊ, 3500 ዋት አቅም ያለው\nቆሻሻ የማይዝ ወድያው የሚፀዳ\nከመጠን በላይ እንዳይግል መከላከያ ያለው\nግለቱንም ሆነ ደቂቃውን መሙያ ያለው",
+    "hidden": false,
+    "id": "4572",
+    "likes": 0,
+    "name": "ባለ 2 ተች ስቶቭ (Dual Touch Stove)",
+    "nameAm": "ባለ 2 ተች ስቶቭ (Dual Touch Stove)",
+    "outOfStock": false,
+    "price": 13500
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "46ሴሜ ስፋት ያለው ሲሆን የምጣድ ክፍሉ ሙሉ በሙሉ በብረት የተሸፈነ ነው\nእንጀራን ለመጋገር ሟሟሸት የማይፈልግ\nየተለያዩ ምግቦችን በአንድ ምጣድ ማብሰል የሚችል\nለእንጀራ፣ ለፒዛ፣ ለቆጮ፣ ለአንባሻ፣ ለፓን ኬክ፣ ለቂጣ ዘሮች በሙሉ መዋል ይችላል\n2000w ጉልበት ያለው ሲሆን በተጨማሪም 450 ዲግሪ ፋራናይት ሀይል ያለው\nሀይል ቆጣቢ ከቦታ ቦታ ከሀገር ሀገር ለመውሰድ በጣም ቀላል\n5ኪ.ግ ክብደት ያለው ለአጠቃቀም ምቹ እና ጠንካራ, ዲጅታል ኤሌክትሮኒክ ሲይስተም",
+    "descriptionAm": "46ሴሜ ስፋት ያለው ሲሆን የምጣድ ክፍሉ ሙሉ በሙሉ በብረት የተሸፈነ ነው\nእንጀራን ለመጋገር ሟሟሸት የማይፈልግ\nየተለያዩ ምግቦችን በአንድ ምጣድ ማብሰል የሚችል\nለእንጀራ፣ ለፒዛ፣ ለቆጮ፣ ለአንባሻ፣ ለፓን ኬክ፣ ለቂጣ ዘሮች በሙሉ መዋል ይችላል\n2000w ጉልበት ያለው ሲሆን በተጨማሪም 450 ዲግሪ ፋራናይት ሀይል ያለው\nሀይል ቆጣቢ ከቦታ ቦታ ከሀገር ሀገር ለመውሰድ በጣም ቀላል\n5ኪ.ግ ክብደት ያለው ለአጠቃቀም ምቹ እና ጠንካራ, ዲጅታል ኤሌክትሮኒክ ሲይስተም",
+    "hidden": false,
+    "id": "4819",
+    "likes": 0,
+    "name": "ዘመናዊ ምጣድ(Modern Grill)",
+    "nameAm": "ዘመናዊ ምጣድ(Modern Grill)",
+    "outOfStock": false,
+    "price": 18300
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280"
+    ],
+    "condition": "Brand New",
+    "description": "Core i7 12th Generation\n256GB ssd/32GB RAM\nTouch screen support, intel iris X graphics card\nFull HD IPS Display, Long Battery Life\nCool Design, Immersive Audio\nComprehensive Connectivity, 14.1 inch screen, Brand New",
+    "descriptionAm": "Core i7 12th Generation\n256GB ssd/32GB RAM\nTouch screen support, intel iris X graphics card\nFull HD IPS Display, Long Battery Life\nCool Design, Immersive Audio\nComprehensive Connectivity, 14.1 inch screen, Brand New",
+    "hidden": false,
+    "id": "5666",
+    "likes": 0,
+    "name": "DELL Latitude 5421 Core i7 256GB ssd/32GB RAM",
+    "nameAm": "DELL Latitude 5421 Core i7 256GB ssd/32GB RAM",
+    "outOfStock": false,
+    "price": 78000
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280",
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "Core i7\n7th generation\n256GB ssd/8GB RAM\nintel hd grphics card\n4 hour battery, screen size 15.6 inch\n4.0 turbo speed, Almost new",
+    "descriptionAm": "Core i7\n7th generation\n256GB ssd/8GB RAM\nintel hd grphics card\n4 hour battery, screen size 15.6 inch\n4.0 turbo speed, Almost new",
+    "hidden": false,
+    "id": "5697",
+    "likes": 0,
+    "name": "Hp Pro book g2 Core i7 256GB ssd/8GB RAM",
+    "nameAm": "Hp Pro book g2 Core i7 256GB ssd/8GB RAM",
+    "outOfStock": false,
+    "price": 48000
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "intel Core i5\n500GB Hdd/4GB RAM\n3 hour battery life\nscreen size 15.6 inch\nultra very slim\nDubai used, 4.0 turbo speed",
+    "descriptionAm": "intel Core i5\n500GB Hdd/4GB RAM\n3 hour battery life\nscreen size 15.6 inch\nultra very slim\nDubai used, 4.0 turbo speed",
+    "hidden": false,
+    "id": "5955",
+    "likes": 0,
+    "name": "Toshiba Satellite 500GB Hdd/4GB RAM",
+    "nameAm": "Toshiba Satellite 500GB Hdd/4GB RAM",
+    "outOfStock": false,
+    "price": 20000
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "በ Touch የሚሰራ Stove\n1 Plate ማብሰያ ሰሀን ያለው, ለወንደላጤ ተመራጭ\nለአጠቃቀም በጣም ምቹ እና ዘመናዊ, 3500 ዋት አቅም ያለው\nቆሻሻ የማይዝ ወድያው የሚፀዳ\nከመጠን በላይ እንዳይግል መከላከያ ያለው\nግለቱንም ሆነ ደቂቃውን መሙያ የተገጠመለት",
+    "descriptionAm": "በ Touch የሚሰራ Stove\n1 Plate ማብሰያ ሰሀን ያለው, ለወንደላጤ ተመራጭ\nለአጠቃቀም በጣም ምቹ እና ዘመናዊ, 3500 ዋት አቅም ያለው\nቆሻሻ የማይዝ ወድያው የሚፀዳ\nከመጠን በላይ እንዳይግል መከላከያ ያለው\nግለቱንም ሆነ ደቂቃውን መሙያ የተገጠመለት",
+    "hidden": false,
+    "id": "6247",
+    "likes": 0,
+    "name": "ባለ 1 ዘመናዊ ስቶቭ (Single Touch stove)",
+    "nameAm": "ባለ 1 ዘመናዊ ስቶቭ (Single Touch stove)",
+    "outOfStock": false,
+    "price": 8500
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280"
+    ],
+    "condition": "Brand New",
+    "description": "6th generation\nAMD A6 6200 series\n500GB HDD/8GB RAM\nRadeon graphics card\n3 hour battery, screen size 14.1 inch\n4.0 turbo speed, Almost new",
+    "descriptionAm": "6th generation\nAMD A6 6200 series\n500GB HDD/8GB RAM\nRadeon graphics card\n3 hour battery, screen size 14.1 inch\n4.0 turbo speed, Almost new",
+    "hidden": false,
+    "id": "6558",
+    "likes": 0,
+    "name": "Hp Pro book g2 500GB HDD/8GB RAM",
+    "nameAm": "Hp Pro book g2 500GB HDD/8GB RAM",
+    "outOfStock": false,
+    "price": 37999
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280",
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "Core i3\n128GB SSD/4GB RAM\n4 hour battery\nscreen size 15.6 inch\nDubai used\n4.0 turbo speed",
+    "descriptionAm": "Core i3\n128GB SSD/4GB RAM\n4 hour battery\nscreen size 15.6 inch\nDubai used\n4.0 turbo speed",
+    "hidden": false,
+    "id": "6951",
+    "likes": 0,
+    "name": "Dell Inspiron 128GB SSD/4GB RAM",
+    "nameAm": "Dell Inspiron 128GB SSD/4GB RAM",
+    "outOfStock": false,
+    "price": 21500
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "በአንዴው 6 ሲኒ ማፍላት ይችላል\nከፍተኛ ጥራት ያለው እና የቡናውን ቃና የማይቀይር\nቀጭንም ሆነ ወፍራም ቡና እንደምርጫዎት ማፍላት ያስችሎታል\nለአጠቃቀም እጅግ በጣም ቀላል\nሲታጠቡ ወዲያውም የሚፀዳ\nበጣም ጠንካራ ስለሆነ እሳትም ሆነ ሙቀት መቋቋም የሚችል",
+    "descriptionAm": "በአንዴው 6 ሲኒ ማፍላት ይችላል\nከፍተኛ ጥራት ያለው እና የቡናውን ቃና የማይቀይር\nቀጭንም ሆነ ወፍራም ቡና እንደምርጫዎት ማፍላት ያስችሎታል\nለአጠቃቀም እጅግ በጣም ቀላል\nሲታጠቡ ወዲያውም የሚፀዳ\nበጣም ጠንካራ ስለሆነ እሳትም ሆነ ሙቀት መቋቋም የሚችል",
+    "hidden": false,
+    "id": "7136",
+    "likes": 0,
+    "name": "ፈጣን የቡና ማፊያ (Coffee Maker)",
+    "nameAm": "ፈጣን የቡና ማፊያ (Coffee Maker)",
+    "outOfStock": false,
+    "price": 3700
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "intel Core i5, 7th generation\n256GB ssd/4GB RAM\n2 Gb Nvidia graphics card support\n3 hour battery life\nscreen size 15.6 inch, ultra very slim\n4.0 turbo speed, Dubai used",
+    "descriptionAm": "intel Core i5, 7th generation\n256GB ssd/4GB RAM\n2 Gb Nvidia graphics card support\n3 hour battery life\nscreen size 15.6 inch, ultra very slim\n4.0 turbo speed, Dubai used",
+    "hidden": false,
+    "id": "7244",
+    "likes": 0,
+    "name": "Asus vivo book intel Core i5, 7th generation",
+    "nameAm": "Asus vivo book intel Core i5, 7th generation",
+    "outOfStock": false,
+    "price": 41999
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280"
+    ],
+    "condition": "Brand New",
+    "description": "Core i7, 14th generation\nStorage 512GB ssd/16GB RAM\nIntel iris X graphics card\nkeyboard light, Full hd 1080\nfinger print scanner, 4 hour battery\n14.1 inch screen size, Brand New",
+    "descriptionAm": "Core i7, 14th generation\nStorage 512GB ssd/16GB RAM\nIntel iris X graphics card\nkeyboard light, Full hd 1080\nfinger print scanner, 4 hour battery\n14.1 inch screen size, Brand New",
+    "hidden": false,
+    "id": "7282",
+    "likes": 0,
+    "name": "Acer Aspire Ultra 7 - Core i7, 14th generation",
+    "nameAm": "Acer Aspire Ultra 7 - Core i7, 14th generation",
+    "outOfStock": false,
+    "price": 92999
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "ለአጠቃቀም በጣም ምቹ\n180W High ፖወር, ፍጥነት መቆጣጠሪያ ያለው\nለሊጥ እና እንቁላል መምቻ የሚሆን\nክሬም መስርያ\nየተፈጨ ስጋ ለማደባለቅ\nየራሱ መለዋወጫ ያለው",
+    "descriptionAm": "ለአጠቃቀም በጣም ምቹ\n180W High ፖወር, ፍጥነት መቆጣጠሪያ ያለው\nለሊጥ እና እንቁላል መምቻ የሚሆን\nክሬም መስርያ\nየተፈጨ ስጋ ለማደባለቅ\nየራሱ መለዋወጫ ያለው",
+    "hidden": false,
+    "id": "7436",
+    "likes": 0,
+    "name": "የእንቁላልና ሊጥ መምቻ (Hand Mixer)",
+    "nameAm": "የእንቁላልና ሊጥ መምቻ (Hand Mixer)",
+    "outOfStock": false,
+    "price": 3100
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "ቀዝቃዛም ሆነ ሙቁ ውሃ ባለበት ለ 12 ሰዐት ማቆየት ይችላል\nየራሱ መጠጫው ኩባያዎች ያለው\nለቢሮ፣ቤት፣ጂም ይዞ ለመንቀሳቀስ ቀላል እና ለስጦታም ተመራጭ\nዲዛይኑ ምንም ዓይነት ፈሳሽ እንዳያስወጣት ተደርጎ የተሰራ\nእቃነቱን የማይዝግና በጣም ትኩስም ሆነ ቀዝቃዛ ለሆኑ ፈሳሾች ተስማሚ\nለቡና፣ወተት፣ውሃ፣ጁስ ተመራጭ",
+    "descriptionAm": "ቀዝቃዛም ሆነ ሙቁ ውሃ ባለበት ለ 12 ሰዐት ማቆየት ይችላል\nየራሱ መጠጫው ኩባያዎች ያለው\nለቢሮ፣ቤት፣ጂም ይዞ ለመንቀሳቀስ ቀላል እና ለስጦታም ተመራጭ\nዲዛይኑ ምንም ዓይነት ፈሳሽ እንዳያስወጣት ተደርጎ የተሰራ\nእቃነቱን የማይዝግና በጣም ትኩስም ሆነ ቀዝቃዛ ለሆኑ ፈሳሾች ተስማሚ\nለቡና፣ወተት፣ውሃ፣ጁስ ተመራጭ",
+    "hidden": false,
+    "id": "7510",
+    "likes": 0,
+    "name": "ዘመናዊ መጠጫ ፔርሙዝ (Modern Flask)",
+    "nameAm": "ዘመናዊ መጠጫ ፔርሙዝ (Modern Flask)",
+    "outOfStock": false,
+    "price": 2500
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "ለማዕድ ቤትዎ አስፈላጊ እና ስራን የሚያቀሉ እቃዎች መሆናቸው ተመራጭ ያደርጋቸዋል።",
+    "descriptionAm": "ለማዕድ ቤትዎ አስፈላጊ እና ስራን የሚያቀሉ እቃዎች መሆናቸው ተመራጭ ያደርጋቸዋል።",
+    "hidden": false,
+    "id": "7554",
+    "likes": 0,
+    "name": "Pastry mat, Hand mixer, Biscuit mold",
+    "nameAm": "Pastry mat, Hand mixer, Biscuit mold",
+    "outOfStock": false,
+    "price": 6300
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "ሁሉም ምድጃዎች የራሳቸው የሙቀት መጨመርያ እና መቀነሻ ያላቸው\nአራቱንም በአንድ ጊዜ መጠቀም የሚያስችል\nማንኛውንም ክብደት መቋቋም የሚችል\nዘመናዊ፣ፈጣን እና በአንድ ጊዜ ብዙ ምግቦችን ማድረስ ያስችላል\nለቤትም ሆነ ለምግብ ቤቶች የሚሆን",
+    "descriptionAm": "ሁሉም ምድጃዎች የራሳቸው የሙቀት መጨመርያ እና መቀነሻ ያላቸው\nአራቱንም በአንድ ጊዜ መጠቀም የሚያስችል\nማንኛውንም ክብደት መቋቋም የሚችል\nዘመናዊ፣ፈጣን እና በአንድ ጊዜ ብዙ ምግቦችን ማድረስ ያስችላል\nለቤትም ሆነ ለምግብ ቤቶች የሚሆን",
+    "hidden": false,
+    "id": "7789",
+    "likes": 0,
+    "name": "ባለ አራት ሀይል ቆጣቢ ስቶቭ (4in1 power-saving stove)",
+    "nameAm": "ባለ አራት ሀይል ቆጣቢ ስቶቭ (4in1 power-saving stove)",
+    "outOfStock": false,
+    "price": 11000
+  },
+  {
+    "category": "kitchen",
+    "condition": "Brand New",
+    "description": "ሎሚ፣ብርቱካን፣ሀብሀብ እና ሌሎችም ሊጨመቁ የሚችሉ ነገሮችን በፍጥነት ይጨምቃል።\nበኤሌትሪክ የሚሰራ፤ ጥራት ያለውና ለረጅም ጊዜ የሚጠቀሙበት\nለመኖርያ ቤቶም ሆነ ለጭማቂ ቤቶች ንፁህ እና ጤናማ ጁስ ለማዘጋጀት የሚሆን\nዘመናዊ እና ለአጠቃቀም ቀላል በመሆኑ ተመራጭ ነው።",
+    "descriptionAm": "ሎሚ፣ብርቱካን፣ሀብሀብ እና ሌሎችም ሊጨመቁ የሚችሉ ነገሮችን በፍጥነት ይጨምቃል።\nበኤሌትሪክ የሚሰራ፤ ጥራት ያለውና ለረጅም ጊዜ የሚጠቀሙበት\nለመኖርያ ቤቶም ሆነ ለጭማቂ ቤቶች ንፁህ እና ጤናማ ጁስ ለማዘጋጀት የሚሆን\nዘመናዊ እና ለአጠቃቀም ቀላል በመሆኑ ተመራጭ ነው።",
+    "hidden": false,
+    "id": "8084",
+    "likes": 0,
+    "name": "አውቶማቲክ የብርቱካን መጭመቂያ(Automatic citrus juicer)",
+    "nameAm": "አውቶማቲክ የብርቱካን መጭመቂያ(Automatic citrus juicer)",
+    "outOfStock": false,
+    "price": 4200
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "10th Generation\n256GB ssd/16GB RAM\nFull HD IPS Display, Long Battery Life\nCool Design, Immersive Audio\nComprehensive Connectivity\n14.1 inch screen",
+    "descriptionAm": "10th Generation\n256GB ssd/16GB RAM\nFull HD IPS Display, Long Battery Life\nCool Design, Immersive Audio\nComprehensive Connectivity\n14.1 inch screen",
+    "hidden": false,
+    "id": "8626",
+    "likes": 0,
+    "name": "DELL Latitude 5421",
+    "nameAm": "DELL Latitude 5421",
+    "outOfStock": false,
+    "price": 58000
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#C0C0C0"
+    ],
+    "condition": "Brand New",
+    "description": "Core i5, 11th Generation\n256GB ssd/8GB RAM\nintel iris X graphics card, Full HD IPS Display\nCool Design, Immersive Audio\nComprehensive Connectivity, Long Battery Life\n14.1 inch screen, Brand New",
+    "descriptionAm": "Core i5, 11th Generation\n256GB ssd/8GB RAM\nintel iris X graphics card, Full HD IPS Display\nCool Design, Immersive Audio\nComprehensive Connectivity, Long Battery Life\n14.1 inch screen, Brand New",
+    "hidden": false,
+    "id": "8852",
+    "likes": 0,
+    "name": "Hp Elight book G8",
+    "nameAm": "Hp Elight book G8",
+    "outOfStock": false,
+    "price": 71000
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#6B7280"
+    ],
+    "condition": "Brand New",
+    "description": "Core i7 6th generation\n256GB ssd/ 500GB hdd/8GB RAM\nintel hd grphics card\n4 hour battery\nscreen size 15.6 inch\n4.0 turbo speed, Almost new",
+    "descriptionAm": "Core i7 6th generation\n256GB ssd/ 500GB hdd/8GB RAM\nintel hd grphics card\n4 hour battery\nscreen size 15.6 inch\n4.0 turbo speed, Almost new",
+    "hidden": false,
+    "id": "9343",
+    "likes": 0,
+    "name": "Hp Elight book g3",
+    "nameAm": "Hp Elight book g3",
+    "outOfStock": false,
+    "price": 51000
+  },
+  {
+    "category": "laptops",
+    "colors": [
+      "#C0C0C0"
+    ],
+    "condition": "Brand New",
+    "description": "Core i5, 2018 model \n1TB ssd/16GB RAM\nFour Thunderbolt 3 ports\nwith Touch Bar, screen size 14.1 inch\nultra very slim, 4.5 ghz speed\nintel hd graphics, Brand New",
+    "descriptionAm": "Core i5, 2018 model \n1TB ssd/16GB RAM\nFour Thunderbolt 3 ports\nwith Touch Bar, screen size 14.1 inch\nultra very slim, 4.5 ghz speed\nintel hd graphics, Brand New",
+    "hidden": false,
+    "id": "9941",
+    "likes": 0,
+    "name": "Apple Mac Book pro 1TB ssd/16GB RAM",
+    "nameAm": "Apple Mac Book pro 1TB ssd/16GB RAM",
+    "outOfStock": false,
+    "price": 83500
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "ለከርዳዳም ሆነ ሉጫ ለሁሉም አይነት ፀጉር የሚስማማ\nሙቀት መቆጣጠሪያ ያለው እና እስከ 220°f ድረስ የሚሞቅ, ቶሎ ስለሚግል ጊዜ ቆጣቢ\nለአያያዝና ለአጠቃቀም ምቹ, ከውስጡ በኩል ሴራሚክ ስለሆነ ፀጉር አይጎዳም\nጥራት ያለው እና ለግልም ሆነ ፀጉር ቤቶች የሚሆን\nለስላሳ ስለሆነ ፀጉርዎ እንዲያብረቀርቅ ያደርገዋል\nመጠኑም የትም ይዘውት መሄድ ሚያስችል እና ለእርሶም ሆነ ለልጅዎ ተመራጭ",
+    "descriptionAm": "ለከርዳዳም ሆነ ሉጫ ለሁሉም አይነት ፀጉር የሚስማማ\nሙቀት መቆጣጠሪያ ያለው እና እስከ 220°f ድረስ የሚሞቅ, ቶሎ ስለሚግል ጊዜ ቆጣቢ\nለአያያዝና ለአጠቃቀም ምቹ, ከውስጡ በኩል ሴራሚክ ስለሆነ ፀጉር አይጎዳም\nጥራት ያለው እና ለግልም ሆነ ፀጉር ቤቶች የሚሆን\nለስላሳ ስለሆነ ፀጉርዎ እንዲያብረቀርቅ ያደርገዋል\nመጠኑም የትም ይዘውት መሄድ ሚያስችል እና ለእርሶም ሆነ ለልጅዎ ተመራጭ",
+    "hidden": false,
+    "id": "9942",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780749333/lvsqzqtjrbbr1kihdsjb.jpg"
+    ],
+    "likes": 0,
+    "name": "Nova የፀጉር መተኮሻ (Nova hair straightner)",
+    "nameAm": "Nova የፀጉር መተኮሻ (Nova hair straightner)",
+    "outOfStock": false,
+    "price": 3200
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "3 አገልግሎት የሚሠጥ መተኮሻ\nማድረቅ፣ማለስለስ፣መተኮስ ይችላል\nለአያያዝ የሚመች\nፀጉራቹን በፈለጋቹት ስታይል የሚተኩስ\nለልጅም ሆነ ለአዋቂ፣ ለግልም ሆነ ፀጉር ቤት የሚሆን",
+    "descriptionAm": "3 አገልግሎት የሚሠጥ መተኮሻ\nማድረቅ፣ማለስለስ፣መተኮስ ይችላል\nለአያያዝ የሚመች\nፀጉራቹን በፈለጋቹት ስታይል የሚተኩስ\nለልጅም ሆነ ለአዋቂ፣ ለግልም ሆነ ፀጉር ቤት የሚሆን",
+    "hidden": false,
+    "id": "9943",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780764769/u2fnp13kohmudwpdpbds.jpg"
+    ],
+    "likes": 0,
+    "name": "3 በ 1 ፀጉር መተኮሻ(3 in 1 Hair Paystra)",
+    "nameAm": "3 በ 1 ፀጉር መተኮሻ(3 in 1 Hair Paystra)",
+    "outOfStock": false,
+    "price": 4100
+  },
+  {
+    "category": "beauty_health",
+    "colors": [
+      "#F4C2C2",
+      "#3B82F6",
+      "#F59E0B"
+    ],
+    "condition": "Brand New",
+    "description": "ንፅህና መጠበቂያ ጥርስ ብሩሽ፣ጥፍር መቁረጫ ያሉት\nትኩሳት መለኪያ፣የፀጉር መቀስ የተሟላለት\nዕቃዎቹን ማስቀመጫ ቦርሳ ያለው\nከአራስ ልጅ እስከ ትልቅ የሚያገለገል",
+    "descriptionAm": "ንፅህና መጠበቂያ ጥርስ ብሩሽ፣ጥፍር መቁረጫ ያሉት\nትኩሳት መለኪያ፣የፀጉር መቀስ የተሟላለት\nዕቃዎቹን ማስቀመጫ ቦርሳ ያለው\nከአራስ ልጅ እስከ ትልቅ የሚያገለገል",
+    "hidden": false,
+    "id": "9944",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765063/uk0bstkwe5c9vwamdggj.jpg"
+    ],
+    "likes": 0,
+    "name": "የልጆች ጤና መጠበቂያ (Baby Healthcare Kit)",
+    "nameAm": "የልጆች ጤና መጠበቂያ (Baby Healthcare Kit)",
+    "outOfStock": false,
+    "price": 2400
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "በቻርጅ የሚሰራ\nበተለያየ ስታይል የሚቆርጥ\nመቀያየሪያ ጥርሶች ያለው\nለግልም ሆነ ለፀጉር ቤቶች የሚሆን",
+    "descriptionAm": "በቻርጅ የሚሰራ\nበተለያየ ስታይል የሚቆርጥ\nመቀያየሪያ ጥርሶች ያለው\nለግልም ሆነ ለፀጉር ቤቶች የሚሆን",
+    "hidden": false,
+    "id": "9945",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765223/b76vphjbwsul95hgbotm.jpg"
+    ],
+    "likes": 0,
+    "name": "የፀጉር መቁረጫ(Golden Tondos hair trimmer)",
+    "nameAm": "የፀጉር መቁረጫ(Golden Tondos hair trimmer)",
+    "outOfStock": false,
+    "price": 3000
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "የተነጫጨ ልብስ ጥጥ ማንሻ\nለተለያዩ የልብስ ጨርቆች የሚሆን\nበቻርጅ የሚሰራ እና ለረጅም ሰዓት የሚቆይ\nለአጠቃቀም በጣም ምቹ\nለቤት፣ቡቲክ፣ቦንዳ ቤቶች ተመራጭ",
+    "descriptionAm": "የተነጫጨ ልብስ ጥጥ ማንሻ\nለተለያዩ የልብስ ጨርቆች የሚሆን\nበቻርጅ የሚሰራ እና ለረጅም ሰዓት የሚቆይ\nለአጠቃቀም በጣም ምቹ\nለቤት፣ቡቲክ፣ቦንዳ ቤቶች ተመራጭ",
+    "hidden": false,
+    "id": "9946",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765333/f0atu3qljvr7qqo7utx0.jpg"
+    ],
+    "likes": 0,
+    "name": "የልብስ ጥጥ ማንሻ(Clothes Lint Remover)",
+    "nameAm": "የልብስ ጥጥ ማንሻ(Clothes Lint Remover)",
+    "outOfStock": false,
+    "price": 2600
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "በ4 ሳምንት ፀጉራችሁን የማይነቃቀል እና ጠንካራ ያረጋል\nበቀይ ቴራፒ የራስ ቅላችሁ እንዳይደርቅና ፀጉርንም ሆነ ፂማችሁን እንዲያድግ ያረጋል\nውስጡ ቅባት መጨመርያ ስላለው በመጨመር የራስ ቅላችሁ ላይ በትክክል ያዳርሳል\n3 አይነት የአስተሻሸት መንገዶች አሉት\nማበጠር ብቻ ሳይሆን እራሱ እየተንቀሳቀሰ ማሳጅ ያደርጋል",
+    "descriptionAm": "በ4 ሳምንት ፀጉራችሁን የማይነቃቀል እና ጠንካራ ያረጋል\nበቀይ ቴራፒ የራስ ቅላችሁ እንዳይደርቅና ፀጉርንም ሆነ ፂማችሁን እንዲያድግ ያረጋል\nውስጡ ቅባት መጨመርያ ስላለው በመጨመር የራስ ቅላችሁ ላይ በትክክል ያዳርሳል\n3 አይነት የአስተሻሸት መንገዶች አሉት\nማበጠር ብቻ ሳይሆን እራሱ እየተንቀሳቀሰ ማሳጅ ያደርጋል",
+    "hidden": false,
+    "id": "9947",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765410/yl2auib57bqtqcpxtg3y.jpg"
+    ],
+    "likes": 0,
+    "name": "ፀጉር ማሳደጊያ ብሩሽ(Scalp Massage brush)",
+    "nameAm": "ፀጉር ማሳደጊያ ብሩሽ(Scalp Massage brush)",
+    "outOfStock": false,
+    "price": 5500
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "ከ Derma Roller ጋር በመጠቀም የፀጉር እና የፂም ዕድገትን ያፋጥናል\nOrginal USA\nግንባር ለሸሸ፣ፀጉር ለሳሳ፣ለፂም፣ለቅንድብ ዕድገት ተመራጭ\nሚሌ የራስ ቆዳን እና የፀጉር ወዝን በንጥረ ነገር ያበለፅጋል\nከ 30 በላይ ተፈጥሮአዊ አስፈላጊ ዘይቶችን እና ውህዶችን ያለው\nለሴትም ሆነ ወንድ የሚሆንን እና ተፈጥሮአዊ ስለሆነ የጐንዮሽ ጉዳት የሌለው",
+    "descriptionAm": "ከ Derma Roller ጋር በመጠቀም የፀጉር እና የፂም ዕድገትን ያፋጥናል\nOrginal USA\nግንባር ለሸሸ፣ፀጉር ለሳሳ፣ለፂም፣ለቅንድብ ዕድገት ተመራጭ\nሚሌ የራስ ቆዳን እና የፀጉር ወዝን በንጥረ ነገር ያበለፅጋል\nከ 30 በላይ ተፈጥሮአዊ አስፈላጊ ዘይቶችን እና ውህዶችን ያለው\nለሴትም ሆነ ወንድ የሚሆንን እና ተፈጥሮአዊ ስለሆነ የጐንዮሽ ጉዳት የሌለው",
+    "hidden": false,
+    "id": "9948",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765434/yeluu0qspo0lmfodofwe.jpg"
+    ],
+    "likes": 0,
+    "name": "ሚሌ ሮዝሜሪ ሚንት ከ ደርማ ሮለር ጋር(Mille Rosemary with Der...",
+    "nameAm": "ሚሌ ሮዝሜሪ ሚንት ከ ደርማ ሮለር ጋር(Mille Rosemary with Der...",
+    "outOfStock": false,
+    "price": 4100
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "ያለ ምላጭ ወይንም ያለ ክር ቅንድብ ማራኪ ቅርጹን እንድይዝ የሚያደርግ\nበመላጨት የሚመጣውን ህመም ወይም ሽፍታ ያስቀራል\nበጣም በትንሽ ሰከንዶች ቅንድብን አሳምሮ ይቀነድባል\nበቻርጅ የሚሰራ እንዲሁም የጆሮ እና አፍንጫ ፀጉርይቆርጣል\nየትም ለማስቀመጥ ምቹ",
+    "descriptionAm": "ያለ ምላጭ ወይንም ያለ ክር ቅንድብ ማራኪ ቅርጹን እንድይዝ የሚያደርግ\nበመላጨት የሚመጣውን ህመም ወይም ሽፍታ ያስቀራል\nበጣም በትንሽ ሰከንዶች ቅንድብን አሳምሮ ይቀነድባል\nበቻርጅ የሚሰራ እንዲሁም የጆሮ እና አፍንጫ ፀጉርይቆርጣል\nየትም ለማስቀመጥ ምቹ",
+    "hidden": false,
+    "id": "9949",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765585/wr1ozd0hyo5grlcrznne.jpg"
+    ],
+    "likes": 0,
+    "name": "ቅንድብ መቀንደብያ(Flawless eyebrow Trimmer)",
+    "nameAm": "ቅንድብ መቀንደብያ(Flawless eyebrow Trimmer)",
+    "outOfStock": false,
+    "price": 2150
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "የቆመ እና የተንጨባረረ ፀጉራቹን ስታስነኩት ወድያው ያስተኛል\nለየትኛውም የፀጉር አይነት የሚሆን\nፀጉራቹን ማስተኛት ብቻ ሳይሆን ወዝ የሚጨምር\nፀጉራቹንም በሰከንዶች እንድታዘጋጁ ይረዳል",
+    "descriptionAm": "የቆመ እና የተንጨባረረ ፀጉራቹን ስታስነኩት ወድያው ያስተኛል\nለየትኛውም የፀጉር አይነት የሚሆን\nፀጉራቹን ማስተኛት ብቻ ሳይሆን ወዝ የሚጨምር\nፀጉራቹንም በሰከንዶች እንድታዘጋጁ ይረዳል",
+    "hidden": false,
+    "id": "9950",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765666/tucyj9v59iayoylteev9.jpg"
+    ],
+    "likes": 0,
+    "name": "የፀጉር ማስተኛ (hair stick)",
+    "nameAm": "የፀጉር ማስተኛ (hair stick)",
+    "outOfStock": false,
+    "price": 2300
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "የፀጉር እስቲመር\nትሪትመንት ወይም ቅቤ ተቀብተው በማድረግ ያቀልጠዋል\nየፀጉራቹን ጤና በአጭር ጊዜ ይመልሳል\nሀይል ማመጣጠኛ ያለው\nለአጠቃቀም በጣም ቀላል እና ለፀጉር ቤቶች ተመራጭ",
+    "descriptionAm": "የፀጉር እስቲመር\nትሪትመንት ወይም ቅቤ ተቀብተው በማድረግ ያቀልጠዋል\nየፀጉራቹን ጤና በአጭር ጊዜ ይመልሳል\nሀይል ማመጣጠኛ ያለው\nለአጠቃቀም በጣም ቀላል እና ለፀጉር ቤቶች ተመራጭ",
+    "hidden": false,
+    "id": "9951",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765751/v8yipqibotx9dcvbd6pq.jpg"
+    ],
+    "likes": 0,
+    "name": "የፀጉር እስቲመር(Electric Hair Steamer Cap)",
+    "nameAm": "የፀጉር እስቲመር(Electric Hair Steamer Cap)",
+    "outOfStock": false,
+    "price": 2800
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "ጥፍር ላይ በመቀባት ውበት ይመልሳል\nእንቅፋት ያበላሸው፣ጥፍር መጥምጥ በአጭር ጊዜ ያስተካክላል\nVitamin ስላለው ጤናማ ያደርጋል\nለእጅም ሆነ ለዕግር ጥፍር የሚሆን",
+    "descriptionAm": "ጥፍር ላይ በመቀባት ውበት ይመልሳል\nእንቅፋት ያበላሸው፣ጥፍር መጥምጥ በአጭር ጊዜ ያስተካክላል\nVitamin ስላለው ጤናማ ያደርጋል\nለእጅም ሆነ ለዕግር ጥፍር የሚሆን",
+    "hidden": false,
+    "id": "9952",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765824/mynmpct4n1h6miefztwe.jpg"
+    ],
+    "likes": 0,
+    "name": "የጥፍር ማስተካከያ (Lanthome Nail Repair)",
+    "nameAm": "የጥፍር ማስተካከያ (Lanthome Nail Repair)",
+    "outOfStock": false,
+    "price": 2200
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "ፊታቹ ላይ ያለን ብጉር እና ወዞችን እየሳበ ማፅዳት የሚችል ጥቁር ነጥቦች፣ የሞቱ ሴሎች፣ ብጉሮችን ለቅሞ ያወጣል\n2 የመሳብ ሀይል አማራጭ አለው\n4 መቀያየሪያ የተዘጋጀለት\nበባትሪ ቻርጅ የሚሰራ",
+    "descriptionAm": "ፊታቹ ላይ ያለን ብጉር እና ወዞችን እየሳበ ማፅዳት የሚችል ጥቁር ነጥቦች፣ የሞቱ ሴሎች፣ ብጉሮችን ለቅሞ ያወጣል\n2 የመሳብ ሀይል አማራጭ አለው\n4 መቀያየሪያ የተዘጋጀለት\nበባትሪ ቻርጅ የሚሰራ",
+    "hidden": false,
+    "id": "9953",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765895/mqrawqf7stewfwula4t4.jpg"
+    ],
+    "likes": 0,
+    "name": "የፊት ብጉር ማጥፊያ(Pore suction face cleaner)",
+    "nameAm": "የፊት ብጉር ማጥፊያ(Pore suction face cleaner)",
+    "outOfStock": false,
+    "price": 3200
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "ፀጉራቹ ላይ በመቀባት ሽበቱን ይሸፍነዋል\nምንም ዓይነት የጎንዮሽ ጉዳት የሌለው እና ሽበትን የማያባብስ\nበላብ እና ውሀ የማይለቅ\nለአጠቃቀም ምቹ\nኣለቅንድብ፣ ፂም እንዲሁም ለግንባራም እና የገባ ፀጉሮች የሚሆን",
+    "descriptionAm": "ፀጉራቹ ላይ በመቀባት ሽበቱን ይሸፍነዋል\nምንም ዓይነት የጎንዮሽ ጉዳት የሌለው እና ሽበትን የማያባብስ\nበላብ እና ውሀ የማይለቅ\nለአጠቃቀም ምቹ\nኣለቅንድብ፣ ፂም እንዲሁም ለግንባራም እና የገባ ፀጉሮች የሚሆን",
+    "hidden": false,
+    "id": "9954",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780765966/h6hxeqy37p4l3ieqhphi.jpg"
+    ],
+    "likes": 0,
+    "name": "የፀጉር ሽበት ማጥፊያ (grey hair wand)",
+    "nameAm": "የፀጉር ሽበት ማጥፊያ (grey hair wand)",
+    "outOfStock": false,
+    "price": 2800
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "በ 1 መቁረጫ ፀጉር፣ ፂም እና የአፍንጫ ፀጉር ያነሳል\nቅርፅ ለማውጣት በጣም ምቹ\nሙሉ ነግር የተሟላለት እና መኪና ውስጥ መቀመጥ የሚችል\nድምፁ ዝቅተኛ እና ማይረብሽ\nበቻርጅ ስለሚሰራ መብራት ጠፋ ብሎ መጨነቅ የለም\nሙሉ ጥርስ እና መቀያየሪያ ያለው, ለርሶም ሆነ ለቤተሰብዎ የሚሆን",
+    "descriptionAm": "በ 1 መቁረጫ ፀጉር፣ ፂም እና የአፍንጫ ፀጉር ያነሳል\nቅርፅ ለማውጣት በጣም ምቹ\nሙሉ ነግር የተሟላለት እና መኪና ውስጥ መቀመጥ የሚችል\nድምፁ ዝቅተኛ እና ማይረብሽ\nበቻርጅ ስለሚሰራ መብራት ጠፋ ብሎ መጨነቅ የለም\nሙሉ ጥርስ እና መቀያየሪያ ያለው, ለርሶም ሆነ ለቤተሰብዎ የሚሆን",
+    "hidden": false,
+    "id": "9955",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780766115/vvq7iijcmyz5bs7by8jh.jpg"
+    ],
+    "likes": 0,
+    "name": "3 በ 1 መቁረጫ (3 in 1 Tondos)",
+    "nameAm": "3 በ 1 መቁረጫ (3 in 1 Tondos)",
+    "outOfStock": false,
+    "price": 4350
+  },
+  {
+    "category": "beauty_health",
+    "condition": "Brand New",
+    "description": "በቻርጅ የሚሠራና በቀላሉ በራሳችሁ ፂማችሁን መቀነስ ያስችላቹሀል\nከተቆረጣችሁ በኋላ የሚዋጉትን ፀጉሮች በፍጥነት ማለስለስ ይችላል\nአነስተኛና በኪስ መያዝ የሚችል መጠን ያለው\nወጣትም ሆነ ጎልማሳዎች እንዲሁም አዛውንቶች ሊጠቀሙበት ይችላሉ\nሲቆርጡበትም ድምጹ የማይረብሽ እና ምቾት የማይነሳ",
+    "descriptionAm": "በቻርጅ የሚሠራና በቀላሉ በራሳችሁ ፂማችሁን መቀነስ ያስችላቹሀል\nከተቆረጣችሁ በኋላ የሚዋጉትን ፀጉሮች በፍጥነት ማለስለስ ይችላል\nአነስተኛና በኪስ መያዝ የሚችል መጠን ያለው\nወጣትም ሆነ ጎልማሳዎች እንዲሁም አዛውንቶች ሊጠቀሙበት ይችላሉ\nሲቆርጡበትም ድምጹ የማይረብሽ እና ምቾት የማይነሳ",
+    "hidden": false,
+    "id": "9956",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780766286/zbqylvibfb7r9txjegcl.jpg"
+    ],
+    "likes": 0,
+    "name": "የፂም ማለስለሻ (Mini beard shaver)",
+    "nameAm": "የፂም ማለስለሻ (Mini beard shaver)",
+    "outOfStock": false,
+    "price": 3300
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ከስልክ ጋር በማገናኘት ማውራትም ሆነ ዘፈን መስማት ይችላሉ\nኤርፎኑ ጆሮ ውሰጥ ስለማይገባ ምቾት የማይነሳ\nበ ቻርጅ ረጅም ሰዐት የሚቆይ\nመሰታወቱ uv ሰለሆነ የፀሀይ ጨረር ይከላከላል\nረጅም ጉዞ ለሚሄዱ ሹፌሮች ተመራጭ",
+    "descriptionAm": "ከስልክ ጋር በማገናኘት ማውራትም ሆነ ዘፈን መስማት ይችላሉ\nኤርፎኑ ጆሮ ውሰጥ ስለማይገባ ምቾት የማይነሳ\nበ ቻርጅ ረጅም ሰዐት የሚቆይ\nመሰታወቱ uv ሰለሆነ የፀሀይ ጨረር ይከላከላል\nረጅም ጉዞ ለሚሄዱ ሹፌሮች ተመራጭ",
+    "hidden": false,
+    "id": "9957",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780779747/wsg5m0pm2nacaxxhmaii.jpg"
+    ],
+    "likes": 0,
+    "name": "የብሉቱዝ መነፀር(Bluetooth Glass)",
+    "nameAm": "የብሉቱዝ መነፀር(Bluetooth Glass)",
+    "outOfStock": false,
+    "price": 4200
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ከፍተኛ ጥራት ያለው ሲሆን ምቾት፣ጥንካሬን እና ውበትን በአንድ ላይ የያዘ\nበሶኬት የሚሰራ መንፊያ ያለው, እስከ 136ኪ.ግ መሸከም የሚችል\n1ሜ ከ90 ርዝመት ያለው እና ለማንኛውም ሰው የሚሆን\nበቀላሉ የሚነፋ እና የሚጠቀለል በመሆኑ ቦታ ቆጣቢ, የትም ቦታ ይዞ ለመንቀሳቀስ ምቹ\n2በ1 አየር መቆጣጠሪያ ስላለው አየር በቀላሉ ማስገባትም ሆነ ማስወጣት ያስችላል\nለቤት፣ለእንግዳ፣ለካምፕ እና ለጉዞ ተመራጭ ነው",
+    "descriptionAm": "ከፍተኛ ጥራት ያለው ሲሆን ምቾት፣ጥንካሬን እና ውበትን በአንድ ላይ የያዘ\nበሶኬት የሚሰራ መንፊያ ያለው, እስከ 136ኪ.ግ መሸከም የሚችል\n1ሜ ከ90 ርዝመት ያለው እና ለማንኛውም ሰው የሚሆን\nበቀላሉ የሚነፋ እና የሚጠቀለል በመሆኑ ቦታ ቆጣቢ, የትም ቦታ ይዞ ለመንቀሳቀስ ምቹ\n2በ1 አየር መቆጣጠሪያ ስላለው አየር በቀላሉ ማስገባትም ሆነ ማስወጣት ያስችላል\nለቤት፣ለእንግዳ፣ለካምፕ እና ለጉዞ ተመራጭ ነው",
+    "hidden": false,
+    "id": "9958",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780779878/lprxc9cx1xooickfwits.jpg"
+    ],
+    "likes": 0,
+    "name": "በአየር የሚነፋ ፍራሽ(inflatable Air Matress)",
+    "nameAm": "በአየር የሚነፋ ፍራሽ(inflatable Air Matress)",
+    "outOfStock": false,
+    "price": 15200
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "እጃቹ ሳይደክም ስልካቹን ተሸክሞ ያስጠቅማል\nከፍታውንም ማመጣጠን ይችላሉ\nጠንካራ እና ታብሌትም መያዝ የሚችል\nስለሚተጣጠፍ ትንሽ ቦታ የሚያዝ",
+    "descriptionAm": "እጃቹ ሳይደክም ስልካቹን ተሸክሞ ያስጠቅማል\nከፍታውንም ማመጣጠን ይችላሉ\nጠንካራ እና ታብሌትም መያዝ የሚችል\nስለሚተጣጠፍ ትንሽ ቦታ የሚያዝ",
+    "hidden": false,
+    "id": "9959",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780780014/jfmm7cheyibv2hn5t3pz.jpg"
+    ],
+    "likes": 0,
+    "name": "ስልክ እና ታብሌት ማስቀመጫ(Foldable Mobile Phone Deskt...",
+    "nameAm": "ስልክ እና ታብሌት ማስቀመጫ(Foldable Mobile Phone Deskt...",
+    "outOfStock": false,
+    "price": 2000
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "Fulled PU Leather seat\nTilt, 54*52*132cm,Red\nChair with footrest, Adjustable\nChair, Height Adjustable, Computer Gaming chair\nChair Bluetooth music, Chair footrest speaker\nChair with back Massage seat, BRAND NEW CHAIR",
+    "descriptionAm": "Fulled PU Leather seat\nTilt, 54*52*132cm,Red\nChair with footrest, Adjustable\nChair, Height Adjustable, Computer Gaming chair\nChair Bluetooth music, Chair footrest speaker\nChair with back Massage seat, BRAND NEW CHAIR",
+    "hidden": false,
+    "id": "9960",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780780152/itq64xt5njt79wfersas.jpg"
+    ],
+    "likes": 0,
+    "name": "Economic Gaming chair.",
+    "nameAm": "Economic Gaming chair.",
+    "outOfStock": false,
+    "price": 59000
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ለአያያዝ ምቹና የትኛውንም ስልክ ማስገባት የሚችል\nለአጠቃቀም በጣም ቀላል ስለሆነ መተኮስም ሆነ የተለያዩ እንቅስቃሴዎችን ለማድረግ ይመቻል\nለመጠቀም ባትሪም ሆነ ቻርጅ ምንም አይነት ሃይል አያስፈልገውም\nእንደ pubg፣ freefire፣ call of duty አይነት ጌሞችን ለመጫወት በጣም ተመራጭ",
+    "descriptionAm": "ለአያያዝ ምቹና የትኛውንም ስልክ ማስገባት የሚችል\nለአጠቃቀም በጣም ቀላል ስለሆነ መተኮስም ሆነ የተለያዩ እንቅስቃሴዎችን ለማድረግ ይመቻል\nለመጠቀም ባትሪም ሆነ ቻርጅ ምንም አይነት ሃይል አያስፈልገውም\nእንደ pubg፣ freefire፣ call of duty አይነት ጌሞችን ለመጫወት በጣም ተመራጭ",
+    "hidden": false,
+    "id": "9961",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780780272/a7a9ntjg6h1pmm5gllip.jpg"
+    ],
+    "likes": 0,
+    "name": "የ ፐብጅ መጫወቻ (Pubg Joystick)",
+    "nameAm": "የ ፐብጅ መጫወቻ (Pubg Joystick)",
+    "outOfStock": false,
+    "price": 2300
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "እስከ 4G 300Mbps ድረስ ፈጣን የኢንተርኔት አገልግሎት መስጠት የሚችል\nበእኩል ሰዓት 32 ሰዎችን ማስጠቀም ይችላል\n5 አይነት የቋንቋ አማራጮች አሉት\nPowerbank 10,000 mAh ያለው\n8 ላፕቶፕ፣ ስልክ፣ ታብሌት እና የትኛውም ኤሌክትሮኒክሶች ጋርመገናኘት ይችላል\nwifi እና power bank በአንድ ላይ ስላለው ለጉዞ ተመራጭ",
+    "descriptionAm": "እስከ 4G 300Mbps ድረስ ፈጣን የኢንተርኔት አገልግሎት መስጠት የሚችል\nበእኩል ሰዓት 32 ሰዎችን ማስጠቀም ይችላል\n5 አይነት የቋንቋ አማራጮች አሉት\nPowerbank 10,000 mAh ያለው\n8 ላፕቶፕ፣ ስልክ፣ ታብሌት እና የትኛውም ኤሌክትሮኒክሶች ጋርመገናኘት ይችላል\nwifi እና power bank በአንድ ላይ ስላለው ለጉዞ ተመራጭ",
+    "hidden": false,
+    "id": "9962",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780780748/e4gdvllbrazsvflhsutp.jpg"
+    ],
+    "likes": 0,
+    "name": "wifi powerbank በአንድ ላይ (wifi router with powerbank)",
+    "nameAm": "wifi powerbank በአንድ ላይ (wifi router with powerbank)",
+    "outOfStock": false,
+    "price": 8500
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "እንቅስቃሴ ያላቸውን ቀረፃዎች ለመቅረፅ የሚመች\n1080 የቪዲዮ ጥራት ያለውና ስፖርታዊ ቦታዎች ላይ በጥራት የሚቀርፅ\nየእንስሳቶች አንገት ላይም በማድረግ የተለያዩ እንቅስቃሴያቸውን በጥራት መቅረፅ ይችላሉ\nየቀዳውንም ስልኮት ላይ በመክተት ማየት ይችላሉ\nበጣም አነስተኛና ከአውራጣት የሚያንስ\nከአንገት በተጨማሪ ሳይክልም ሆነ ሞተር ላይ መገጠም የሚችል",
+    "descriptionAm": "እንቅስቃሴ ያላቸውን ቀረፃዎች ለመቅረፅ የሚመች\n1080 የቪዲዮ ጥራት ያለውና ስፖርታዊ ቦታዎች ላይ በጥራት የሚቀርፅ\nየእንስሳቶች አንገት ላይም በማድረግ የተለያዩ እንቅስቃሴያቸውን በጥራት መቅረፅ ይችላሉ\nየቀዳውንም ስልኮት ላይ በመክተት ማየት ይችላሉ\nበጣም አነስተኛና ከአውራጣት የሚያንስ\nከአንገት በተጨማሪ ሳይክልም ሆነ ሞተር ላይ መገጠም የሚችል",
+    "hidden": false,
+    "id": "9963",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780780891/r5s9jxeebs2sb8tneqbh.jpg"
+    ],
+    "likes": 0,
+    "name": "የአንገት ካሜራ(Necklace Camera)",
+    "nameAm": "የአንገት ካሜራ(Necklace Camera)",
+    "outOfStock": false,
+    "price": 9900
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ከስልክ ጋር በ ብሉቱዝ ተገናኝቶ እንደ playstation ጌሞችን ማጫወት የሚችል\nከስልክ በተጨማሪ ከላፕቶፕ እና ቲቪ ጋር መገናኘት ይችላል\nስልክ ማስቀመጫው መስፋትና መጥበብ ስለሚችል ለሁሉም አይነት ሞዴል የሚሆን\nበቻርጅ የሚሠራና ለአዋቂም ሆነ ህፃናት ለአያያዝ የሚመች\nኳስ፣ ሽጉጥ፣ መኪና የትኛውንም አይነት ጌሞች በምቾት ያጫውታል",
+    "descriptionAm": "ከስልክ ጋር በ ብሉቱዝ ተገናኝቶ እንደ playstation ጌሞችን ማጫወት የሚችል\nከስልክ በተጨማሪ ከላፕቶፕ እና ቲቪ ጋር መገናኘት ይችላል\nስልክ ማስቀመጫው መስፋትና መጥበብ ስለሚችል ለሁሉም አይነት ሞዴል የሚሆን\nበቻርጅ የሚሠራና ለአዋቂም ሆነ ህፃናት ለአያያዝ የሚመች\nኳስ፣ ሽጉጥ፣ መኪና የትኛውንም አይነት ጌሞች በምቾት ያጫውታል",
+    "hidden": false,
+    "id": "9964",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780780919/o7xltc5eyuyp0hullaxb.jpg"
+    ],
+    "likes": 0,
+    "name": "የስልክ ጆይስቲክ (phone Joystick)",
+    "nameAm": "የስልክ ጆይስቲክ (phone Joystick)",
+    "outOfStock": false,
+    "price": 3800
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ከ 15ሺ በላይ በነፃ የምትጫወቱት ጌም ያለው\nየራሱ 64ጂቢ ሚሞሪ ያለው እና እስከ 256 ጂቢ ሚሞሪ መክተት ያስችላል\nጉዞ ላይ፣ ካፌ ውስጥ፣ መንገድ ላይ የትም ቦታ ለመጫወት የሚመች\nበቻርጅ የሚሠራና በአንድ ቻርጅም ለረጅም ሰዓት የሚቆይ\nለልጅም ሆነ አዋቂ እጅግ በጣም የሚያዝናና\nHD ጥራት ያለው ስክሪን የተገጠመለት\nመጠኑ ኪስ ውስጥም ሆነ ቦርሳ ውስጥ ለማስቀመጥ የሚመች",
+    "descriptionAm": "ከ 15ሺ በላይ በነፃ የምትጫወቱት ጌም ያለው\nየራሱ 64ጂቢ ሚሞሪ ያለው እና እስከ 256 ጂቢ ሚሞሪ መክተት ያስችላል\nጉዞ ላይ፣ ካፌ ውስጥ፣ መንገድ ላይ የትም ቦታ ለመጫወት የሚመች\nበቻርጅ የሚሠራና በአንድ ቻርጅም ለረጅም ሰዓት የሚቆይ\nለልጅም ሆነ አዋቂ እጅግ በጣም የሚያዝናና\nHD ጥራት ያለው ስክሪን የተገጠመለት\nመጠኑ ኪስ ውስጥም ሆነ ቦርሳ ውስጥ ለማስቀመጥ የሚመች",
+    "hidden": false,
+    "id": "9965",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781092/tr7p4uamu4gekm4eese1.jpg"
+    ],
+    "likes": 0,
+    "name": "የእጅ ጌም መጫወቻ(Gameboy)",
+    "nameAm": "የእጅ ጌም መጫወቻ(Gameboy)",
+    "outOfStock": false,
+    "price": 15000
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "በፀሀይ የሚሠራ መብራት\nጊቢያቹ ላይ በመስቀል ሲመሽ እራሡ ይበራል\nወደፈለጉት አቅጣጫ እንደፈለጉ ማዟዟር ይችላሉ\nመቆጣጠሪያ ሪሞት ስላለው ማብራት እና ማጥፋት ይችላሉ",
+    "descriptionAm": "በፀሀይ የሚሠራ መብራት\nጊቢያቹ ላይ በመስቀል ሲመሽ እራሡ ይበራል\nወደፈለጉት አቅጣጫ እንደፈለጉ ማዟዟር ይችላሉ\nመቆጣጠሪያ ሪሞት ስላለው ማብራት እና ማጥፋት ይችላሉ",
+    "hidden": false,
+    "id": "9966",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781217/wyl5daykqoikovylskcg.jpg"
+    ],
+    "likes": 0,
+    "name": "ሶላር የጊቢ መብራት (Solar light)",
+    "nameAm": "ሶላር የጊቢ መብራት (Solar light)",
+    "outOfStock": false,
+    "price": 3800
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ከፍተኛ የድምፅ ጥራት ያለው\nከየትኛውም ስልክ ጋር መገናኘት የሚችል\nለዘፈን እና ፊልም ተመራጭ\nእየነዱ ስልክ ሲያወሩበት ጥራት ያለው\nበ charge የሚሰራና ረጅም ሰአት የሚቆይ",
+    "descriptionAm": "ከፍተኛ የድምፅ ጥራት ያለው\nከየትኛውም ስልክ ጋር መገናኘት የሚችል\nለዘፈን እና ፊልም ተመራጭ\nእየነዱ ስልክ ሲያወሩበት ጥራት ያለው\nበ charge የሚሰራና ረጅም ሰአት የሚቆይ",
+    "hidden": false,
+    "id": "9967",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781281/hzyvunjyozwpqidvbf1n.jpg"
+    ],
+    "likes": 0,
+    "name": "አፕል የጆሮ ማዳመጫ (Apple Airpod)",
+    "nameAm": "አፕል የጆሮ ማዳመጫ (Apple Airpod)",
+    "outOfStock": false,
+    "price": 3800
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "የትኛውም ኮምፒውተር ላይ መግጠም የሚቻል\nጥራት ያለው ቪድዮ እና ድምጽ የሚቀርጽ\nለኮንፍረንስ እና ለቪዲዮ መደዋወል ትክክለኛ ምርጫ\n180° ስፋት ያለው ሌንስ የተገጠመለት\nለማገናኘትም USB ላይ መሠካት በቂ ነው\nጥራቱም 720p ስለሆነ ተመራጭ ያደርገዋል",
+    "descriptionAm": "የትኛውም ኮምፒውተር ላይ መግጠም የሚቻል\nጥራት ያለው ቪድዮ እና ድምጽ የሚቀርጽ\nለኮንፍረንስ እና ለቪዲዮ መደዋወል ትክክለኛ ምርጫ\n180° ስፋት ያለው ሌንስ የተገጠመለት\nለማገናኘትም USB ላይ መሠካት በቂ ነው\nጥራቱም 720p ስለሆነ ተመራጭ ያደርገዋል",
+    "hidden": false,
+    "id": "9968",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781374/kehzsxw1rpvvncxpl6to.jpg"
+    ],
+    "likes": 0,
+    "name": "የኮምፒውተር ካሜራ(Web Camera)",
+    "nameAm": "የኮምፒውተር ካሜራ(Web Camera)",
+    "outOfStock": false,
+    "price": 3000
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "የማብራት አቅሙ እጅግ በጣም ከፍተኛ\n ለጥበቃ፣የማታ ጉዞ፣ለዘበኞቸ፣ሹፊር ከእጃቹ ሊለይ የማይገባ\nሙሉ አካባቢውንም የቀን ያህል የሚያበራ\nመጠኑም የትም መቀመጥ የሚችል\nበቻርጅ የሚሰራ",
+    "descriptionAm": "የማብራት አቅሙ እጅግ በጣም ከፍተኛ\n ለጥበቃ፣የማታ ጉዞ፣ለዘበኞቸ፣ሹፊር ከእጃቹ ሊለይ የማይገባ\nሙሉ አካባቢውንም የቀን ያህል የሚያበራ\nመጠኑም የትም መቀመጥ የሚችል\nበቻርጅ የሚሰራ",
+    "hidden": false,
+    "id": "9969",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781568/xrldvizoflbc06tjoirk.jpg"
+    ],
+    "likes": 0,
+    "name": "ፖውዛ መብራት (Super flashlight)",
+    "nameAm": "ፖውዛ መብራት (Super flashlight)",
+    "outOfStock": false,
+    "price": 4500
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "የ ላፕቶፕ ማቆምያ\nላፕቶፕ እንዳይግል ማድረጊያ\nከፍታውን እንደፍላጐታቹ ማመጣጠን ይችላሉ\nለየትኛውም ላፕቶፕ የሚሆን\nተጣጥፎ የሚቀመጥ",
+    "descriptionAm": "የ ላፕቶፕ ማቆምያ\nላፕቶፕ እንዳይግል ማድረጊያ\nከፍታውን እንደፍላጐታቹ ማመጣጠን ይችላሉ\nለየትኛውም ላፕቶፕ የሚሆን\nተጣጥፎ የሚቀመጥ",
+    "hidden": false,
+    "id": "9970",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781627/tfbsf00xzrzynpq8njbw.jpg"
+    ],
+    "likes": 0,
+    "name": "የ Laptop ማስቀመጫ (Laptop Holder)",
+    "nameAm": "የ Laptop ማስቀመጫ (Laptop Holder)",
+    "outOfStock": false,
+    "price": 2000
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "14 ኢንች ስፋት ያለው, የቪድዮአቹን ካሜራ ጥራት የሚጨምር\nለ ቲክቶክ፣ቪድዮ አዘጋጆች፣ ስራቹን ለማሳየት ተመራጭ\nቁመቱ ከፍ እና ዝቅ ማለት የሚችል\nየስልክ ቀረፃቹን ዲጂታል የሚያስመስል\nለፎቶም ሆነ ቪድዮ የሚሆን\nየትኛውንም የስልክ ሞዴል የሚቀበል",
+    "descriptionAm": "14 ኢንች ስፋት ያለው, የቪድዮአቹን ካሜራ ጥራት የሚጨምር\nለ ቲክቶክ፣ቪድዮ አዘጋጆች፣ ስራቹን ለማሳየት ተመራጭ\nቁመቱ ከፍ እና ዝቅ ማለት የሚችል\nየስልክ ቀረፃቹን ዲጂታል የሚያስመስል\nለፎቶም ሆነ ቪድዮ የሚሆን\nየትኛውንም የስልክ ሞዴል የሚቀበል",
+    "hidden": false,
+    "id": "9971",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781738/ppz1p9kmew0hlmdmoeig.jpg"
+    ],
+    "likes": 0,
+    "name": "ሪንግ ላይት 14 ኢንች(Ring Light)",
+    "nameAm": "ሪንግ ላይት 14 ኢንች(Ring Light)",
+    "outOfStock": false,
+    "price": 7500
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ለቤት እና ለንግድ ቦታ የሚያገለግል ሴኩሪቲ ካሜራ\nበቀላሉ ከስልኮ ጋር በማገናኘት የፈለጉት ቦታ ሆነው መመልከት የሚያስችሎ\nበምሽት ለመቅረፅ የሚያስችል Night Vision ሴንሰሮች የተገጠሙለት\nሚሞሪ ካርድ ስለሚቀበል የሚቀዳ\n360° እየተሸከረከረ የሚቀርፅ",
+    "descriptionAm": "ለቤት እና ለንግድ ቦታ የሚያገለግል ሴኩሪቲ ካሜራ\nበቀላሉ ከስልኮ ጋር በማገናኘት የፈለጉት ቦታ ሆነው መመልከት የሚያስችሎ\nበምሽት ለመቅረፅ የሚያስችል Night Vision ሴንሰሮች የተገጠሙለት\nሚሞሪ ካርድ ስለሚቀበል የሚቀዳ\n360° እየተሸከረከረ የሚቀርፅ",
+    "hidden": false,
+    "id": "9972",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781825/soryntehmddhb0hqjdff.jpg"
+    ],
+    "likes": 0,
+    "name": "የአምፖል ደህንነት ካሜራ(LAMP SECURITY CAMERA)",
+    "nameAm": "የአምፖል ደህንነት ካሜራ(LAMP SECURITY CAMERA)",
+    "outOfStock": false,
+    "price": 4500
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "የትኛውም መኪና ላይ መገጠም የሚችል\nበስልካቹ ብቻ ማቆም እና ማስነሳት ይችላሉ\nየት እንዳለ፣ በምን ያህል ፍጥነት እየሄደ እንደሆነ ያሳያል\nለምታከራዩ ባለቤቶችም መኪናው ከከተማ ሲወጣ በስልካቹ ያሳውቃቹሀል\nበስልካቹ ካጠፋቹት በቁልፍ ራሱ መነሳት አይችልም\nአንዴ ከገጠማቹት ቻርጅም ሆነ ባትሪ የማይፈልግ",
+    "descriptionAm": "የትኛውም መኪና ላይ መገጠም የሚችል\nበስልካቹ ብቻ ማቆም እና ማስነሳት ይችላሉ\nየት እንዳለ፣ በምን ያህል ፍጥነት እየሄደ እንደሆነ ያሳያል\nለምታከራዩ ባለቤቶችም መኪናው ከከተማ ሲወጣ በስልካቹ ያሳውቃቹሀል\nበስልካቹ ካጠፋቹት በቁልፍ ራሱ መነሳት አይችልም\nአንዴ ከገጠማቹት ቻርጅም ሆነ ባትሪ የማይፈልግ",
+    "hidden": false,
+    "id": "9973",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780781883/ukl6xycoofv4mxwuo6t7.jpg"
+    ],
+    "likes": 0,
+    "name": "መኪና ከስርቆት መቆጣጠሪያ(gps tracker)",
+    "nameAm": "መኪና ከስርቆት መቆጣጠሪያ(gps tracker)",
+    "outOfStock": false,
+    "price": 13500
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "እጅግ በጣም አነስተኛ እና የማይታይ\nበመኝታ ሰዓት ቢያረጉትም የሚመች\nጫጫታን ቀንሶ ማሰማት የሚችል\nየማይታይ እና ደብቅ\nፊልም፣ዘፈን፣ስልክ ለማውራት ተመራጭ",
+    "descriptionAm": "እጅግ በጣም አነስተኛ እና የማይታይ\nበመኝታ ሰዓት ቢያረጉትም የሚመች\nጫጫታን ቀንሶ ማሰማት የሚችል\nየማይታይ እና ደብቅ\nፊልም፣ዘፈን፣ስልክ ለማውራት ተመራጭ",
+    "hidden": false,
+    "id": "9974",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782027/zj0wy8b4ngp6lgarnxpg.jpg"
+    ],
+    "likes": 0,
+    "name": "ትንሿ የጆሮ ማዳመጫ(Mini earphone)",
+    "nameAm": "ትንሿ የጆሮ ማዳመጫ(Mini earphone)",
+    "outOfStock": false,
+    "price": 4100
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "Wireless headset እና 4 አይነት ማሰርያ ያለው\nየልብ ምት መለካት የሚችል, ስፖርት ሲሰሩ ምን ያህል ካሎሪ እንዳቃጠሉ ይነግራል\nከመጠን በላይ እንቅልፍ ሲተኙ የሚቀሰቅስ, ስልክ ሲጠፋ ለመፈለግ የሚያግዝ\nከስልክ ጋር ተገናኝቶ መደወልም ሆነ ማንሳት የሚያስችል\nሙሉ Touch screen የሆነ እና መልዕክት መላክ አንዲሁም መቀበል የሚችሉበት\nዘመናዊ እና ውብ ዲዛይን ያለው ስለሆነ ለስጦታም ተመረጭነው።",
+    "descriptionAm": "Wireless headset እና 4 አይነት ማሰርያ ያለው\nየልብ ምት መለካት የሚችል, ስፖርት ሲሰሩ ምን ያህል ካሎሪ እንዳቃጠሉ ይነግራል\nከመጠን በላይ እንቅልፍ ሲተኙ የሚቀሰቅስ, ስልክ ሲጠፋ ለመፈለግ የሚያግዝ\nከስልክ ጋር ተገናኝቶ መደወልም ሆነ ማንሳት የሚያስችል\nሙሉ Touch screen የሆነ እና መልዕክት መላክ አንዲሁም መቀበል የሚችሉበት\nዘመናዊ እና ውብ ዲዛይን ያለው ስለሆነ ለስጦታም ተመረጭነው።",
+    "hidden": false,
+    "id": "9975",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782179/vpdgf3ubg9fsj1vgs4q3.jpg"
+    ],
+    "likes": 0,
+    "name": "ባለ headset ዘመናዊ ሰዓት(Smart Watches with headset)",
+    "nameAm": "ባለ headset ዘመናዊ ሰዓት(Smart Watches with headset)",
+    "outOfStock": false,
+    "price": 6500
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "10 ኢንች ስፋት ያለው\n የቪድዮአቹን ካሜራ ጥራት የሚጨምር\nለ ቲክቶክ፣ቪድዮ አዘጋጆች፣ ስራቹን ለማሳየት ተመራጭ\nቁመቱ ከፍ እና ዝቅ ማለት የሚችል\nየስልክ ቀረፃቹን ዲጂታል የሚያስመስል\nለፎቶም ሆነ ቪድዮ የሚሆን, የትኛውንም የስልክ ሞዴል የሚቀበል",
+    "descriptionAm": "10 ኢንች ስፋት ያለው\n የቪድዮአቹን ካሜራ ጥራት የሚጨምር\nለ ቲክቶክ፣ቪድዮ አዘጋጆች፣ ስራቹን ለማሳየት ተመራጭ\nቁመቱ ከፍ እና ዝቅ ማለት የሚችል\nየስልክ ቀረፃቹን ዲጂታል የሚያስመስል\nለፎቶም ሆነ ቪድዮ የሚሆን, የትኛውንም የስልክ ሞዴል የሚቀበል",
+    "hidden": false,
+    "id": "9976",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782296/rjul6peg2rn0iusspugs.jpg"
+    ],
+    "likes": 0,
+    "name": "ሪንግ ላይት 10 ኢንች(Ring Light)",
+    "nameAm": "ሪንግ ላይት 10 ኢንች(Ring Light)",
+    "outOfStock": false,
+    "price": 5600
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ለልጅም ሆነ አዋቂ የሚሆን\nክብደትን የሚቋቋም እና ጠንካራ\nለመለማመድም ሆነ ለመንዳት ምቹ\nጐማውም ረጅም ጊዜ የሚያገለግል",
+    "descriptionAm": "ለልጅም ሆነ አዋቂ የሚሆን\nክብደትን የሚቋቋም እና ጠንካራ\nለመለማመድም ሆነ ለመንዳት ምቹ\nጐማውም ረጅም ጊዜ የሚያገለግል",
+    "hidden": false,
+    "id": "9977",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782396/pm69lpquy0obvdjoldo0.jpg"
+    ],
+    "likes": 0,
+    "name": "ስኬት ቦርድ(Skateboard)",
+    "nameAm": "ስኬት ቦርድ(Skateboard)",
+    "outOfStock": false,
+    "price": 5700
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ኢንተርኔት ሳያቆራርጥ ብዙ ሰዎችን የሚያስጠቅም\n4 አንቴና ስላለው ኔትዎርክ በደንብ የሚስብ\n1300 Mbps ድረስ ፍጥነት ያለው\nለቤትም ሆነ ድርጅቶች የሚሆን\nዲዛይኑ በጣም ዘመናዊ",
+    "descriptionAm": "ኢንተርኔት ሳያቆራርጥ ብዙ ሰዎችን የሚያስጠቅም\n4 አንቴና ስላለው ኔትዎርክ በደንብ የሚስብ\n1300 Mbps ድረስ ፍጥነት ያለው\nለቤትም ሆነ ድርጅቶች የሚሆን\nዲዛይኑ በጣም ዘመናዊ",
+    "hidden": false,
+    "id": "9978",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782493/d9pj6hxyylq94wp1g45e.jpg"
+    ],
+    "likes": 0,
+    "name": "የቤት ውስጥ ዋይፋይ ማሰራጫ(Huawei Wifi Router)",
+    "nameAm": "የቤት ውስጥ ዋይፋይ ማሰራጫ(Huawei Wifi Router)",
+    "outOfStock": false,
+    "price": 5700
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "ለቲክቶክ ፣ ለዩቲዩብ ፣ ለኢንተርቪው እና ለሌሎችም ቀረፃዎች የሚመረጥ እስከ 20ሜትር እርቀት የሚሰራ።\nAlphone እና ለType-C ስልኮች የቀረበ\nያለምንም ተጨማሪ አፕልኬሽን ቀጥታ በመሰካት የሚጠቀሙበት ትንሽ እና ቀላል መሆኑ ለአያያዝ ምቹ ነው",
+    "descriptionAm": "ለቲክቶክ ፣ ለዩቲዩብ ፣ ለኢንተርቪው እና ለሌሎችም ቀረፃዎች የሚመረጥ እስከ 20ሜትር እርቀት የሚሰራ።\nAlphone እና ለType-C ስልኮች የቀረበ\nያለምንም ተጨማሪ አፕልኬሽን ቀጥታ በመሰካት የሚጠቀሙበት ትንሽ እና ቀላል መሆኑ ለአያያዝ ምቹ ነው",
+    "hidden": false,
+    "id": "9979",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782577/odathxfqrs5qatq5iikf.jpg"
+    ],
+    "likes": 0,
+    "name": "ባለ 2 ገመድ አልባ ድምፅ መቅረጫ(Wireless Microphone)",
+    "nameAm": "ባለ 2 ገመድ አልባ ድምፅ መቅረጫ(Wireless Microphone)",
+    "outOfStock": false,
+    "price": 3000
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "እስከ 50 ኪሎ ድረስ ይመዝናል\nበባትሪ ድንጋይ የሚሰራ, ትክክለኛ ልኬት የሚያሳይ\nአነስተኛና የትም ይዞ ለመንቀሳቀስ የሚመች\nየ ኤርፖርት ሻንጣዎችን በቤትዎ ሆነው መመዘን ይችላሉ\nበ ኪ.ግ ሆነ ግራም መመዘን ይችላል\nለጉዞም ሆነ ለቤት ተመራጭ",
+    "descriptionAm": "እስከ 50 ኪሎ ድረስ ይመዝናል\nበባትሪ ድንጋይ የሚሰራ, ትክክለኛ ልኬት የሚያሳይ\nአነስተኛና የትም ይዞ ለመንቀሳቀስ የሚመች\nየ ኤርፖርት ሻንጣዎችን በቤትዎ ሆነው መመዘን ይችላሉ\nበ ኪ.ግ ሆነ ግራም መመዘን ይችላል\nለጉዞም ሆነ ለቤት ተመራጭ",
+    "hidden": false,
+    "id": "9980",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782660/g4a2rkhpoimqrhs992dz.jpg"
+    ],
+    "likes": 0,
+    "name": "ተንቀሳቃሽ ሚዛን (portable scale)",
+    "nameAm": "ተንቀሳቃሽ ሚዛን (portable scale)",
+    "outOfStock": false,
+    "price": 2450
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "18 ኢንች ስፋት ያለው\n የቪድዮአቹን ካሜራ ጥራት የሚጨምር\nለ ቲክቶክ፣ቪድዮ አዘጋጆች፣ ስራቹን ለማሳየት ተመራጭ\nቁመቱ ከፍ እና ዝቅ ማለት የሚችል\nየስልክ ቀረፃቹን ዲጂታል የሚያስመስል\nለፎቶም ሆነ ቪድዮ የሚሆን, የትኛውንም የስልክ ሞዴል የሚቀበል",
+    "descriptionAm": "18 ኢንች ስፋት ያለው\n የቪድዮአቹን ካሜራ ጥራት የሚጨምር\nለ ቲክቶክ፣ቪድዮ አዘጋጆች፣ ስራቹን ለማሳየት ተመራጭ\nቁመቱ ከፍ እና ዝቅ ማለት የሚችል\nየስልክ ቀረፃቹን ዲጂታል የሚያስመስል\nለፎቶም ሆነ ቪድዮ የሚሆን, የትኛውንም የስልክ ሞዴል የሚቀበል",
+    "hidden": false,
+    "id": "9981",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782735/gmsgg41vvkxb0biaa1tn.jpg"
+    ],
+    "likes": 0,
+    "name": "ሪንግ ላይት 18 ኢንች(Ring Light)",
+    "nameAm": "ሪንግ ላይት 18 ኢንች(Ring Light)",
+    "outOfStock": false,
+    "price": 8500
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "የጆሮ ማዳመጫ እና 5 አይነት ማሰርያ ያለው\nየልብ ምት እና የደም ኦክስጅን መለካት የሚችል\nስፖርት ሲሰሩ ምን ያህል እንደሰሩ መረጃ የሚሰጥ እና የእንቅልፍ ሰዓትን የሚቆጣጠር\nከማንኛውም ስልክ ጋር አገናኝቶ ስልክ መቀበል፤ መደወል እና እንደ sms, WhatsApp እና ሌሎች መልዕክቶችንም ማየት ያስችላል።\nውሀን መቋቋም የሚችል እና ለረጅም ጊዜ የሚቆይ ባትሪ ያለው\nለወንድም ሆነ ለሴት የሚሆን እና የተለያዩ የከለር አማራጮች ያሉት",
+    "descriptionAm": "የጆሮ ማዳመጫ እና 5 አይነት ማሰርያ ያለው\nየልብ ምት እና የደም ኦክስጅን መለካት የሚችል\nስፖርት ሲሰሩ ምን ያህል እንደሰሩ መረጃ የሚሰጥ እና የእንቅልፍ ሰዓትን የሚቆጣጠር\nከማንኛውም ስልክ ጋር አገናኝቶ ስልክ መቀበል፤ መደወል እና እንደ sms, WhatsApp እና ሌሎች መልዕክቶችንም ማየት ያስችላል።\nውሀን መቋቋም የሚችል እና ለረጅም ጊዜ የሚቆይ ባትሪ ያለው\nለወንድም ሆነ ለሴት የሚሆን እና የተለያዩ የከለር አማራጮች ያሉት",
+    "hidden": false,
+    "id": "9982",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782809/xntfxworijuh2os1t1fm.jpg"
+    ],
+    "likes": 0,
+    "name": "Ultra3 ስማርት ሰዓት(Ultra3 smart watch)",
+    "nameAm": "Ultra3 ስማርት ሰዓት(Ultra3 smart watch)",
+    "outOfStock": false,
+    "price": 5800
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "የክፍል ማሳመሪያ Led መብራት\nየ 5 ሜትር ርዝመት አለው\n169 Color አማርጭ ቾች \nውሀ ቢነካውም ምንም የማይሆን\nመቆጣጠሪያ ሪሞት ያለው\nበራሱ ግድግዳ ላይ መለጠፍ የሚችል",
+    "descriptionAm": "የክፍል ማሳመሪያ Led መብራት\nየ 5 ሜትር ርዝመት አለው\n169 Color አማርጭ ቾች \nውሀ ቢነካውም ምንም የማይሆን\nመቆጣጠሪያ ሪሞት ያለው\nበራሱ ግድግዳ ላይ መለጠፍ የሚችል",
+    "hidden": false,
+    "id": "9983",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780782974/cpb6gnpiapxgkspejdum.jpg"
+    ],
+    "likes": 0,
+    "name": "የክፍል መብራት(Led Light)",
+    "nameAm": "የክፍል መብራት(Led Light)",
+    "outOfStock": false,
+    "price": 3200
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "አንዴ ተገጥሞ በፀሀይ ሀይል 24 ሰዓት ሙሉ ቪዲዮ እየቀረጸ ያሳያል\nዝናብም ሆነ ውሃ ቢደፋበት ምንም የማይሆን, 360° እየተዘዋወረ መቅረፅ የሚችል\nበሲም የሚሰራና ከስልካቹ ጋር አገናኝታችሁ የትም ሆነው ሙሉ ቪዲዮውን መመልከት ይችላሉሁለት አንቴና 4G ኔትወርክ ስላለው ምንም ሳያቆራርጥ 24 ሰዓት በጥራት ይቀርፃል\nspeaker ስለተገጠመለትም ካሜራው ቦታ ያለውን ሰው ማናገር ይችላሉ\nለቤት፣ ለድርጅቶች፣ ለመጋዘን ተመራጭ ነው, መብራት ለሌለባቸው ቦታዎች ተመራጭ\nበፀሐይ ብርሃን ሶላር ስለሆነ የሚሰራውም ያለምንም ተጨማሪ ጉልበት ሲቀርፅ መዋል ይችላል",
+    "descriptionAm": "አንዴ ተገጥሞ በፀሀይ ሀይል 24 ሰዓት ሙሉ ቪዲዮ እየቀረጸ ያሳያል\nዝናብም ሆነ ውሃ ቢደፋበት ምንም የማይሆን, 360° እየተዘዋወረ መቅረፅ የሚችል\nበሲም የሚሰራና ከስልካቹ ጋር አገናኝታችሁ የትም ሆነው ሙሉ ቪዲዮውን መመልከት ይችላሉሁለት አንቴና 4G ኔትወርክ ስላለው ምንም ሳያቆራርጥ 24 ሰዓት በጥራት ይቀርፃል\nspeaker ስለተገጠመለትም ካሜራው ቦታ ያለውን ሰው ማናገር ይችላሉ\nለቤት፣ ለድርጅቶች፣ ለመጋዘን ተመራጭ ነው, መብራት ለሌለባቸው ቦታዎች ተመራጭ\nበፀሐይ ብርሃን ሶላር ስለሆነ የሚሰራውም ያለምንም ተጨማሪ ጉልበት ሲቀርፅ መዋል ይችላል",
+    "hidden": false,
+    "id": "9984",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780783145/eb016qvrz8eb9ohcovia.jpg"
+    ],
+    "likes": 0,
+    "name": "በፀሀይ የሚሰራ ካሜራ(Solar Security Camera)",
+    "nameAm": "በፀሀይ የሚሰራ ካሜራ(Solar Security Camera)",
+    "outOfStock": false,
+    "price": 29800
+  },
+  {
+    "category": "accessories",
+    "condition": "Brand New",
+    "description": "በሲም የሚሰራ፣ሚሞሪ የሚቀበል እና ሁለት ሌንስ ያለው\n360° የሚዞር እና እንቅስቃሴን ተከትሎ የሚቀርፅ\n1080mp ጥራት ያለውና በቀንም ሆነ በማታ በጥራት የሚቀርፅ\nድምፅ ማስተላለፍም ሆነ ማሰማት የሚችል\nየቦታ ርቀት የማይገድበው እና የትም አገር ሆነው መከታተል የሚያስችል\nየራሱ ባትሪ ስላለው መብራት በማይኖርበት ጊዜ ከ2 ቀን በላይ መቆየት ይችላል\nለቤት፣ለሱቅ፣ለመጋዘን፣ለቢሮ፣ህፃናትን ለመከታተል እና ደህንነታቸውን ለመጠበቅ እጅግ ተመራጭ",
+    "descriptionAm": "በሲም የሚሰራ፣ሚሞሪ የሚቀበል እና ሁለት ሌንስ ያለው\n360° የሚዞር እና እንቅስቃሴን ተከትሎ የሚቀርፅ\n1080mp ጥራት ያለውና በቀንም ሆነ በማታ በጥራት የሚቀርፅ\nድምፅ ማስተላለፍም ሆነ ማሰማት የሚችል\nየቦታ ርቀት የማይገድበው እና የትም አገር ሆነው መከታተል የሚያስችል\nየራሱ ባትሪ ስላለው መብራት በማይኖርበት ጊዜ ከ2 ቀን በላይ መቆየት ይችላል\nለቤት፣ለሱቅ፣ለመጋዘን፣ለቢሮ፣ህፃናትን ለመከታተል እና ደህንነታቸውን ለመጠበቅ እጅግ ተመራጭ",
+    "hidden": false,
+    "id": "9985",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780783308/icrawluroso4fvosuick.jpg"
+    ],
+    "likes": 0,
+    "name": "በሲም የሚሰራ ዘመናዊ የደህንነት ካሜራ(SIM card smart security...",
+    "nameAm": "በሲም የሚሰራ ዘመናዊ የደህንነት ካሜራ(SIM card smart security...",
+    "outOfStock": false,
+    "price": 22500
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "8.7 inch \nSamsung Tab A9\nQuantity Available\nStorage 64GB\n4GB Ram\n8.7 inch Screen",
+    "descriptionAm": "8.7 inch \nSamsung Tab A9\nQuantity Available\nStorage 64GB\n4GB Ram\n8.7 inch Screen",
+    "hidden": false,
+    "id": "9986",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780792636/f9r0qunf6ypmgfrurr67.jpg"
+    ],
+    "likes": 0,
+    "name": "Samsung Tab A9Quantity AvailableStorage 64GB 4GB Ram",
+    "nameAm": "Samsung Tab A9Quantity AvailableStorage 64GB 4GB Ram",
+    "outOfStock": false,
+    "price": 36000
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Brand: Lenovo M11 Tab\nStorage: 128GB/ RAM: 4GB\nDisplay: 11-inch Large Screen - Clear & Vibrant\nFeature: SIM Card",
+    "descriptionAm": "Brand: Lenovo M11 Tab\nStorage: 128GB/ RAM: 4GB\nDisplay: 11-inch Large Screen - Clear & Vibrant\nFeature: SIM Card",
+    "hidden": false,
+    "id": "9987",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780792741/jzpqk6ismajquijpbsjo.jpg"
+    ],
+    "likes": 0,
+    "name": "Brand New Arrival - Lenovo M11 Tablet with original Cover!",
+    "nameAm": "Brand New Arrival - Lenovo M11 Tablet with original Cover!",
+    "outOfStock": false,
+    "price": 57000
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Apple iPad Pro\n19.5\" Retina Display\n128GB Storage\nSmooth performance & premium Apple design\nSupports Apple Pencil\nLong-lasting battery",
+    "descriptionAm": "Apple iPad Pro\n19.5\" Retina Display\n128GB Storage\nSmooth performance & premium Apple design\nSupports Apple Pencil\nLong-lasting battery",
+    "hidden": false,
+    "id": "9988",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780792834/kcjyhcn6qnvk3ox1wn5i.jpg"
+    ],
+    "likes": 0,
+    "name": "Apple iPad Pro 128GB Storage",
+    "nameAm": "Apple iPad Pro 128GB Storage",
+    "outOfStock": false,
+    "price": 37000
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Processor: Samsung Exynos 1380\nRAM: 6GB/ Storage: 128GB\nSize: 11 inches, Type: IPS LCD\nRear: Dual 8MP cameras (wide and ultrawide), Front: 12MP ultrawide camera\nBatteryCapacity: 10,090mAh (non-removable)\nCharging: Fast charging support",
+    "descriptionAm": "Processor: Samsung Exynos 1380\nRAM: 6GB/ Storage: 128GB\nSize: 11 inches, Type: IPS LCD\nRear: Dual 8MP cameras (wide and ultrawide), Front: 12MP ultrawide camera\nBatteryCapacity: 10,090mAh (non-removable)\nCharging: Fast charging support",
+    "hidden": false,
+    "id": "9989",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780792950/z6bk4l70gu7yazxtinal.jpg"
+    ],
+    "likes": 0,
+    "name": "Samsung tab S9FE 5g",
+    "nameAm": "Samsung tab S9FE 5g",
+    "outOfStock": false,
+    "price": 111000
+  },
+  {
+    "category": "phones",
+    "colors": [
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "Model: Redmi Note 14 Pro+\nCondition: Brand New\ninternal storage 512GB/RAM 16GB\nBattery: Battery_5000mah\nCamera lovers should see this Xiaomi 13 ultra 16+16gb_512gb (ram_rom) \nCamera_50mp quad camera, 32mp front",
+    "descriptionAm": "Model: Redmi Note 14 Pro+\nCondition: Brand New\ninternal storage 512GB/RAM 16GB\nBattery: Battery_5000mah\nCamera lovers should see this Xiaomi 13 ultra 16+16gb_512gb (ram_rom) \nCamera_50mp quad camera, 32mp front",
+    "hidden": false,
+    "id": "9990",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793036/sdz2mcbmxawzkewtsx7a.jpg"
+    ],
+    "likes": 0,
+    "name": "Xiaomi 13 ultra",
+    "nameAm": "Xiaomi 13 ultra",
+    "outOfStock": false,
+    "price": 89500
+  },
+  {
+    "category": "phones",
+    "colors": [
+      "#FFFFFF"
+    ],
+    "condition": "Brand New",
+    "description": "Model Redmi Note 14 Pro+\nCondition: Brand New\ninternal storage 256GB/Ram12GB+12GB rom\nDual 50MP/2MP\n9000 mAh battery\nDimensity 9500s processor",
+    "descriptionAm": "Model Redmi Note 14 Pro+\nCondition: Brand New\ninternal storage 256GB/Ram12GB+12GB rom\nDual 50MP/2MP\n9000 mAh battery\nDimensity 9500s processor",
+    "hidden": false,
+    "id": "9991",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793297/jiyqb5pkhhucp91icmfy.jpg"
+    ],
+    "likes": 0,
+    "name": "Redmi Turbo 5 Max",
+    "nameAm": "Redmi Turbo 5 Max",
+    "outOfStock": false,
+    "price": 87000
+  },
+  {
+    "category": "phones",
+    "colors": [
+      "#F59E0B"
+    ],
+    "condition": "Brand New",
+    "description": "Brand : Apple\nCondition : Brand New\ninternal storage 256GB/Ram 16GB\nModel : 17 Pro Max\nColor Orange",
+    "descriptionAm": "Brand : Apple\nCondition : Brand New\ninternal storage 256GB/Ram 16GB\nModel : 17 Pro Max\nColor Orange",
+    "hidden": false,
+    "id": "9992",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793397/qlbyjflvllzhsxq9utno.jpg"
+    ],
+    "likes": 0,
+    "name": "IPhone 17 pro max",
+    "nameAm": "IPhone 17 pro max",
+    "outOfStock": false,
+    "price": 298000
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Brand: Apple 17 Pro\nCondition : Brand New\nColor: Gray\ninternal storage 512GB/Ram 16GB\nMain Camera Dual 13 MP/2MP\nBattery 1500",
+    "descriptionAm": "Brand: Apple 17 Pro\nCondition : Brand New\nColor: Gray\ninternal storage 512GB/Ram 16GB\nMain Camera Dual 13 MP/2MP\nBattery 1500",
+    "hidden": false,
+    "id": "9993",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793495/ltsyslh3c22ykl1q9w6a.jpg"
+    ],
+    "likes": 0,
+    "name": "Apple 17 Pro",
+    "nameAm": "Apple 17 Pro",
+    "outOfStock": false,
+    "price": 320000
+  },
+  {
+    "category": "phones",
+    "colors": [
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "Brand : Samsung S26 ultra\nCondition : Brand New\ninternal storage 256GB/Ram 12GB\nMain Camera Dual 50MP/2MP\nModel : SE\nColor Black\nBattery 1500",
+    "descriptionAm": "Brand : Samsung S26 ultra\nCondition : Brand New\ninternal storage 256GB/Ram 12GB\nMain Camera Dual 50MP/2MP\nModel : SE\nColor Black\nBattery 1500",
+    "hidden": false,
+    "id": "9994",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793580/std0a2xpi7fcrzhs0pdq.jpg"
+    ],
+    "likes": 0,
+    "name": "Samsung S26 ultra",
+    "nameAm": "Samsung S26 ultra",
+    "outOfStock": false,
+    "price": 238000
+  },
+  {
+    "category": "phones",
+    "colors": [
+      "#000000"
+    ],
+    "condition": "Brand New",
+    "description": "Condition: Brand New\ninternal storage 128GB/Ram 4GB\nMain Camera : Triple 12MP/12MP/16MP\nBattery 5000\nColor Black",
+    "descriptionAm": "Condition: Brand New\ninternal storage 128GB/Ram 4GB\nMain Camera : Triple 12MP/12MP/16MP\nBattery 5000\nColor Black",
+    "hidden": false,
+    "id": "9995",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793667/ebj3xpauvwxlxamnszoz.jpg"
+    ],
+    "likes": 0,
+    "name": "Iphone 12 promax",
+    "nameAm": "Iphone 12 promax",
+    "outOfStock": false,
+    "price": 58000
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Condition : Brand New\ninternal storage 128GB/Ram 6GB\nExchange Possible Yes\n94%battry",
+    "descriptionAm": "Condition : Brand New\ninternal storage 128GB/Ram 6GB\nExchange Possible Yes\n94%battry",
+    "hidden": false,
+    "id": "9996",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793775/fkdnc6wihonwejigxacj.jpg"
+    ],
+    "likes": 0,
+    "name": "IPhone 13 promax",
+    "nameAm": "IPhone 13 promax",
+    "outOfStock": false,
+    "price": 99500
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Brand Samsung\nModel A01\nCondition Brand New\ninternal storage 512GB/Ram 12GB",
+    "descriptionAm": "Brand Samsung\nModel A01\nCondition Brand New\ninternal storage 512GB/Ram 12GB",
+    "hidden": false,
+    "id": "9997",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793855/bvybktbhq8lnilq2edle.jpg"
+    ],
+    "likes": 0,
+    "name": "Samsung galaxy S24 ultra512",
+    "nameAm": "Samsung galaxy S24 ultra512",
+    "outOfStock": false,
+    "price": 141000
+  },
+  {
+    "category": "phones",
+    "colors": [
+      "#FFFFFF"
+    ],
+    "condition": "Brand New",
+    "description": "Condition : Brand New\ninternal storage 128GB/Ram 6GB\nColor : White",
+    "descriptionAm": "Condition : Brand New\ninternal storage 128GB/Ram 6GB\nColor : White",
+    "hidden": false,
+    "id": "9998",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780793952/rujbylknp1hpwgbfmn83.jpg"
+    ],
+    "likes": 0,
+    "name": "Samsung galaxy A17",
+    "nameAm": "Samsung galaxy A17",
+    "outOfStock": false,
+    "price": 34000
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Key Specifications: 12GB RAM + 512GB Storage\n200MP + 12MP AI Camera\n5000mAh Long-lasting Battery\nFast performance & smooth multitasking\nPerfect for gaming, photography, and daily\nCondition Brand New\nColor Gold",
+    "descriptionAm": "Key Specifications: 12GB RAM + 512GB Storage\n200MP + 12MP AI Camera\n5000mAh Long-lasting Battery\nFast performance & smooth multitasking\nPerfect for gaming, photography, and daily\nCondition Brand New\nColor Gold",
+    "hidden": false,
+    "id": "9999",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780794055/crvlpja6jdahmrvgy1py.jpg"
+    ],
+    "likes": 0,
+    "name": "Brand New Samsung Galaxy S25 Ultra - For Sale",
+    "nameAm": "Brand New Samsung Galaxy S25 Ultra - For Sale",
+    "outOfStock": false,
+    "price": 117000
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "internal storage 128GB/Ram 6GB\nMain Camera : Triple 50MP/2MP/2MP\nCondition : Brand New\nColor : Black\nBattery 5000",
+    "descriptionAm": "internal storage 128GB/Ram 6GB\nMain Camera : Triple 50MP/2MP/2MP\nCondition : Brand New\nColor : Black\nBattery 5000",
+    "hidden": false,
+    "id": "10000",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780794135/pjo6n0zl5vopdrevfoc4.jpg"
+    ],
+    "likes": 0,
+    "name": "Samsung A16 5G",
+    "nameAm": "Samsung A16 5G",
+    "outOfStock": false,
+    "price": 22500
+  },
+  {
+    "category": "phones",
+    "condition": "Brand New",
+    "description": "Condition : Brand New\ninternal storage 256GB/Ram 12GB\nModel : Note 20 Ultra\nColor Other\n+4500 Mah Battery\nSingle Sim",
+    "descriptionAm": "Condition : Brand New\ninternal storage 256GB/Ram 12GB\nModel : Note 20 Ultra\nColor Other\n+4500 Mah Battery\nSingle Sim",
+    "hidden": false,
+    "id": "10001",
+    "images": [
+      "https://res.cloudinary.com/dx0qryavd/image/upload/v1780794232/exs0nuwrlp6ya0n8ms5c.jpg"
+    ],
+    "likes": 0,
+    "name": "Samsung Galaxy Note 20 Ultra",
+    "nameAm": "Samsung Galaxy Note 20 Ultra",
+    "outOfStock": false,
+    "price": 31500
   }
 ]
