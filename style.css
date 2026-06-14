@@ -1454,3 +1454,36 @@ select.form-control { appearance: auto; }
   opacity: .6;
   cursor: default;
 }
+
+/* ======== AUTH MODAL — multi-step PIN flow ======== */
+.auth-error {
+  font-size: 12.5px;
+  color: #ef4444;
+  min-height: 16px;
+  margin: -6px 0 8px;
+  text-align: center;
+}
+.pin-input {
+  letter-spacing: 8px;
+  font-size: 18px;
+  text-align: center;
+}
+.auth-links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  gap: 12px;
+}
+.auth-links:has(.auth-link:only-child) {
+  justify-content: center;
+}
+.auth-link {
+  font-size: 12.5px;
+  font-family: var(--font-am);
+  color: var(--clr-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-link:hover {
+  text-decoration: underline;
+}
