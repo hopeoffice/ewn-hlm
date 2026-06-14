@@ -228,8 +228,8 @@
 <script src="/ewn-hlm/firebase-init.js"></script>
 <script>
 const ADMIN_SECRET_PATH = 'bhbggfgaw23qmnu65gvghggfgf905dsffg';
-const ADMIN_EMAIL = 'dannniefx55@gmail.com';
-const ADMIN_PASSWORD = 'Dan@2024#';
+const ADMIN_EMAIL    = (window.__EWN_CONFIG__ || {}).adminEmail    || '';
+const ADMIN_PASSWORD = (window.__EWN_CONFIG__ || {}).adminPassword || '';
 const CLOUDINARY_CLOUD = (window.__EWN_CONFIG__ || {}).cloudinaryCloudName || 'dx0qryavd';
 const CLOUDINARY_PRESET = (window.__EWN_CONFIG__ || {}).cloudinaryUploadPreset || 'my_shop_preset';
 
