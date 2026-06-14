@@ -1,12 +1,13 @@
-const CACHE_NAME = 'ewn-hlm-v4';
+const CACHE_NAME = 'ewn-hlm-v5';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/main.js',
-  '/products.json',
-  '/manifest.json',
-  '/1.png'
+  './',
+  './index.html',
+  './style.css',
+  './main.js',
+  './products.json',
+  './manifest.json',
+  './version.json',
+  './1.png'
 ];
 
 // Install: cache core assets
