@@ -107,6 +107,9 @@ const i18n = {
     co_sending: "እየተላከ...",
     install_app: "አፕ ይጫኑ", install_app_sub: "ወደ ስልክዎ ያክሉ",
     update_available: "አዲስ ዝመና አለ!", update_now: "አሁን ዝምኑ",
+    update_required_title: "አዲስ ዝመና ይገኛል",
+    update_required_msg: "ለመቀጠል አዲሱን ዝመና መጫን ያስፈልጋል። እባክዎ ይጠብቁ፣ ገጹ በራሱ ይከፈታል።",
+    updating: "በማዘመን ላይ...",
     co_fill_fields: "እባክዎ ሁሉንም መስኮች ይሙሉ",
     co_upload_receipt: "እባክዎ ደረሰኝ ያስገቡ",
   },
@@ -171,6 +174,9 @@ const i18n = {
     co_sending: "Sending...",
     install_app: "Install App", install_app_sub: "Add to your phone",
     update_available: "Update available!", update_now: "Update Now",
+    update_required_title: "Update Required",
+    update_required_msg: "A new version is available. Please wait while the app updates and reopens.",
+    updating: "Updating...",
     co_fill_fields: "Please fill in all fields",
     co_upload_receipt: "Please upload your receipt",
   }
@@ -180,16 +186,16 @@ const i18n = {
 //  APP STATE
 // ============================================================
 const state = {
-  lang: localStorage.getItem('ewn_lang') || 'am',
-  theme: localStorage.getItem('ewn_theme') || 'light',
+  lang: 'am',
+  theme: 'light',
   currentScreen: 'home',
   products: [],
   filteredProducts: [],
-  cart: JSON.parse(localStorage.getItem('ewn_cart') || '[]'),
-  likes: JSON.parse(localStorage.getItem('ewn_likes') || '[]'),
-  orders: JSON.parse(localStorage.getItem('ewn_orders') || '[]'),
+  cart: [],
+  likes: [],
+  orders: [],
   activeCategory: 'all',
-  user: JSON.parse(localStorage.getItem('ewn_user') || 'null'),
+  user: null,
   searchQuery: '',
   carouselIndex: 0,
   selectedColor: null,
@@ -250,16 +256,15 @@ function showToast(msg) {
 }
 
 function saveCart() {
-  localStorage.setItem('ewn_cart', JSON.stringify(state.cart));
   updateCartBadge();
 }
 
 function saveLikes() {
-  localStorage.setItem('ewn_likes', JSON.stringify(state.likes));
+  // Likes are kept in memory only for this session
 }
 
 function saveOrders() {
-  localStorage.setItem('ewn_orders', JSON.stringify(state.orders));
+  // Orders are kept in memory only for this session
 }
 
 async function saveOrderToFirebase(order) {
@@ -272,7 +277,7 @@ async function saveOrderToFirebase(order) {
 }
 
 function saveUser() {
-  localStorage.setItem('ewn_user', JSON.stringify(state.user));
+  // User session is kept in memory only — no localStorage persistence
 }
 
 function updateCartBadge() {
@@ -407,34 +412,23 @@ ${order.items.map(i => `• ${i.name}${i.color ? ` [${i.color}]` : ''} x${i.qty}
 }
 
 // ============================================================
-//  LOAD PRODUCTS (localStorage admin store → products.json fallback)
+//  LOAD PRODUCTS (products.json → Firebase live updates)
 // ============================================================
 async function loadProducts() {
-  const PRODUCTS_VERSION = '3';
-  if (localStorage.getItem('ewn_products_version') !== PRODUCTS_VERSION) {
-    localStorage.removeItem('ewn_products');
-    localStorage.setItem('ewn_products_version', PRODUCTS_VERSION);
-  }
-
   const applyProducts = (list) => {
     if (!list || !list.length) return;
     state.products = list.map(normalizeProduct).filter(p => !p.hidden);
-    localStorage.setItem('ewn_products', JSON.stringify(list));
     filterProducts();
     renderProducts();
   };
 
   // Always load from products.json first (fast & reliable)
   try {
-    const res = await fetch('./products.json');
+    const res = await fetch('./products.json', { cache: 'no-store' });
     const data = await res.json();
     applyProducts(data);
   } catch (err) {
     console.warn('products.json load failed:', err);
-    try {
-      const stored = localStorage.getItem('ewn_products');
-      if (stored) applyProducts(JSON.parse(stored));
-    } catch {}
   }
 
   // Then subscribe to Firebase for live updates
@@ -1411,29 +1405,45 @@ function triggerPwaInstall() {
   });
 }
 
-function showUpdateToast(swWaiting) {
-  // Remove existing update bar if any
-  let bar = document.getElementById('sw-update-bar');
-  if (bar) bar.remove();
-
-  bar = document.createElement('div');
-  bar.id = 'sw-update-bar';
-  bar.className = 'sw-update-bar';
-  bar.innerHTML = `
-    <span class="sw-update-msg am">${t('update_available')}</span>
-    <button class="sw-update-btn am" onclick="applySwUpdate()">${t('update_now')}</button>`;
-  document.body.appendChild(bar);
-
-  // Store waiting SW reference
+function showMandatoryUpdate(swWaiting) {
   window._swWaiting = swWaiting;
+  const overlay = document.getElementById('update-required-overlay');
+  if (overlay) {
+    overlay.style.display = 'flex';
+    overlay.classList.remove('updating');
+    const btn = document.getElementById('update-required-btn');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = t('update_now');
+    }
+  }
 }
 
-function applySwUpdate() {
-  const bar = document.getElementById('sw-update-bar');
-  if (bar) bar.remove();
+async function forceAppUpdate() {
+  const overlay = document.getElementById('update-required-overlay');
+  const btn = document.getElementById('update-required-btn');
+  if (overlay) overlay.classList.add('updating');
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = t('updating');
+  }
+
+  // Wipe all old caches so nothing stale remains
+  try {
+    if ('caches' in window) {
+      const keys = await caches.keys();
+      await Promise.all(keys.map(k => caches.delete(k)));
+    }
+  } catch (err) {
+    console.warn('Cache clear failed:', err);
+  }
+
   if (window._swWaiting) {
     window._swWaiting.postMessage({ type: 'SKIP_WAITING' });
-    window._swWaiting = null;
+    // Safety net: if controllerchange doesn't fire within 3s, force reload
+    setTimeout(() => window.location.reload(), 3000);
+  } else {
+    window.location.reload();
   }
 }
 
@@ -1446,14 +1456,12 @@ function handleSearch(val) {
 function toggleTheme() {
   state.theme = state.theme === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', state.theme);
-  localStorage.setItem('ewn_theme', state.theme);
   const toggle = document.getElementById('theme-toggle');
   if (toggle) toggle.classList.toggle('on', state.theme === 'dark');
 }
 
 function setLanguage(lang) {
   state.lang = lang;
-  localStorage.setItem('ewn_lang', lang);
   applyI18nToPage();
   renderCategories();
   filterProducts();
@@ -1485,6 +1493,42 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.documentElement.setAttribute('data-theme', state.theme);
   applyI18nToPage();
 
+  // ---- Service Worker: check for mandatory update BEFORE showing the app ----
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.register('./service-worker.js');
+      reg.update().catch(() => {});
+
+      // An update was already downloaded in a previous visit and is waiting
+      // → block entry until the user updates.
+      if (reg.waiting && navigator.serviceWorker.controller) {
+        showMandatoryUpdate(reg.waiting);
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) { refreshing = true; window.location.reload(); }
+        });
+        return; // stop here — splash/app never shown until update is applied
+      }
+
+      // A new SW was found and finished installing while the app is open
+      reg.addEventListener('updatefound', () => {
+        const nw = reg.installing;
+        nw.addEventListener('statechange', () => {
+          if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+            showMandatoryUpdate(nw);
+          }
+        });
+      });
+
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) { refreshing = true; window.location.reload(); }
+      });
+    } catch (err) {
+      console.warn('SW registration failed:', err);
+    }
+  }
+
   setTimeout(async () => {
     document.getElementById('splash').classList.add('hidden');
     const app = document.getElementById('app');
@@ -1506,32 +1550,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       };
       setHeaderHeight();
       window.addEventListener('resize', setHeaderHeight, { passive: true });
-    }
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(reg => {
-          // Detect new SW waiting → show update toast
-          const checkWaiting = (r) => {
-            if (r.waiting) showUpdateToast(r.waiting);
-          };
-          checkWaiting(reg);
-          reg.addEventListener('updatefound', () => {
-            const nw = reg.installing;
-            nw.addEventListener('statechange', () => {
-              if (nw.state === 'installed' && navigator.serviceWorker.controller) {
-                showUpdateToast(nw);
-              }
-            });
-          });
-        })
-        .catch(() => {});
-
-      // When new SW takes over → reload to get fresh content
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) { refreshing = true; window.location.reload(); }
-      });
     }
 
     // PWA install prompt — capture & show button in profile
