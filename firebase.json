@@ -19,6 +19,30 @@
         "source": "/admin.html/bhbggfgaw23qmnu65gvghggfgf905dsffg/**",
         "destination": "/admin.html/bhbggfgaw23qmnu65gvghggfgf905dsffg/index.html"
       }
+    ],
+    "headers": [
+      {
+        "source": "/version.json",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-store, must-revalidate" },
+          { "key": "Pragma", "value": "no-cache" },
+          { "key": "Expires", "value": "0" }
+        ]
+      },
+      {
+        "source": "/index.html",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-store, must-revalidate" },
+          { "key": "Pragma", "value": "no-cache" },
+          { "key": "Expires", "value": "0" }
+        ]
+      },
+      {
+        "source": "/(main.js|style.css|service-worker.js|products.json)",
+        "headers": [
+          { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
+        ]
+      }
     ]
   }
 }
