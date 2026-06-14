@@ -264,19 +264,97 @@
   <div class="auth-modal">
     <button class="modal-close auth-close" onclick="closeAuthModal()">✕</button>
     <div class="auth-icon">👤</div>
-    <h2 class="auth-title am" data-i18n="login_title">እንኳን ደህና መጡ</h2>
-    <p class="auth-sub am" data-i18n="login_sub">ለመቀጠል ስም እና ስልክ ያስገቡ</p>
-    <form class="auth-form" onsubmit="submitAuth(event)">
-      <div class="form-group">
-        <label class="am" data-i18n="full_name">ሙሉ ስም</label>
-        <input class="form-control am" id="auth-name" type="text" required placeholder="Daniel Abebe">
+
+    <!-- STEP 1: PHONE NUMBER -->
+    <div class="auth-step" id="auth-step-phone">
+      <h2 class="auth-title am" data-i18n="login_title">እንኳን ደህና መጡ</h2>
+      <p class="auth-sub am" data-i18n="login_sub_phone">ለመቀጠል ስልክ ቁጥርዎን ያስገቡ</p>
+      <form class="auth-form" onsubmit="submitAuthPhone(event)">
+        <div class="form-group">
+          <label class="am" data-i18n="phone_number">ስልክ ቁጥር</label>
+          <input class="form-control am" id="auth-phone" type="tel" inputmode="numeric" required placeholder="09xxxxxxxx">
+        </div>
+        <div class="auth-error am" id="auth-phone-error"></div>
+        <button type="submit" class="btn-primary am auth-submit" id="auth-phone-btn" data-i18n="continue_btn">ቀጥል</button>
+      </form>
+    </div>
+
+    <!-- STEP 2A: LOGIN (EXISTING USER — PIN) -->
+    <div class="auth-step" id="auth-step-login" style="display:none">
+      <h2 class="auth-title am" id="auth-welcome-name">እንኳን ደህና መጡ</h2>
+      <p class="auth-sub am" data-i18n="login_sub_pin">የ4 ቁጥር PIN ኮድዎን ያስገቡ</p>
+      <form class="auth-form" onsubmit="submitAuthPin(event)">
+        <div class="form-group">
+          <label class="am" data-i18n="pin_code">PIN ኮድ (4 ቁጥር)</label>
+          <input class="form-control am pin-input" id="auth-login-pin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
+        </div>
+        <div class="auth-error am" id="auth-login-error"></div>
+        <button type="submit" class="btn-primary am auth-submit" data-i18n="login_btn_pin">ግባ</button>
+      </form>
+      <div class="auth-links">
+        <a href="#" class="auth-link am" onclick="showForgotPin(event)" data-i18n="forgot_pin">PIN ረሳሁ?</a>
+        <a href="#" class="auth-link am" onclick="goToPhoneStep(event)" data-i18n="back">ተመለስ</a>
       </div>
-      <div class="form-group">
-        <label class="am" data-i18n="phone_number">ስልክ ቁጥር</label>
-        <input class="form-control am" id="auth-phone" type="tel" required placeholder="09xxxxxxxx">
+    </div>
+
+    <!-- STEP 2B: REGISTER (NEW USER) -->
+    <div class="auth-step" id="auth-step-register" style="display:none">
+      <h2 class="auth-title am" data-i18n="register_title">አዲስ መለያ ይክፈቱ</h2>
+      <p class="auth-sub am" data-i18n="register_sub">ለመጀመሪያ ጊዜ እየገቡ ስለሆነ መረጃዎችን ያስገቡ</p>
+      <form class="auth-form" onsubmit="submitAuthRegister(event)">
+        <div class="form-group">
+          <label class="am" data-i18n="full_name">ሙሉ ስም</label>
+          <input class="form-control am" id="auth-reg-name" type="text" required placeholder="Daniel Abebe">
+        </div>
+        <div class="form-group">
+          <label class="am" data-i18n="pin_code">PIN ኮድ (4 ቁጥር)</label>
+          <input class="form-control am pin-input" id="auth-reg-pin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
+        </div>
+        <div class="form-group">
+          <label class="am" data-i18n="pin_confirm">PIN ድጋሚ ያስገቡ</label>
+          <input class="form-control am pin-input" id="auth-reg-pin2" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
+        </div>
+        <div class="form-group">
+          <label class="am" data-i18n="security_question">የመልሶ ማግኛ ጥያቄ (PIN ቢረሱ)</label>
+          <select class="form-control am" id="auth-reg-question">
+            <option value="dob" class="am" data-i18n="q_dob">የትውልድ ዓ.ም</option>
+            <option value="pob" class="am" data-i18n="q_pob">የትውልድ ቦታ</option>
+            <option value="mother" class="am" data-i18n="q_mother">የእናት ስም</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="am" data-i18n="security_answer">መልስ</label>
+          <input class="form-control am" id="auth-reg-answer" type="text" required>
+        </div>
+        <div class="auth-error am" id="auth-reg-error"></div>
+        <button type="submit" class="btn-primary am auth-submit" data-i18n="register_btn">ይመዝገቡ</button>
+      </form>
+      <div class="auth-links">
+        <a href="#" class="auth-link am" onclick="goToPhoneStep(event)" data-i18n="back">ተመለስ</a>
       </div>
-      <button type="submit" class="btn-primary am auth-submit" data-i18n="login_btn">ግባ / ይመዝገቡ</button>
-    </form>
+    </div>
+
+    <!-- STEP 3: FORGOT PIN -->
+    <div class="auth-step" id="auth-step-forgot" style="display:none">
+      <h2 class="auth-title am" data-i18n="forgot_pin_title">PIN ኮድ ይቀየር</h2>
+      <p class="auth-sub am" id="auth-forgot-question"></p>
+      <form class="auth-form" onsubmit="submitForgotPin(event)">
+        <div class="form-group">
+          <label class="am" data-i18n="security_answer">መልስ</label>
+          <input class="form-control am" id="auth-forgot-answer" type="text" required>
+        </div>
+        <div class="form-group">
+          <label class="am" data-i18n="new_pin">አዲስ PIN ኮድ (4 ቁጥር)</label>
+          <input class="form-control am pin-input" id="auth-forgot-newpin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
+        </div>
+        <div class="auth-error am" id="auth-forgot-error"></div>
+        <button type="submit" class="btn-primary am auth-submit" data-i18n="reset_pin_btn">PIN ቀይር እና ግባ</button>
+      </form>
+      <div class="auth-links">
+        <a href="#" class="auth-link am" onclick="goToPhoneStep(event)" data-i18n="back">ተመለስ</a>
+      </div>
+    </div>
+
   </div>
 </div>
 
