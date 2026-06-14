@@ -412,7 +412,7 @@ ${order.items.map(i => `• ${i.name}${i.color ? ` [${i.color}]` : ''} x${i.qty}
 }
 
 // ============================================================
-//  LOAD PRODUCTS (products.json → Firebase live updates)
+//  LOAD PRODUCTS (products.json on GitHub Pages — source of truth)
 // ============================================================
 async function loadProducts() {
   const applyProducts = (list) => {
@@ -422,28 +422,14 @@ async function loadProducts() {
     renderProducts();
   };
 
-  // Always load from products.json first (fast & reliable)
+  // Products always come from products.json (served statically via GitHub Pages).
+  // Firebase Realtime Database is used only for cart/orders/login, not products.
   try {
     const res = await fetch('./products.json', { cache: 'no-store' });
     const data = await res.json();
     applyProducts(data);
   } catch (err) {
     console.warn('products.json load failed:', err);
-  }
-
-  // Then subscribe to Firebase for live updates
-  if (window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
-    try {
-      window.__EWN_DB__.ref('products').on('value', liveSnap => {
-        if (liveSnap.exists()) {
-          const live = [];
-          liveSnap.forEach(child => live.push(child.val()));
-          applyProducts(live);
-        }
-      });
-    } catch (err) {
-      console.warn('Firebase products load failed:', err);
-    }
   }
 }
 
