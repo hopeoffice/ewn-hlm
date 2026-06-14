@@ -425,18 +425,14 @@ async function loadProducts() {
 
   if (window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
     try {
-      const snap = await window.__EWN_DB__.ref('products').once('value');
-      if (snap.exists()) {
-        const list = [];
-        snap.forEach(child => list.push(child.val()));
-        applyProducts(list);
-        window.__EWN_DB__.ref('products').on('value', liveSnap => {
+      window.__EWN_DB__.ref('products').on('value', liveSnap => {
+        if (liveSnap.exists()) {
           const live = [];
           liveSnap.forEach(child => live.push(child.val()));
           applyProducts(live);
-        });
-        return;
-      }
+        }
+      });
+      return;
     } catch (err) {
       console.warn('Firebase products load failed:', err);
     }
@@ -482,7 +478,7 @@ function filterProducts() {
   if (state.searchQuery) {
     const q = state.searchQuery.toLowerCase();
     p = p.filter(x =>
-      (x.name || '').toLowerCase().includes(q) ||
+      x.name.toLowerCase().includes(q) ||
       (x.nameAm || '').includes(q) ||
       (x.description || '').toLowerCase().includes(q)
     );
