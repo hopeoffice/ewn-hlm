@@ -410,19 +410,34 @@ ${order.items.map(i => `• ${i.name}${i.color ? ` [${i.color}]` : ''} x${i.qty}
 //  LOAD PRODUCTS (localStorage admin store → products.json fallback)
 // ============================================================
 async function loadProducts() {
-  const PRODUCTS_VERSION = '2';
+  const PRODUCTS_VERSION = '3';
   if (localStorage.getItem('ewn_products_version') !== PRODUCTS_VERSION) {
     localStorage.removeItem('ewn_products');
     localStorage.setItem('ewn_products_version', PRODUCTS_VERSION);
   }
 
   const applyProducts = (list) => {
+    if (!list || !list.length) return;
     state.products = list.map(normalizeProduct).filter(p => !p.hidden);
     localStorage.setItem('ewn_products', JSON.stringify(list));
     filterProducts();
     renderProducts();
   };
 
+  // Always load from products.json first (fast & reliable)
+  try {
+    const res = await fetch('./products.json');
+    const data = await res.json();
+    applyProducts(data);
+  } catch (err) {
+    console.warn('products.json load failed:', err);
+    try {
+      const stored = localStorage.getItem('ewn_products');
+      if (stored) applyProducts(JSON.parse(stored));
+    } catch {}
+  }
+
+  // Then subscribe to Firebase for live updates
   if (window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
     try {
       window.__EWN_DB__.ref('products').on('value', liveSnap => {
@@ -432,25 +447,9 @@ async function loadProducts() {
           applyProducts(live);
         }
       });
-      return;
     } catch (err) {
       console.warn('Firebase products load failed:', err);
     }
-  }
-
-  try {
-    const stored = localStorage.getItem('ewn_products');
-    if (stored) {
-      applyProducts(JSON.parse(stored));
-    } else {
-      const res = await fetch('./products.json');
-      const data = await res.json();
-      applyProducts(data);
-    }
-  } catch {
-    state.products = [];
-    filterProducts();
-    renderProducts();
   }
 }
 
