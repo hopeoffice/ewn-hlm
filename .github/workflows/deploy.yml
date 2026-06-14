@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages with Secrets
+name: Deploy to GitHub Pages with Secret
 
 on:
   push:
