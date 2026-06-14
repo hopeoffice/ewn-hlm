@@ -412,7 +412,7 @@ ${order.items.map(i => `• ${i.name}${i.color ? ` [${i.color}]` : ''} x${i.qty}
 }
 
 // ============================================================
-//  LOAD PRODUCTS (products.json on GitHub Pages — source of truth)
+//  LOAD PRODUCTS (products.json → Firebase live updates)
 // ============================================================
 async function loadProducts() {
   const applyProducts = (list) => {
@@ -422,14 +422,28 @@ async function loadProducts() {
     renderProducts();
   };
 
-  // Products always come from products.json (served statically via GitHub Pages).
-  // Firebase Realtime Database is used only for cart/orders/login, not products.
+  // Always load from products.json first (fast & reliable)
   try {
     const res = await fetch('./products.json', { cache: 'no-store' });
     const data = await res.json();
     applyProducts(data);
   } catch (err) {
     console.warn('products.json load failed:', err);
+  }
+
+  // Then subscribe to Firebase for live updates
+  if (window.__EWN_FIREBASE_READY__ && window.__EWN_DB__) {
+    try {
+      window.__EWN_DB__.ref('products').on('value', liveSnap => {
+        if (liveSnap.exists()) {
+          const live = [];
+          liveSnap.forEach(child => live.push(child.val()));
+          applyProducts(live);
+        }
+      });
+    } catch (err) {
+      console.warn('Firebase products load failed:', err);
+    }
   }
 }
 
@@ -1427,10 +1441,55 @@ async function forceAppUpdate() {
   if (window._swWaiting) {
     window._swWaiting.postMessage({ type: 'SKIP_WAITING' });
     // Safety net: if controllerchange doesn't fire within 3s, force reload
-    setTimeout(() => window.location.reload(), 3000);
+    setTimeout(() => forceReloadWithCacheBust(), 3000);
   } else {
-    window.location.reload();
+    forceReloadWithCacheBust();
   }
+}
+
+// Reload the page bypassing caches — works even when Service Workers
+// don't run (e.g. Telegram Mini App webview on iOS).
+function forceReloadWithCacheBust() {
+  const latest = window._latestAppVersion;
+  if (latest) {
+    try { localStorage.setItem('ewn_app_version', latest); } catch (err) {}
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set('v', latest || Date.now().toString());
+  window.location.href = url.toString();
+}
+
+// ============================================================
+//  VERSION CHECK (version.json) — SW-independent update detection.
+//  Bump the "v" value in version.json on every deploy.
+//  Returns true if the app may continue loading, false if the
+//  mandatory-update overlay was shown and loading should stop.
+// ============================================================
+async function checkAppVersion() {
+  try {
+    const res = await fetch('./version.json', { cache: 'no-store' });
+    if (!res.ok) return true;
+    const data = await res.json();
+    const latest = String(data.v);
+    window._latestAppVersion = latest;
+
+    let current = null;
+    try { current = localStorage.getItem('ewn_app_version'); } catch (err) {}
+
+    if (current === null) {
+      // First time we see a version on this device — just remember it.
+      try { localStorage.setItem('ewn_app_version', latest); } catch (err) {}
+      return true;
+    }
+
+    if (current !== latest) {
+      showMandatoryUpdate(null);
+      return false;
+    }
+  } catch (err) {
+    console.warn('Version check failed:', err);
+  }
+  return true;
 }
 
 function handleSearch(val) {
@@ -1478,6 +1537,11 @@ function applyI18nToPage() {
 document.addEventListener('DOMContentLoaded', async () => {
   document.documentElement.setAttribute('data-theme', state.theme);
   applyI18nToPage();
+
+  // ---- version.json check: works even without Service Worker support
+  // (e.g. Telegram Mini App webview on iOS) ----
+  const versionOk = await checkAppVersion();
+  if (!versionOk) return; // mandatory-update overlay shown — stop here
 
   // ---- Service Worker: check for mandatory update BEFORE showing the app ----
   if ('serviceWorker' in navigator) {
