@@ -3,6 +3,11 @@
 //  Stack: GitHub Pages + Firebase + Telegram Bot
 // ============================================================
 
+// Bump this together with version.json's "v" value on every release.
+// Used as a fallback update-check for environments where Service Workers
+// don't run reliably (e.g. Telegram Mini App webview).
+const APP_VERSION = '4';
+
 // ============================================================
 //  APP CONFIG — values come from config.js (git-ignored).
 //  config.js must load before this file and set window.__EWN_CONFIG__.
@@ -21,9 +26,6 @@ const FIREBASE_CONFIG = {
 
 const TELEGRAM_BOT_TOKEN = _cfg.telegramBotToken || '';
 const TELEGRAM_CHAT_ID   = _cfg.telegramChatId   || '';
-
-const CLOUDINARY_CLOUD   = _cfg.cloudinaryCloudName    || 'dx0qryavd';
-const CLOUDINARY_PRESET  = _cfg.cloudinaryUploadPreset || 'my_shop_preset';
 
 // ---- CATEGORY DEFINITIONS ----
 const CATEGORIES = [
@@ -73,6 +75,26 @@ const i18n = {
     no_products: "ምንም ምርት አልተገኘም",
     out_of_stock: "አልቋል", discounted: "ቅናሽ",
     login_title: "እንኳን ደህና መጡ", login_sub: "ለመቀጠል ስም እና ስልክ ያስገቡ",
+    login_sub_phone: "ለመቀጠል ስልክ ቁጥርዎን ያስገቡ",
+    login_sub_pin: "የ4 ቁጥር PIN ኮድዎን ያስገቡ",
+    continue_btn: "ቀጥል", checking: "በማጣራት ላይ...",
+    pin_code: "PIN ኮድ (4 ቁጥር)", pin_confirm: "PIN ድጋሚ ያስገቡ",
+    login_btn_pin: "ግባ",
+    wrong_pin: "❌ PIN ኮድ ትክክል አይደለም",
+    register_title: "አዲስ መለያ ይክፈቱ", register_sub: "ለመጀመሪያ ጊዜ እየገቡ ስለሆነ መረጃዎችን ያስገቡ",
+    register_btn: "ይመዝገቡ",
+    security_question: "የመልሶ ማግኛ ጥያቄ (PIN ቢረሱ)", security_answer: "መልስ",
+    q_dob: "የትውልድ ዓ.ም", q_pob: "የትውልድ ቦታ", q_mother: "የእናት ስም",
+    fill_all_fields: "እባክዎ ሁሉንም መረጃዎች ያስገቡ",
+    pin_mismatch: "❌ PIN ኮዶቹ አይመሳሰሉም",
+    connection_error: "❌ ችግር ተፈጥሯል፣ እንደገና ይሞክሩ",
+    forgot_pin: "PIN ረሳሁ?",
+    forgot_pin_title: "PIN ኮድ ይቀየር",
+    new_pin: "አዲስ PIN ኮድ (4 ቁጥር)",
+    reset_pin_btn: "PIN ቀይር እና ግባ",
+    wrong_answer: "❌ መልሱ ትክክል አይደለም",
+    invalid_pin: "❌ PIN ኮድ 4 ቁጥር መሆን አለበት",
+    pin_reset_success: "✅ PIN ኮድዎ ተቀይሯል!",
     full_name: "ሙሉ ስም", phone_number: "ስልክ ቁጥር",
     login_btn: "ግባ / ይመዝገቡ", login_required: "እባክዎ መጀመሪያ ይመዝገቡ",
     notifications: "ማሳወቂያዎች", notifications_sub: "የቅርብ ጊዜ ማሳወቂያዎች",
@@ -140,6 +162,26 @@ const i18n = {
     no_products: "No products found",
     out_of_stock: "Out of Stock", discounted: "Sale",
     login_title: "Welcome", login_sub: "Enter your name and phone to continue",
+    login_sub_phone: "Enter your phone number to continue",
+    login_sub_pin: "Enter your 4-digit PIN code",
+    continue_btn: "Continue", checking: "Checking...",
+    pin_code: "PIN Code (4 digits)", pin_confirm: "Confirm PIN",
+    login_btn_pin: "Login",
+    wrong_pin: "❌ Incorrect PIN code",
+    register_title: "Create Account", register_sub: "First time here — please fill in your details",
+    register_btn: "Register",
+    security_question: "Recovery Question (if you forget your PIN)", security_answer: "Answer",
+    q_dob: "Year of Birth", q_pob: "Place of Birth", q_mother: "Mother's Name",
+    fill_all_fields: "Please fill in all fields",
+    pin_mismatch: "❌ PIN codes do not match",
+    connection_error: "❌ Something went wrong, please try again",
+    forgot_pin: "Forgot PIN?",
+    forgot_pin_title: "Reset PIN",
+    new_pin: "New PIN Code (4 digits)",
+    reset_pin_btn: "Reset PIN & Login",
+    wrong_answer: "❌ Incorrect answer",
+    invalid_pin: "❌ PIN must be 4 digits",
+    pin_reset_success: "✅ Your PIN has been reset!",
     full_name: "Full Name", phone_number: "Phone Number",
     login_btn: "Login / Register", login_required: "Please register first",
     notifications: "Notifications", notifications_sub: "Recent notifications",
@@ -186,13 +228,13 @@ const i18n = {
 //  APP STATE
 // ============================================================
 const state = {
-  lang: 'am',
-  theme: 'light',
+  lang: localStorage.getItem('ewn_lang') || 'am',
+  theme: localStorage.getItem('ewn_theme') || 'light',
   currentScreen: 'home',
   products: [],
   filteredProducts: [],
   cart: [],
-  likes: [],
+  likes: JSON.parse(localStorage.getItem('ewn_likes') || '[]'),
   orders: [],
   activeCategory: 'all',
   user: null,
@@ -255,29 +297,42 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
+let _cartSyncTimer = null;
 function saveCart() {
   updateCartBadge();
+
+  // Cart is only persisted (to Firebase) for users with an account.
+  // Guests keep their cart in memory only — it's lost on reload.
+  if (!isAuthenticated() || !window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
+
+  clearTimeout(_cartSyncTimer);
+  _cartSyncTimer = setTimeout(() => {
+    window.__EWN_DB__.ref('users/' + state.user.phone + '/cart').set(state.cart)
+      .catch(err => console.warn('Cart sync failed:', err));
+  }, 400);
 }
 
 function saveLikes() {
-  // Likes are kept in memory only for this session
+  localStorage.setItem('ewn_likes', JSON.stringify(state.likes));
 }
 
 function saveOrders() {
-  // Orders are kept in memory only for this session
+  // Orders are written individually via saveOrderToFirebase for account
+  // holders (mirrored under users/{phone}/orders). Nothing to do here.
 }
 
 async function saveOrderToFirebase(order) {
   if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) return;
   try {
     await window.__EWN_DB__.ref('orders/' + order.id).set(order);
+    // Mirror the order under the user's own account so they can see their
+    // order history (the top-level "orders" node is admin-only readable).
+    if (isAuthenticated()) {
+      await window.__EWN_DB__.ref('users/' + state.user.phone + '/orders/' + order.id).set(order);
+    }
   } catch (err) {
     console.warn('Firebase order save failed:', err);
   }
-}
-
-function saveUser() {
-  // User session is kept in memory only — no localStorage persistence
 }
 
 function updateCartBadge() {
@@ -292,15 +347,30 @@ function updateCartBadge() {
 // ============================================================
 //  AUTH
 // ============================================================
+let _authPhone = null;
+let _authUserData = null; // populated when the phone number already has an account
+
+function showAuthStep(stepId) {
+  document.querySelectorAll('.auth-step').forEach(el => el.style.display = 'none');
+  const el = document.getElementById(stepId);
+  if (el) el.style.display = '';
+}
+
+function clearAuthErrors() {
+  ['auth-phone-error', 'auth-login-error', 'auth-reg-error', 'auth-forgot-error'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = '';
+  });
+}
+
 function openAuthModal() {
   const overlay = document.getElementById('auth-overlay');
   if (!overlay) return;
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
-  const nameInput = document.getElementById('auth-name');
+  goToPhoneStep();
   const phoneInput = document.getElementById('auth-phone');
-  if (nameInput && state.user?.name) nameInput.value = state.user.name;
-  if (phoneInput && state.user?.phone) phoneInput.value = state.user.phone;
+  if (phoneInput) phoneInput.value = state.user?.phone || '';
 }
 
 function closeAuthModal() {
@@ -309,22 +379,177 @@ function closeAuthModal() {
   document.body.style.overflow = '';
 }
 
-function submitAuth(e) {
+function goToPhoneStep(e) {
+  if (e) e.preventDefault();
+  _authUserData = null;
+  clearAuthErrors();
+  // reset PIN fields so a previous attempt doesn't linger
+  ['auth-login-pin', 'auth-reg-pin', 'auth-reg-pin2', 'auth-reg-answer',
+   'auth-forgot-answer', 'auth-forgot-newpin'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  showAuthStep('auth-step-phone');
+}
+
+async function submitAuthPhone(e) {
   e.preventDefault();
-  const name = document.getElementById('auth-name').value.trim();
   const phone = document.getElementById('auth-phone').value.trim();
-  if (!name || !phone) return;
-  state.user = { name, phone, location: state.user?.location || '' };
-  saveUser();
+  const errEl = document.getElementById('auth-phone-error');
+  errEl.textContent = '';
+  if (!phone) return;
+
+  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) {
+    errEl.textContent = t('connection_error');
+    return;
+  }
+
+  _authPhone = phone;
+  const btn = document.getElementById('auth-phone-btn');
+  btn.disabled = true;
+  btn.textContent = t('checking');
+
+  try {
+    const snap = await window.__EWN_DB__.ref('users/' + phone).once('value');
+    if (snap.exists()) {
+      _authUserData = snap.val();
+      document.getElementById('auth-welcome-name').textContent =
+        (state.lang === 'am' ? 'እንኳን ደህና መጡ ' : 'Welcome ') + (_authUserData.name || '');
+      clearAuthErrors();
+      showAuthStep('auth-step-login');
+    } else {
+      _authUserData = null;
+      clearAuthErrors();
+      showAuthStep('auth-step-register');
+    }
+  } catch (err) {
+    console.warn('Phone check failed:', err);
+    errEl.textContent = t('connection_error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = t('continue_btn');
+  }
+}
+
+async function submitAuthPin(e) {
+  e.preventDefault();
+  const pin = document.getElementById('auth-login-pin').value.trim();
+  const errEl = document.getElementById('auth-login-error');
+  errEl.textContent = '';
+
+  if (!_authUserData || pin !== String(_authUserData.pin || '')) {
+    errEl.textContent = t('wrong_pin');
+    return;
+  }
+
+  await loginWithUserData(_authPhone, _authUserData);
+}
+
+async function submitAuthRegister(e) {
+  e.preventDefault();
+  const name = document.getElementById('auth-reg-name').value.trim();
+  const pin = document.getElementById('auth-reg-pin').value.trim();
+  const pin2 = document.getElementById('auth-reg-pin2').value.trim();
+  const question = document.getElementById('auth-reg-question').value;
+  const answer = document.getElementById('auth-reg-answer').value.trim();
+  const errEl = document.getElementById('auth-reg-error');
+  errEl.textContent = '';
+
+  if (!name || !answer || !/^\d{4}$/.test(pin)) {
+    errEl.textContent = !/^\d{4}$/.test(pin) ? t('invalid_pin') : t('fill_all_fields');
+    return;
+  }
+  if (pin !== pin2) {
+    errEl.textContent = t('pin_mismatch');
+    return;
+  }
+  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) {
+    errEl.textContent = t('connection_error');
+    return;
+  }
+
+  const userData = {
+    name,
+    phone: _authPhone,
+    pin,
+    securityQuestion: question,
+    securityAnswer: answer.toLowerCase(),
+    cart: [],
+    orders: {},
+    createdAt: Date.now()
+  };
+
+  try {
+    await window.__EWN_DB__.ref('users/' + _authPhone).set(userData);
+    await loginWithUserData(_authPhone, userData);
+  } catch (err) {
+    console.warn('Register failed:', err);
+    errEl.textContent = t('connection_error');
+  }
+}
+
+function showForgotPin(e) {
+  e.preventDefault();
+  if (!_authUserData) return;
+  const qKey = { dob: 'q_dob', pob: 'q_pob', mother: 'q_mother' }[_authUserData.securityQuestion] || 'q_dob';
+  document.getElementById('auth-forgot-question').textContent = t(qKey);
+  clearAuthErrors();
+  showAuthStep('auth-step-forgot');
+}
+
+async function submitForgotPin(e) {
+  e.preventDefault();
+  const answer = document.getElementById('auth-forgot-answer').value.trim().toLowerCase();
+  const newPin = document.getElementById('auth-forgot-newpin').value.trim();
+  const errEl = document.getElementById('auth-forgot-error');
+  errEl.textContent = '';
+
+  if (!_authUserData || answer !== String(_authUserData.securityAnswer || '').toLowerCase()) {
+    errEl.textContent = t('wrong_answer');
+    return;
+  }
+  if (!/^\d{4}$/.test(newPin)) {
+    errEl.textContent = t('invalid_pin');
+    return;
+  }
+  if (!window.__EWN_FIREBASE_READY__ || !window.__EWN_DB__) {
+    errEl.textContent = t('connection_error');
+    return;
+  }
+
+  try {
+    await window.__EWN_DB__.ref('users/' + _authPhone + '/pin').set(newPin);
+    _authUserData.pin = newPin;
+    await loginWithUserData(_authPhone, _authUserData);
+    showToast(t('pin_reset_success'));
+  } catch (err) {
+    console.warn('PIN reset failed:', err);
+    errEl.textContent = t('connection_error');
+  }
+}
+
+async function loginWithUserData(phone, userData) {
+  state.user = { name: userData.name, phone };
+  state.cart = Array.isArray(userData.cart) ? userData.cart
+              : (userData.cart ? Object.values(userData.cart) : []);
+  state.orders = userData.orders ? Object.values(userData.orders) : [];
+
   closeAuthModal();
   renderProfile();
-  showToast(state.lang === 'am' ? `እንኳን ደህና መጡ ${name}!` : `Welcome, ${name}!`);
+  updateCartBadge();
+  if (state.currentScreen === 'cart') renderCart();
+  if (state.currentScreen === 'orders') renderOrders();
+  showToast(state.lang === 'am' ? `እንኳን ደህና መጡ ${userData.name}!` : `Welcome, ${userData.name}!`);
 }
 
 function logout() {
   state.user = null;
-  saveUser();
+  state.cart = [];
+  state.orders = [];
+  updateCartBadge();
   renderProfile();
+  if (state.currentScreen === 'cart') renderCart();
+  if (state.currentScreen === 'orders') renderOrders();
   navigate('home');
   showToast(state.lang === 'am' ? 'በተሳካ ሁኔታ ወጥተዋል' : 'Logged out successfully');
 }
@@ -340,25 +565,9 @@ function requireAuth(callback) {
 }
 
 // ============================================================
-//  CLOUDINARY UPLOAD
-// ============================================================
-async function uploadToCloudinary(file) {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_PRESET);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-    method: 'POST',
-    body: formData
-  });
-  if (!res.ok) throw new Error('Cloudinary upload failed');
-  const data = await res.json();
-  return data.secure_url;
-}
-
-// ============================================================
 //  TELEGRAM ORDER NOTIFICATION
 // ============================================================
-async function sendReceiptToTelegram(order, receiptUrl) {
+async function sendReceiptToTelegram(order, receiptFile) {
   const caption = `
 🧾 *Payment Receipt* — Order \`${order.id}\`
 👤 ${order.customer.name}
@@ -366,15 +575,14 @@ async function sendReceiptToTelegram(order, receiptUrl) {
 💰 ${formatPrice(order.total)}
   `.trim();
   try {
+    const formData = new FormData();
+    formData.append('chat_id', TELEGRAM_CHAT_ID);
+    formData.append('caption', caption);
+    formData.append('parse_mode', 'Markdown');
+    formData.append('photo', receiptFile, receiptFile.name || 'receipt.jpg');
     await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        photo: receiptUrl,
-        caption,
-        parse_mode: 'Markdown'
-      })
+      body: formData
     });
   } catch (err) {
     console.warn('Telegram receipt failed:', err);
@@ -1355,14 +1563,11 @@ async function submitCheckout() {
   };
 
   try {
-    const receiptUrl = await uploadToCloudinary(_checkoutReceiptFile);
-    order.receiptUrl = receiptUrl;
-
     state.orders.push(order);
     saveOrders();
     await saveOrderToFirebase(order);
     await sendOrderToTelegram(order);
-    await sendReceiptToTelegram(order, receiptUrl);
+    await sendReceiptToTelegram(order, _checkoutReceiptFile);
   } catch (err) {
     console.warn('Checkout failed:', err);
     showToast(state.lang === 'am' ? 'ትዕዛዝ አልተሳካም። እንደገና ይሞክሩ።' : 'Order failed. Please try again.');
@@ -1441,55 +1646,19 @@ async function forceAppUpdate() {
   if (window._swWaiting) {
     window._swWaiting.postMessage({ type: 'SKIP_WAITING' });
     // Safety net: if controllerchange doesn't fire within 3s, force reload
-    setTimeout(() => forceReloadWithCacheBust(), 3000);
+    setTimeout(() => forceReloadBust(), 3000);
   } else {
-    forceReloadWithCacheBust();
+    forceReloadBust();
   }
 }
 
-// Reload the page bypassing caches — works even when Service Workers
-// don't run (e.g. Telegram Mini App webview on iOS).
-function forceReloadWithCacheBust() {
-  const latest = window._latestAppVersion;
-  if (latest) {
-    try { localStorage.setItem('ewn_app_version', latest); } catch (err) {}
-  }
+// Hard navigation with a cache-busting query param — works even where
+// Service Workers don't run (e.g. Telegram Mini App webview) and even if
+// the browser ignores Cache-Control headers on reload.
+function forceReloadBust() {
   const url = new URL(window.location.href);
-  url.searchParams.set('v', latest || Date.now().toString());
-  window.location.href = url.toString();
-}
-
-// ============================================================
-//  VERSION CHECK (version.json) — SW-independent update detection.
-//  Bump the "v" value in version.json on every deploy.
-//  Returns true if the app may continue loading, false if the
-//  mandatory-update overlay was shown and loading should stop.
-// ============================================================
-async function checkAppVersion() {
-  try {
-    const res = await fetch('./version.json', { cache: 'no-store' });
-    if (!res.ok) return true;
-    const data = await res.json();
-    const latest = String(data.v);
-    window._latestAppVersion = latest;
-
-    let current = null;
-    try { current = localStorage.getItem('ewn_app_version'); } catch (err) {}
-
-    if (current === null) {
-      // First time we see a version on this device — just remember it.
-      try { localStorage.setItem('ewn_app_version', latest); } catch (err) {}
-      return true;
-    }
-
-    if (current !== latest) {
-      showMandatoryUpdate(null);
-      return false;
-    }
-  } catch (err) {
-    console.warn('Version check failed:', err);
-  }
-  return true;
+  url.searchParams.set('v', Date.now().toString(36));
+  window.location.replace(url.toString());
 }
 
 function handleSearch(val) {
@@ -1501,12 +1670,14 @@ function handleSearch(val) {
 function toggleTheme() {
   state.theme = state.theme === 'light' ? 'dark' : 'light';
   document.documentElement.setAttribute('data-theme', state.theme);
+  localStorage.setItem('ewn_theme', state.theme);
   const toggle = document.getElementById('theme-toggle');
   if (toggle) toggle.classList.toggle('on', state.theme === 'dark');
 }
 
 function setLanguage(lang) {
   state.lang = lang;
+  localStorage.setItem('ewn_lang', lang);
   applyI18nToPage();
   renderCategories();
   filterProducts();
@@ -1538,10 +1709,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.documentElement.setAttribute('data-theme', state.theme);
   applyI18nToPage();
 
-  // ---- version.json check: works even without Service Worker support
-  // (e.g. Telegram Mini App webview on iOS) ----
-  const versionOk = await checkAppVersion();
-  if (!versionOk) return; // mandatory-update overlay shown — stop here
+  // ---- Version check: works even where Service Workers don't run
+  //      reliably (e.g. Telegram Mini App webview on iOS) ----
+  try {
+    const vRes = await fetch('./version.json', { cache: 'no-store' });
+    const vData = await vRes.json();
+    if (String(vData.v) !== String(APP_VERSION)) {
+      showMandatoryUpdate(null); // no SW worker to skip — hard reload path
+      return; // stop here — splash/app never shown until update is applied
+    }
+  } catch (err) {
+    // offline or blocked — fall through, SW check below may still catch it
+  }
 
   // ---- Service Worker: check for mandatory update BEFORE showing the app ----
   if ('serviceWorker' in navigator) {
