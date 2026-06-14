@@ -1,34 +1,26 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages with Secrets
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:
+    branches:
+      - main
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # ✅ config.js ከ GitHub Secret ይሰራል - ፋይሉ repo ውስጥ አይቀመጥም
-      - name: Create config.js from Secret
+      - name: Create config.js from GitHub Secret
         run: |
-          cat > config.js << 'CONFIGEOF'
-          window.__EWN_CONFIG__ = ${{ secrets.EWN_CONFIG_JSON }};
-          window.EWN_CONFIG = window.__EWN_CONFIG__;
-          CONFIGEOF
+          echo "${{ secrets.CONFIG_JS_CONTENT }}" > config.js
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-          publish_branch: gh-pages
-          exclude_assets: '.github,node_modules,*.md,config.example.js'
+          folder: . # የፕሮጀክትህን ሙሉ ፋይል ይጭናል
+          branch: gh-pages # ወደዚህ ብራንች አውቶማቲክ ዌብሳይቱን ይሰራል
