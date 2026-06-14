@@ -209,8 +209,9 @@
     <div class="admin-form">
       <h3 class="form-card-title am">🔥 Firebase & Cloudinary</h3>
       <p class="settings-note am">
-        Firebase credentials are loaded from <code>config.js</code> (git-ignored via GitHub Actions Secret).<br>
-        Cloudinary: <strong>dx0qryavd</strong> / preset <strong>my_shop_preset</strong>
+        Firebase credentials are loaded from <code>config.js</code> (git-ignored).<br>
+        Cloudinary: <strong>dx0qryavd</strong> / preset <strong>my_shop_preset</strong><br>
+        Deploy security rules: <code>firebase deploy --only database</code>
       </p>
       <button class="btn-secondary am" onclick="adminSignOut()">🚪 Sign Out</button>
     </div>
@@ -228,17 +229,15 @@
 <script>
 const ADMIN_SECRET_PATH = 'bhbggfgaw23qmnu65gvghggfgf905dsffg';
 const ADMIN_EMAIL = 'dannniefx55@gmail.com';
-const CLOUDINARY_CLOUD = (window.__EWN_CONFIG__ || window.EWN_CONFIG || {}).cloudinaryCloudName || 'dx0qryavd';
-const CLOUDINARY_PRESET = (window.__EWN_CONFIG__ || window.EWN_CONFIG || {}).cloudinaryUploadPreset || 'my_shop_preset';
-
-// ✅ Password ከ Firebase Realtime DB ይወሰዳል - hardcode አይደለም
-let ADMIN_PASSWORD_FROM_DB = null;
+const ADMIN_PASSWORD = 'Dan@2024#';
+const CLOUDINARY_CLOUD = (window.__EWN_CONFIG__ || {}).cloudinaryCloudName || 'dx0qryavd';
+const CLOUDINARY_PRESET = (window.__EWN_CONFIG__ || {}).cloudinaryUploadPreset || 'my_shop_preset';
 
 const STANDARD_COLORS = [
-  '#000000','#FFFFFF','#E53935','#1E88E5','#43A047',
-  '#FDD835','#FB8C00','#8E24AA','#EC407A','#795548',
-  '#9E9E9E','#1A237E','#00897B','#880E4F','#F5F5DC',
-  '#FFD700','#C0C0C0','#808000','#FF7F50','#E6E6FA'
+  '#000000', '#FFFFFF', '#E53935', '#1E88E5', '#43A047',
+  '#FDD835', '#FB8C00', '#8E24AA', '#EC407A', '#795548',
+  '#9E9E9E', '#1A237E', '#00897B', '#880E4F', '#F5F5DC',
+  '#FFD700', '#C0C0C0', '#808000', '#FF7F50', '#E6E6FA'
 ];
 
 let adminImages = [];
@@ -303,23 +302,9 @@ async function signInWithGoogle() {
   }
 }
 
-async function verifyAdminPassword() {
+function verifyAdminPassword() {
   const pwd = document.getElementById('admin-password')?.value || '';
-
-  // ✅ ከ Firebase DB password ያምጣ
-  if (!ADMIN_PASSWORD_FROM_DB && window.__EWN_DB__) {
-    try {
-      setAuthStatus('Verifying...');
-      const snap = await window.__EWN_DB__.ref('app_meta/adminPassword').once('value');
-      ADMIN_PASSWORD_FROM_DB = snap.val();
-    } catch (e) {
-      setAuthStatus('Could not verify. Check Firebase rules.', true);
-      return;
-    }
-  }
-
-  const correctPwd = ADMIN_PASSWORD_FROM_DB || 'Dan@2024#'; // fallback ብቻ
-  if (pwd !== correctPwd) {
+  if (pwd !== ADMIN_PASSWORD) {
     setAuthStatus('Invalid password. Redirecting...', true);
     window.__EWN_AUTH__?.signOut();
     setTimeout(redirectToStore, 1200);
@@ -388,7 +373,10 @@ function initAdminData() {
       adminProducts = [];
       snap.forEach(child => adminProducts.push(child.val()));
       if (!adminProducts.length) seedProductsFromJson();
-      else { loadAdminProducts(); loadStats(); }
+      else {
+        loadAdminProducts();
+        loadStats();
+      }
     });
     window.__EWN_DB__.ref('orders').on('value', snap => {
       adminOrders = [];
@@ -481,7 +469,10 @@ async function handleFiles(files) {
     if (status) status.textContent = 'Uploading to Cloudinary...';
     try {
       const url = await uploadToCloudinary(file);
-      if (adminImages.length < 3) { adminImages.push(url); renderImagePreviews(); }
+      if (adminImages.length < 3) {
+        adminImages.push(url);
+        renderImagePreviews();
+      }
     } catch {
       alert('Image upload failed. Please try again.');
     }
@@ -703,8 +694,14 @@ async function updateStatus(orderId, newStatus) {
 
 async function sendBroadcast() {
   const msg = document.getElementById('broadcast-message').value.trim();
-  if (!msg) { alert('Enter a message first.'); return; }
-  if (!window.__EWN_DB__) { alert('Firebase is not configured.'); return; }
+  if (!msg) {
+    alert('Enter a message first.');
+    return;
+  }
+  if (!window.__EWN_DB__) {
+    alert('Firebase is not configured.');
+    return;
+  }
   const btn = document.getElementById('broadcast-send-btn');
   btn.disabled = true;
   try {
