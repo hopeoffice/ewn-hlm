@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d5c42">
 <meta name="description" content="እውን ሕልም - ሕልምዎ እውን የሚሆንበት የዲጂታል ገበያ!!">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Ewn Hlm">
@@ -12,10 +13,312 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="1.png" type="image/png">
 <link rel="apple-touch-icon" href="1.png">
-
 <link rel="stylesheet" href="style.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@300;400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ========== AUTH PAGE ========== */
+#auth-page {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--bg-page, #f5f5f5);
+  overflow-y: auto;
+  padding: 0;
+}
+
+body.dark #auth-page { background: #1a1a1a; }
+
+.auth-page-inner {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Auth top bar: lang + theme */
+.auth-topbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px 0;
+}
+
+.auth-topbar .lang-toggle-btn {
+  background: var(--bg-card, #fff);
+  border: 1px solid var(--border, #e0e0e0);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text-primary, #222);
+  font-family: var(--font-am, sans-serif);
+  transition: background 0.2s;
+}
+body.dark .auth-topbar .lang-toggle-btn {
+  background: #2c2c2c; border-color: #444; color: #eee;
+}
+
+.auth-topbar .theme-toggle-btn {
+  background: var(--bg-card, #fff);
+  border: 1px solid var(--border, #e0e0e0);
+  border-radius: 20px;
+  width: 40px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  font-size: 17px;
+  transition: background 0.2s;
+}
+body.dark .auth-topbar .theme-toggle-btn {
+  background: #2c2c2c; border-color: #444;
+}
+
+/* Auth card */
+.auth-card-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px 40px;
+}
+
+.auth-card {
+  background: var(--bg-card, #fff);
+  border-radius: 20px;
+  padding: 32px 24px 24px;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+}
+body.dark .auth-card {
+  background: #242424;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.40);
+}
+
+.auth-logo {
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 4px;
+}
+.auth-brand {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--clr-primary, #0d5c42);
+  margin-bottom: 20px;
+  font-family: var(--font-am, sans-serif);
+}
+
+/* Tabs: Login / SignUp */
+.auth-tabs {
+  display: flex;
+  background: var(--bg-page, #f5f5f5);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 24px;
+  gap: 4px;
+}
+body.dark .auth-tabs { background: #1a1a1a; }
+
+.auth-tab {
+  flex: 1;
+  padding: 9px 0;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--text-secondary, #888);
+  font-family: var(--font-am, sans-serif);
+  transition: all 0.2s;
+}
+.auth-tab.active {
+  background: var(--clr-primary, #0d5c42);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(13,92,66,0.18);
+}
+
+/* Form */
+.auth-form-section { display: none; }
+.auth-form-section.active { display: block; }
+
+.auth-field {
+  margin-bottom: 16px;
+}
+.auth-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary, #666);
+  margin-bottom: 6px;
+  font-family: var(--font-am, sans-serif);
+}
+.auth-field input, .auth-field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid var(--border, #e0e0e0);
+  border-radius: 10px;
+  font-size: 15px;
+  background: var(--bg-page, #f9f9f9);
+  color: var(--text-primary, #222);
+  font-family: var(--font-am, sans-serif);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+body.dark .auth-field input, body.dark .auth-field select {
+  background: #1e1e1e; border-color: #444; color: #eee;
+}
+.auth-field input:focus { border-color: var(--clr-primary, #0d5c42); }
+
+/* PIN dots */
+.pin-input-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 4px 0;
+}
+.pin-input-row input {
+  width: 52px; height: 52px;
+  text-align: center;
+  font-size: 20px;
+  border-radius: 12px;
+  letter-spacing: 0;
+  padding: 0;
+}
+
+/* Error / info message */
+.auth-msg {
+  font-size: 13px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  display: none;
+  font-family: var(--font-am, sans-serif);
+  line-height: 1.5;
+}
+.auth-msg.error { background: #fff0f0; color: #c0392b; }
+.auth-msg.success { background: #f0fff6; color: #0d5c42; }
+.auth-msg.info { background: #f0f6ff; color: #1a56db; }
+body.dark .auth-msg.error { background: #3a1a1a; color: #ff7f7f; }
+body.dark .auth-msg.success { background: #0d2e20; color: #5cd4a0; }
+body.dark .auth-msg.info { background: #0d1e3a; color: #7fb3ff; }
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--clr-primary, #0d5c42);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-am, sans-serif);
+  margin-top: 4px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.auth-submit-btn:active { transform: scale(0.98); }
+.auth-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Switch link under form */
+.auth-switch {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13.5px;
+  color: var(--text-secondary, #888);
+  font-family: var(--font-am, sans-serif);
+}
+.auth-switch a {
+  color: var(--clr-primary, #0d5c42);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* ========== LOCATION BANNER ========== */
+#location-banner {
+  display: none;
+  position: fixed;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 8000;
+  background: var(--clr-primary, #0d5c42);
+  color: #fff;
+  border-radius: 16px;
+  padding: 14px 18px;
+  max-width: calc(100vw - 32px);
+  width: 360px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  font-family: var(--font-am, sans-serif);
+}
+.loc-banner-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.loc-banner-icon { font-size: 28px; flex-shrink: 0; }
+.loc-banner-text { flex: 1; }
+.loc-banner-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.loc-banner-sub { font-size: 12px; opacity: 0.88; margin-bottom: 10px; line-height: 1.5; }
+.loc-banner-btns { display: flex; gap: 8px; }
+.loc-banner-allow {
+  background: #fff;
+  color: var(--clr-primary, #0d5c42);
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-am, sans-serif);
+}
+.loc-banner-deny {
+  background: rgba(255,255,255,0.18);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  font-family: var(--font-am, sans-serif);
+}
+
+/* ========== ROUTE GUARD OVERLAY ========== */
+#route-guard {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 7500;
+  background: rgba(0,0,0,0.55);
+  align-items: center;
+  justify-content: center;
+}
+#route-guard.show { display: flex; }
+.route-guard-box {
+  background: var(--bg-card, #fff);
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  max-width: 300px;
+  margin: 0 16px;
+  font-family: var(--font-am, sans-serif);
+}
+body.dark .route-guard-box { background: #242424; }
+.route-guard-icon { font-size: 48px; margin-bottom: 12px; }
+.route-guard-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--text-primary, #222); }
+.route-guard-sub { font-size: 13.5px; color: var(--text-secondary, #888); margin-bottom: 20px; line-height: 1.6; }
+.route-guard-btn {
+  background: var(--clr-primary, #0d5c42);
+  color: #fff; border: none; border-radius: 12px;
+  padding: 12px 28px; font-size: 15px; font-weight: 700;
+  cursor: pointer; font-family: var(--font-am, sans-serif);
+}
+</style>
 </head>
 <body>
 
@@ -25,9 +328,7 @@
   <div class="splash-name">Ewn Hlm</div>
   <div class="splash-name-am am">እውን ህልም ገበታ</div>
   <div class="splash-tagline am">እውን ሕልም - ሕልምዎ እውን<br>የሚሆንበት የዲጂታል ገበያ!!</div>
-  <div class="splash-dots">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="splash-dots"><span></span><span></span><span></span></div>
 </div>
 
 <!-- ======== MANDATORY UPDATE OVERLAY ======== -->
@@ -40,10 +341,134 @@
   </div>
 </div>
 
-<!-- ======== MAIN APP ======== -->
-<div id="app">
+<!-- ======================================================== -->
+<!-- ================  AUTH PAGE (Login-first)  ============== -->
+<!-- ======================================================== -->
+<div id="auth-page">
+  <div class="auth-page-inner">
 
-  <!-- === SIDEBAR / BOTTOM NAV === -->
+    <!-- Top bar: language & theme -->
+    <div class="auth-topbar">
+      <button class="lang-toggle-btn" id="auth-lang-btn" onclick="authToggleLang()">🇪🇹 አማርኛ</button>
+      <button class="theme-toggle-btn" id="auth-theme-btn" onclick="toggleTheme()" title="ቀለም ቀይር">🌙</button>
+    </div>
+
+    <div class="auth-card-wrap">
+      <div class="auth-card">
+        <div class="auth-logo">🛍️</div>
+        <div class="auth-brand">Ewn Hlm | እውን ህልም</div>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')" data-i18n-auth="login_tab">ግባ</button>
+          <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')" data-i18n-auth="signup_tab">ይመዝገቡ</button>
+        </div>
+
+        <!-- Message area -->
+        <div class="auth-msg" id="auth-msg"></div>
+
+        <!-- ===== LOGIN FORM ===== -->
+        <div class="auth-form-section active" id="form-login">
+          <div class="auth-field">
+            <label data-i18n-auth="phone_label">ስልክ ቁጥር</label>
+            <input type="tel" id="login-phone" placeholder="09xxxxxxxx" maxlength="13" oninput="validatePhone(this)">
+          </div>
+          <div class="auth-field" id="login-pin-group" style="display:none">
+            <label data-i18n-auth="pin_label">PIN ኮድ (4 ዓ.ቁ)</label>
+            <div class="pin-input-row">
+              <input type="password" class="login-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="login-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="login-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="login-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+            </div>
+          </div>
+          <button class="auth-submit-btn" id="login-btn" onclick="handleLogin()" data-i18n-auth="continue_btn">ቀጥል</button>
+          <div class="auth-switch">
+            <span data-i18n-auth="no_account">አዲስ ነዎት?</span>
+            <a onclick="switchAuthTab('signup')" data-i18n-auth="go_signup">ይመዝገቡ</a>
+          </div>
+        </div>
+
+        <!-- ===== SIGNUP FORM ===== -->
+        <div class="auth-form-section" id="form-signup">
+          <div class="auth-field">
+            <label data-i18n-auth="phone_label">ስልክ ቁጥር</label>
+            <input type="tel" id="signup-phone" placeholder="09xxxxxxxx" maxlength="13">
+          </div>
+          <div class="auth-field">
+            <label data-i18n-auth="name_label">ሙሉ ስም</label>
+            <input type="text" id="signup-name" placeholder="Daniel Abebe">
+          </div>
+          <div class="auth-field">
+            <label data-i18n-auth="pin_label">PIN ኮድ (4 ዓ.ቁ)</label>
+            <div class="pin-input-row">
+              <input type="password" class="signup-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="signup-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="signup-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="signup-pin-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+            </div>
+          </div>
+          <div class="auth-field">
+            <label data-i18n-auth="confirm_pin_label">PIN ያረጋግጡ</label>
+            <div class="pin-input-row">
+              <input type="password" class="signup-pin-confirm-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="signup-pin-confirm-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="signup-pin-confirm-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+              <input type="password" class="signup-pin-confirm-digit" maxlength="1" inputmode="numeric" pattern="[0-9]">
+            </div>
+          </div>
+          <div class="auth-field">
+            <label data-i18n-auth="recovery_label">የማስታወሻ ጥያቄ</label>
+            <select id="signup-recovery-q">
+              <option value="birth_year" data-i18n-auth="q_birth_year">የትውልድ ዓ.ም</option>
+              <option value="mother_name" data-i18n-auth="q_mother">የእናት ስም</option>
+              <option value="city" data-i18n-auth="q_city">የተወለዱበት ከተማ</option>
+            </select>
+          </div>
+          <div class="auth-field">
+            <label data-i18n-auth="answer_label">መልስ</label>
+            <input type="text" id="signup-recovery-a" placeholder="...">
+          </div>
+          <button class="auth-submit-btn" id="signup-btn" onclick="handleSignup()" data-i18n-auth="register_btn">ይመዝገቡ</button>
+          <div class="auth-switch">
+            <span data-i18n-auth="have_account">መለያ አለዎት?</span>
+            <a onclick="switchAuthTab('login')" data-i18n-auth="go_login">ይግቡ</a>
+          </div>
+        </div>
+
+      </div><!-- .auth-card -->
+    </div><!-- .auth-card-wrap -->
+  </div>
+</div><!-- #auth-page -->
+
+<!-- ======== ROUTE GUARD ======== -->
+<div id="route-guard">
+  <div class="route-guard-box">
+    <div class="route-guard-icon">🔒</div>
+    <div class="route-guard-title am" data-i18n="guard_title">ለመቀጠል ይግቡ</div>
+    <div class="route-guard-sub am" data-i18n="guard_sub">ይህን ገጽ ለማየት መጀመሪያ Login ወይም SignUp ያድርጉ።</div>
+    <button class="route-guard-btn am" onclick="showAuthPage()" data-i18n="guard_btn">ግባ / ይመዝገቡ</button>
+  </div>
+</div>
+
+<!-- ======== LOCATION BANNER ======== -->
+<div id="location-banner">
+  <div class="loc-banner-row">
+    <div class="loc-banner-icon">📍</div>
+    <div class="loc-banner-text">
+      <div class="loc-banner-title am" id="loc-banner-title">አካባቢዎን ያጋሩ</div>
+      <div class="loc-banner-sub am" id="loc-banner-sub">ለተሻለ አገልግሎት አካባቢዎን እንዲጋሩ ፍቃድ ይስጡ።</div>
+      <div class="loc-banner-btns">
+        <button class="loc-banner-allow am" onclick="requestLocationPermission()">ፍቃድ ስጥ</button>
+        <button class="loc-banner-deny am" onclick="denyLocationBanner()">አሁን አይደለም</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== MAIN APP ======== -->
+<div id="app" style="display:none">
+
   <nav class="bottom-nav" id="bottom-nav">
     <button class="nav-item active" data-nav="home" onclick="navigate('home')">
       <span class="nav-icon">🏠</span>
@@ -64,10 +489,7 @@
     </button>
   </nav>
 
-  <!-- === MAIN CONTENT AREA === -->
   <div class="app-main">
-
-    <!-- === HEADER (Home only) === -->
     <header class="app-header" id="main-header">
       <div class="header-top">
         <div class="location-row">
@@ -78,90 +500,60 @@
           </div>
         </div>
         <div class="header-actions">
-          <button class="icon-btn" onclick="navigate('likes')" aria-label="Likes">
-            ❤️
-          </button>
+          <button class="icon-btn" onclick="navigate('likes')" aria-label="Likes">❤️</button>
           <button class="icon-btn" onclick="navigate('notifications')" aria-label="Notifications">
-            🔔
-            <span class="badge" style="display:none">0</span>
+            🔔<span class="badge" style="display:none">0</span>
           </button>
         </div>
       </div>
-      <!-- Search -->
       <div class="search-bar">
         <span class="search-icon">🔍</span>
         <input type="search" id="search-input" class="am" placeholder="ምርቶችን ይፈልጉ..."
-               oninput="handleSearch(this.value)" autocomplete="off">
+          oninput="handleSearch(this.value)" autocomplete="off">
       </div>
     </header>
 
-    <!-- === SCREEN: HOME === -->
+    <!-- HOME -->
     <main class="screen active" id="screen-home">
-
-      <!-- Banner -->
       <div class="banner-wrap">
         <div class="banner-card">
           <div class="banner-eyebrow am">🌟 Ewn Hlm</div>
           <div class="banner-title am" data-i18n="banner_title">ሕልምዎ እውን የሚሆንበት<br>የዲጂታል ገበያ!!</div>
-          <button class="banner-cta am" data-i18n="banner_sub" onclick="document.getElementById('search-input').focus()">
-            አሁን ይሸምቱ →
-          </button>
+          <button class="banner-cta am" data-i18n="banner_sub" onclick="document.getElementById('search-input').focus()">አሁን ይሸምቱ →</button>
         </div>
       </div>
-
-      <!-- Categories -->
       <div class="section-header">
         <span class="section-title am" data-i18n="categories">ምድቦች</span>
       </div>
-      <div class="categories-scroll" id="categories-scroll">
-        <!-- Rendered by JS -->
-      </div>
-
-      <!-- Products -->
+      <div class="categories-scroll" id="categories-scroll"></div>
       <div class="section-header">
         <span class="section-title am">ምርቶች</span>
-        <button class="see-all am" data-i18n="see_all" onclick="">ሁሉንም ይዩ</button>
+        <button class="see-all am" data-i18n="see_all">ሁሉንም ይዩ</button>
       </div>
-      <div class="products-grid" id="products-grid">
-        <!-- Rendered by JS -->
-      </div>
-
+      <div class="products-grid" id="products-grid"></div>
     </main>
 
-    <!-- === SCREEN: CART === -->
+    <!-- CART -->
     <main class="screen" id="screen-cart">
-      <div class="screen-page-header">
-        <h2 class="section-title am" data-i18n="cart">🛒 ጋሪ</h2>
-      </div>
+      <div class="screen-page-header"><h2 class="section-title am" data-i18n="cart">🛒 ጋሪ</h2></div>
       <div class="cart-screen" id="cart-content"></div>
     </main>
 
-    <!-- === SCREEN: ORDERS === -->
+    <!-- ORDERS -->
     <main class="screen" id="screen-orders">
-      <div class="screen-page-header">
-        <h2 class="section-title am" data-i18n="orders">📦 ትዕዛዞቼ</h2>
-      </div>
+      <div class="screen-page-header"><h2 class="section-title am" data-i18n="orders">📦 ትዕዛዞቼ</h2></div>
       <div class="orders-screen" id="orders-content"></div>
     </main>
 
-    <!-- === SCREEN: PROFILE === -->
+    <!-- PROFILE -->
     <main class="screen" id="screen-profile">
       <div class="profile-screen">
-
-        <!-- Profile Header -->
         <div class="profile-header">
-          <div class="avatar" onclick="isAuthenticated() ? null : openAuthModal()">👤</div>
-          <div class="profile-name am" id="profile-name">Daniel</div>
-          <div class="profile-phone" id="profile-phone">0932208224</div>
-          <button class="btn-login-prompt am" id="login-prompt-btn" onclick="openAuthModal()" style="display:none">
-            ግባ / ይመዝገቡ
-          </button>
+          <div class="avatar">👤</div>
+          <div class="profile-name am" id="profile-name"></div>
+          <div class="profile-phone" id="profile-phone"></div>
         </div>
-
-        <!-- Menu Items -->
         <div class="menu-list">
-
-          <!-- Refer & Earn -->
           <button class="menu-item">
             <div class="menu-icon">🎁</div>
             <div class="menu-text">
@@ -187,7 +579,6 @@
             </div>
           </div>
 
-          <!-- Help Center -->
           <button class="menu-item">
             <div class="menu-icon">🎧</div>
             <div class="menu-text">
@@ -207,7 +598,6 @@
             <div class="toggle-switch" id="theme-toggle"></div>
           </div>
 
-          <!-- PWA Install — shown in browser, hidden in installed app -->
           <button class="menu-item" id="pwa-install-btn" onclick="triggerPwaInstall()" style="display:none">
             <div class="menu-icon">📲</div>
             <div class="menu-text">
@@ -217,7 +607,6 @@
             <span class="menu-arrow">›</span>
           </button>
 
-          <!-- Logout -->
           <button class="menu-item" style="color:var(--clr-danger)" onclick="logout()">
             <div class="menu-icon" style="background:#ffe0e0">🚪</div>
             <div class="menu-text">
@@ -225,16 +614,14 @@
               <div class="menu-sub am" data-i18n="logout_sub">ከሂሳብዎ ይውጡ</div>
             </div>
           </button>
-
-        </div><!-- end menu-list -->
-
+        </div>
         <p style="text-align:center;font-size:11px;color:var(--text-secondary);padding:16px;font-family:var(--font-am)">
-          Ewn Hlm v2.0 | እውን ህልም ©2024
+          Ewn Hlm v2.1 | እውን ህልም ©2024
         </p>
       </div>
     </main>
 
-    <!-- === SCREEN: LIKES === -->
+    <!-- LIKES -->
     <main class="screen" id="screen-likes">
       <div class="screen-page-header">
         <button class="back-btn am" data-i18n="back" onclick="navigate('home')">← ተመለስ</button>
@@ -242,138 +629,36 @@
       <div class="likes-screen" id="likes-content"></div>
     </main>
 
-    <!-- === SCREEN: NOTIFICATIONS === -->
+    <!-- NOTIFICATIONS -->
     <main class="screen" id="screen-notifications">
       <div class="screen-page-header">
         <button class="back-btn am" data-i18n="back" onclick="navigate('home')">← ተመለስ</button>
       </div>
       <div class="likes-screen" id="notifications-content"></div>
     </main>
-
-  </div><!-- end .app-main -->
-
-</div><!-- end #app -->
-
-<!-- ======== PRODUCT MODAL ======== -->
-<div class="modal-overlay" id="modal-overlay">
-  <div id="product-modal"></div>
-</div>
-
-<!-- ======== AUTH MODAL ======== -->
-<div class="modal-overlay auth-overlay" id="auth-overlay">
-  <div class="auth-modal">
-    <button class="modal-close auth-close" onclick="closeAuthModal()">✕</button>
-    <div class="auth-icon">👤</div>
-
-    <!-- STEP 1: PHONE NUMBER -->
-    <div class="auth-step" id="auth-step-phone">
-      <h2 class="auth-title am" data-i18n="login_title">እንኳን ደህና መጡ</h2>
-      <p class="auth-sub am" data-i18n="login_sub_phone">ለመቀጠል ስልክ ቁጥርዎን ያስገቡ</p>
-      <form class="auth-form" onsubmit="submitAuthPhone(event)">
-        <div class="form-group">
-          <label class="am" data-i18n="phone_number">ስልክ ቁጥር</label>
-          <input class="form-control am" id="auth-phone" type="tel" inputmode="numeric" required placeholder="09xxxxxxxx">
-        </div>
-        <div class="auth-error am" id="auth-phone-error"></div>
-        <button type="submit" class="btn-primary am auth-submit" id="auth-phone-btn" data-i18n="continue_btn">ቀጥል</button>
-      </form>
-    </div>
-
-    <!-- STEP 2A: LOGIN (EXISTING USER — PIN) -->
-    <div class="auth-step" id="auth-step-login" style="display:none">
-      <h2 class="auth-title am" id="auth-welcome-name">እንኳን ደህና መጡ</h2>
-      <p class="auth-sub am" data-i18n="login_sub_pin">የ4 ቁጥር PIN ኮድዎን ያስገቡ</p>
-      <form class="auth-form" onsubmit="submitAuthPin(event)">
-        <div class="form-group">
-          <label class="am" data-i18n="pin_code">PIN ኮድ (4 ቁጥር)</label>
-          <input class="form-control am pin-input" id="auth-login-pin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
-        </div>
-        <div class="auth-error am" id="auth-login-error"></div>
-        <button type="submit" class="btn-primary am auth-submit" data-i18n="login_btn_pin">ግባ</button>
-      </form>
-      <div class="auth-links">
-        <a href="#" class="auth-link am" onclick="showForgotPin(event)" data-i18n="forgot_pin">PIN ረሳሁ?</a>
-        <a href="#" class="auth-link am" onclick="goToPhoneStep(event)" data-i18n="back">ተመለስ</a>
-      </div>
-    </div>
-
-    <!-- STEP 2B: REGISTER (NEW USER) -->
-    <div class="auth-step" id="auth-step-register" style="display:none">
-      <h2 class="auth-title am" data-i18n="register_title">አዲስ መለያ ይክፈቱ</h2>
-      <p class="auth-sub am" data-i18n="register_sub">ለመጀመሪያ ጊዜ እየገቡ ስለሆነ መረጃዎችን ያስገቡ</p>
-      <form class="auth-form" onsubmit="submitAuthRegister(event)">
-        <div class="form-group">
-          <label class="am" data-i18n="full_name">ሙሉ ስም</label>
-          <input class="form-control am" id="auth-reg-name" type="text" required placeholder="Daniel Abebe">
-        </div>
-        <div class="form-group">
-          <label class="am" data-i18n="pin_code">PIN ኮድ (4 ቁጥር)</label>
-          <input class="form-control am pin-input" id="auth-reg-pin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
-        </div>
-        <div class="form-group">
-          <label class="am" data-i18n="pin_confirm">PIN ድጋሚ ያስገቡ</label>
-          <input class="form-control am pin-input" id="auth-reg-pin2" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
-        </div>
-        <div class="form-group">
-          <label class="am" data-i18n="security_question">የመልሶ ማግኛ ጥያቄ (PIN ቢረሱ)</label>
-          <select class="form-control am" id="auth-reg-question">
-            <option value="dob" class="am" data-i18n="q_dob">የትውልድ ዓ.ም</option>
-            <option value="pob" class="am" data-i18n="q_pob">የትውልድ ቦታ</option>
-            <option value="mother" class="am" data-i18n="q_mother">የእናት ስም</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="am" data-i18n="security_answer">መልስ</label>
-          <input class="form-control am" id="auth-reg-answer" type="text" required>
-        </div>
-        <div class="auth-error am" id="auth-reg-error"></div>
-        <button type="submit" class="btn-primary am auth-submit" data-i18n="register_btn">ይመዝገቡ</button>
-      </form>
-      <div class="auth-links">
-        <a href="#" class="auth-link am" onclick="goToPhoneStep(event)" data-i18n="back">ተመለስ</a>
-      </div>
-    </div>
-
-    <!-- STEP 3: FORGOT PIN -->
-    <div class="auth-step" id="auth-step-forgot" style="display:none">
-      <h2 class="auth-title am" data-i18n="forgot_pin_title">PIN ኮድ ይቀየር</h2>
-      <p class="auth-sub am" id="auth-forgot-question"></p>
-      <form class="auth-form" onsubmit="submitForgotPin(event)">
-        <div class="form-group">
-          <label class="am" data-i18n="security_answer">መልስ</label>
-          <input class="form-control am" id="auth-forgot-answer" type="text" required>
-        </div>
-        <div class="form-group">
-          <label class="am" data-i18n="new_pin">አዲስ PIN ኮድ (4 ቁጥር)</label>
-          <input class="form-control am pin-input" id="auth-forgot-newpin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]{4}" required placeholder="••••">
-        </div>
-        <div class="auth-error am" id="auth-forgot-error"></div>
-        <button type="submit" class="btn-primary am auth-submit" data-i18n="reset_pin_btn">PIN ቀይር እና ግባ</button>
-      </form>
-      <div class="auth-links">
-        <a href="#" class="auth-link am" onclick="goToPhoneStep(event)" data-i18n="back">ተመለስ</a>
-      </div>
-    </div>
-
   </div>
-</div>
+</div><!-- #app -->
 
-<!-- ======== CHECKOUT MODAL ======== -->
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modal-overlay"><div id="product-modal"></div></div>
+
+<!-- CHECKOUT MODAL -->
 <div class="checkout-overlay" id="checkout-overlay"></div>
 
-<!-- ======== TOAST ======== -->
+<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  function toggleLangMenu() {
-    const menu = document.getElementById('lang-menu');
-    const arrow = document.getElementById('lang-arrow');
-    const open = menu.style.display === 'block';
-    menu.style.display = open ? 'none' : 'block';
-    arrow.textContent = open ? '›' : '∨';
-  }
+function toggleLangMenu() {
+  const menu = document.getElementById('lang-menu');
+  const arrow = document.getElementById('lang-arrow');
+  const open = menu.style.display === 'block';
+  menu.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? '›' : '∨';
+}
 </script>
-<!-- Load order: Firebase SDK → config.js → firebase-init.js → main.js -->
+
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script src="config.js"></script>
